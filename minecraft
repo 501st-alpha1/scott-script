@@ -1,0 +1,22 @@
+#!/bin/bash
+mcpath=/mnt/data/Downloads/Video.Games/Minecraft
+
+function usage() {
+  echo "Usage: minecraft [vanilla|spout]"
+  echo
+  exit 1
+}
+
+if [ "$1" == "" ]
+then
+  java -jar $mcpath/MagicLauncher_1.0.0.jar
+elif [ "$1" == "vanilla" ]
+then
+  java -jar $mcpath/minecraft.jar
+elif [ "$1" == "spout" ]
+then
+  java -jar $mcpath/Spoutcraft.jar
+else
+  usage
+fi
+
