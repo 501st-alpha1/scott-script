@@ -111,3 +111,19 @@ then
 else
   usage
 fi
+
+#year=$(date +%Y)
+#month=$(date +%m)
+#day=$(date +%d)
+#hour=$(date +%H)
+#min=$(date +%M)
+#prefix=""
+#winebin=""
+#progbin='C:\Program Files\'
+
+#logfile=$logloc/<PROGRAM>/$year.$month.$day.txt
+
+#echo >> $logfile
+#echo \# $(date +%B%e), $(date +%_Y), $(date +%_T) >> $logfile
+#WINEPREFIX=$prefix $winebin/wine '$progbin' >> $logfile 2>&1
+
