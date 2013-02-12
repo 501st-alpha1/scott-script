@@ -1,0 +1,113 @@
+#!/bin/bash
+configfile="$HOME/.winecfg"
+
+function usage() {
+  echo "Usage: wine <command>"
+  echo
+  echo "Commands:"
+  echo "  <program>"
+  echo "  config"
+  echo "  debug"
+  echo
+  exit 1
+}
+
+function loadconf() {
+  if [ -e $configfile ]
+  then
+    echo "Loading config file."
+    source $configfile
+  else
+    echo "No config file found, creating one."
+  fi
+
+  if [ "$logloc" == "" ]
+  then
+    editoption logloc
+    saveconf
+  fi
+  if [ "wineloc" == "" ]
+    editoption wineloc
+    saveconf
+  fi
+}
+
+function editoption() {
+  if [ "$1" == "logloc" ]
+  then
+    echo "In what folder would you like the logs to be saved?"
+    echo "Example: \"/var/log\""
+    if [ "$logloc" == "" ]
+    then
+      echo "Default: \"<none yet...>\""
+    else
+      echo "Current: \"$logloc\""
+    fi
+    read tmp
+    if [ "$tmp" != "" ]
+    then
+      logloc=$tmp
+    fi
+    echo "You have chosen: \"$logloc\""
+    echo
+  elif [ "$1" == "wineloc" ]
+  then
+    echo "Temp! Wine location:"
+    read tmp
+    if [ "$tmp" != "" ]
+    then
+      wineloc=$tmp
+    fi
+    echo
+  else
+    echo "Error, wrong option for editoption(). Should never reach here."
+  fi
+}
+
+function editconf() {
+  if [ "$1" == "" ]
+  then
+    editoption logloc
+    editoption wineloc
+  else
+    editoption $1
+  fi
+
+  saveconf
+}
+
+function saveconf() {
+  echo "# Wine script config file. DO NOT EDIT." > $configfile
+  echo >> $configfile
+  if [ "$logloc" != "" ]
+  then
+    echo "logloc=\"$logloc\"" >> $configfile
+  fi
+  if [ "$wineloc" != "" ]
+  then
+    echo "wineloc=\"$wineloc\"" >> $configfile
+  fi
+  echo "declare -A programs" >> $configfile
+  for prog in "${programs[@]}"
+    
+
+  echo "Configuration saved."
+}
+
+function printconf() {
+  echo "Contents of config file, stored at $configfile :"
+  cat $configfile
+  echo
+}
+
+loadconf
+
+if [ "$1" == "config" ]
+then
+  editconf $2
+elif [ "$1" == "debug" ]
+then
+  printconf
+else
+  usage
+fi
