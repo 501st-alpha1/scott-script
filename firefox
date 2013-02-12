@@ -1,0 +1,21 @@
+#!/bin/bash
+ffexec=/usr/bin/firefox
+
+function usage() {
+  echo "Usage: firefox [google|default]"
+  echo
+  exit 1
+}
+
+if [ "$1" == "" ]
+then
+  $ffexec -P "scott"
+elif [ "$1" == "google" ]
+then
+  $ffexec --no-remote -P "Google"
+elif [ "$1" == "default" ]
+then
+  $ffexec --no-remote -P "default"
+else
+  usage
+fi
