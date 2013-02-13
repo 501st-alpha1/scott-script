@@ -12,6 +12,7 @@ function usage() {
   echo
   echo "Commands:"
   echo "  <program>"
+  echo "  init"
   echo "  config"
   echo "  debug"
   echo
@@ -148,13 +149,25 @@ function printconf() {
   echo
 }
 
-function runprogram() {
+function run() {
   progname=$1
-  logfile=$logloc/$progname/$year.$month.$day-$hour.$min.txt
+  logfolder=$logloc/$progname
+  checkpath $logfolder
+  logfile=$logfolder/$year.$month.$day-$hour.$min.txt
 
   echo >> $logfile
   echo \# $(date +%B%e), $(date +%_Y), $(date +%_T) >> $logfile
-  WINEPREFIX=$prefix $wineloc/wine '$progbin' >> $logfile 2>&1
+  
+  if [ "$1" == "program" ]
+  then
+    WINEPREFIX=$prefix $wineloc/wine '$progbin' >> $logfile 2>&1
+  elif [ "$1" == "edit" ]
+  then
+    WINEPREFIX=$prefix $wineloc/wine winecfg >> $logfile 2>&1
+  else
+    "Error, wrong option for run(). Should never reach here."
+    exit 3
+  fi
 }
 
 loadconf
@@ -162,12 +175,15 @@ loadconf
 if [ "$1" == "config" ]
 then
   editconf $2
+elif [ "$1" == "edit" ]
+then
+  run init
 elif [ "$1" == "debug" ]
 then
   printconf
 elif [ "$1" == "run" ]
 then
-  runprogram $2
+  run program $2
 else
   usage
 fi
