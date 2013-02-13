@@ -40,7 +40,7 @@ function loadconf() {
     editoption logloc
     saveconf
   fi
-  if [ "wineloc" == "" ]
+  if [ "$wineloc" == "" ]
   then
     editoption wineloc
     saveconf
@@ -53,6 +53,7 @@ function loadconf() {
   if [ "$progbin" == "" ]
   then
     editoption progbin
+    saveconf
   fi
 }
 
@@ -81,7 +82,7 @@ function editoption() {
     then
       wineloc=$tmp
     fi
-  elif [ "$1" == "$prefix" ]
+  elif [ "$1" == "prefix" ]
   then
     echo "Temp! Wine Prefix:"
     read tmp
@@ -89,8 +90,7 @@ function editoption() {
     then
       prefix=$tmp
     fi
-  fi
-  elif [ "$1" == "$progbin" ]
+  elif [ "$1" == "progbin" ]
   then
     echo "Temp! Wine Program Bindir:"
     read tmp
@@ -98,7 +98,6 @@ function editoption() {
     then
       progbin=$tmp
     fi
-  fi
   else
     echo "Error, wrong option for editoption(). Should never reach here."
     exit 2
@@ -129,9 +128,16 @@ function saveconf() {
   then
     echo "wineloc=\"$wineloc\"" >> $configfile
   fi
-  echo "declare -A programs" >> $configfile
-  for prog in "${programs[@]}"
-    
+  if [ "$prefix" != "" ]
+  then
+    echo "prefix=\"$prefix\"" >> $configfile
+  fi
+  if [ "$progbin" != "" ]
+  then
+    echo "progbin=\"$progbin\"" >> $configfile
+  fi
+  #echo "declare -A programs" >> $configfile
+  #for prog in "${programs[@]}"  
 
   echo "Configuration saved."
 }
