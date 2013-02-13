@@ -1,5 +1,6 @@
 #!/bin/bash
-configfile="$HOME/.winecfg"
+configfolder="$HOME/.scott_script/wine"
+configfile="$configfolder/config"
 year=$(date +%Y)
 month=$(date +%m)
 day=$(date +%d)
@@ -17,6 +18,13 @@ function usage() {
   exit 1
 }
 
+function checkpath() {
+  if [ ! -d "$1" ]
+  then
+    mkdir -p $1
+  fi
+}
+
 function loadconf() {
   if [ -e $configfile ]
   then
@@ -24,6 +32,7 @@ function loadconf() {
     source $configfile
   else
     echo "No config file found, creating one."
+    checkpath $configfolder
   fi
 
   if [ "$logloc" == "" ]
