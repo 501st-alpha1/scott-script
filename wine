@@ -12,6 +12,7 @@ function usage() {
   echo
   echo "Commands:"
   echo "  <program>"
+  echo "  init"
   echo "  config"
   echo "  debug"
   echo
@@ -40,7 +41,7 @@ function loadconf() {
     editoption logloc
     saveconf
   fi
-  if [ "wineloc" == "" ]
+  if [ "$wineloc" == "" ]
   then
     editoption wineloc
     saveconf
@@ -53,6 +54,7 @@ function loadconf() {
   if [ "$progbin" == "" ]
   then
     editoption progbin
+    saveconf
   fi
 }
 
@@ -81,7 +83,7 @@ function editoption() {
     then
       wineloc=$tmp
     fi
-  elif [ "$1" == "$prefix" ]
+  elif [ "$1" == "prefix" ]
   then
     echo "Temp! Wine Prefix:"
     read tmp
@@ -89,8 +91,7 @@ function editoption() {
     then
       prefix=$tmp
     fi
-  fi
-  elif [ "$1" == "$progbin" ]
+  elif [ "$1" == "progbin" ]
   then
     echo "Temp! Wine Program Bindir:"
     read tmp
@@ -98,7 +99,6 @@ function editoption() {
     then
       progbin=$tmp
     fi
-  fi
   else
     echo "Error, wrong option for editoption(). Should never reach here."
     exit 2
@@ -129,9 +129,16 @@ function saveconf() {
   then
     echo "wineloc=\"$wineloc\"" >> $configfile
   fi
-  echo "declare -A programs" >> $configfile
-  for prog in "${programs[@]}"
-    
+  if [ "$prefix" != "" ]
+  then
+    echo "prefix=\"$prefix\"" >> $configfile
+  fi
+  if [ "$progbin" != "" ]
+  then
+    echo "progbin=\"$progbin\"" >> $configfile
+  fi
+  #echo "declare -A programs" >> $configfile
+  #for prog in "${programs[@]}"  
 
   echo "Configuration saved."
 }
@@ -142,13 +149,28 @@ function printconf() {
   echo
 }
 
-function runprogram() {
+function run() {
   progname=$1
-  logfile=$logloc/$progname/$year.$month.$day-$hour.$min.txt
+  logfolder=$logloc/$progname
+  checkpath $logfolder
+  logfile=$logfolder/$year.$month.$day-$hour.$min.txt
 
   echo >> $logfile
   echo \# $(date +%B%e), $(date +%_Y), $(date +%_T) >> $logfile
-  WINEPREFIX=$prefix $wineloc/wine '$progbin' >> $logfile 2>&1
+  
+  if [ "$1" == "program" ]
+  then
+    WINEPREFIX=$prefix $wineloc/wine '$progbin' >> $logfile 2>&1
+  elif [ "$1" == "edit" ]
+  then
+    WINEPREFIX=$prefix $wineloc/wine winecfg >> $logfile 2>&1
+  elif [ "$1" == "install" ]
+  then
+    WINEPREFIX=$prefix $wineloc/wine "./$2" >> $logfile 2>&1
+  else
+    "Error, wrong option for run(). Should never reach here."
+    exit 3
+  fi
 }
 
 function installprogram() {
@@ -168,15 +190,18 @@ loadconf
 if [ "$1" == "config" ]
 then
   editconf $2
+elif [ "$1" == "edit" ]
+then
+  run init
 elif [ "$1" == "debug" ]
 then
   printconf
 elif [ "$1" == "run" ]
 then
-  runprogram $2
+  run program $2
 elif [ "$1" == "install" ]
 then
-  runprogram $2 $3
+  run "install" $2
 else
   usage
 fi
