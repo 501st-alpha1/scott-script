@@ -160,13 +160,14 @@ function run() {
   
   if [ "$1" == "program" ]
   then
-    WINEPREFIX=$prefix $wineloc/wine '$progbin' >> $logfile 2>&1
+    #cd $progbin
+    WINEPREFIX=$prefix $wineloc/wine $2 >> $logfile 2>&1
   elif [ "$1" == "edit" ]
   then
     WINEPREFIX=$prefix $wineloc/wine winecfg >> $logfile 2>&1
   elif [ "$1" == "install" ]
   then
-    WINEPREFIX=$prefix $wineloc/wine "./$2" >> $logfile 2>&1
+    WINEPREFIX=$prefix $wineloc/wine start "./$2" >> $logfile 2>&1
   else
     "Error, wrong option for run(). Should never reach here."
     exit 3
