@@ -9,7 +9,10 @@ function usage() {
 
 if [ "$1" == "" ]
 then
-  $ffexec -P "scott"
+  $ffexec -P "Scott"
+elif [ "$1" == "-P" ] && [ "$2" == "Scott" ]
+then
+  $ffexec -P "Scott"
 elif [ "$1" == "google" ]
 then
   $ffexec --no-remote -P "Google"
