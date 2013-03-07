@@ -174,18 +174,6 @@ function run() {
   fi
 }
 
-function installprogram() {
-  installname=$1
-  progname=$2
-
-  logfile=$logloc/$progname/$year.$month.$day-$hour.$min.txt
-
-  echo >> $logfile
-  echo \# $(date +%B%e), $(date +%_Y), $(date +%_T) >> $logfile
-  WINEPREFIX=$prefix $wineloc/wine '$installname' >> $logfile 2>&1
-
-}
-
 loadconf
 
 if [ "$1" == "config" ]
