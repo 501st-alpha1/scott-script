@@ -2,11 +2,14 @@
 configfolder="$HOME/.scott_script/wine"
 filename="config"
 configfile="$configfolder/$filename"
+
 year=$(date +%Y)
 month=$(date +%m)
 day=$(date +%d)
 hour=$(date +%H)
 min=$(date +%M)
+
+validArgs=("logloc" "wineloc" "prefix" "progbin")
 
 function usage() {
   echo "Usage: wine <command>"
@@ -28,12 +31,10 @@ function checkpath() {
 }
 
 function loadconf() {
-  array=("logloc" "wineloc" "prefix" "progbin")
-  
   if [ -e $configfile ]
   then
     echo "Loading config file."
-    source ./loadconf "$configfolder" "$filename" array[@]
+    source ./loadconf "$configfolder" "$filename" validArgs[@]
   else
     echo "No config file found, creating one."
     checkpath $configfolder
@@ -122,28 +123,11 @@ function editconf() {
 }
 
 function saveconf() {
-  echo "# Wine script config file. DO NOT EDIT." > $configfile
-  echo >> $configfile
-  if [ "$logloc" != "" ]
-  then
-    echo "logloc=\"$logloc\"" >> $configfile
-  fi
-  if [ "$wineloc" != "" ]
-  then
-    echo "wineloc=\"$wineloc\"" >> $configfile
-  fi
-  if [ "$prefix" != "" ]
-  then
-    echo "prefix=\"$prefix\"" >> $configfile
-  fi
-  if [ "$progbin" != "" ]
-  then
-    echo "progbin=\"$progbin\"" >> $configfile
-  fi
+  source saveconf "Wine" "$configfolder" "$filename" validArgs[@]
+  return $?
+  
   #echo "declare -A programs" >> $configfile
-  #for prog in "${programs[@]}"  
-
-  echo "Configuration saved."
+  #for prog in "${programs[@]}"
 }
 
 function printconf() {
