@@ -1,6 +1,7 @@
 #!/bin/bash
 configfolder="$HOME/.scott_script/wine"
-configfile="$configfolder/config"
+filename="config"
+configfile="$configfolder/$filename"
 year=$(date +%Y)
 month=$(date +%m)
 day=$(date +%d)
@@ -27,10 +28,12 @@ function checkpath() {
 }
 
 function loadconf() {
+  array=("logloc" "wineloc" "prefix" "progbin")
+  
   if [ -e $configfile ]
   then
     echo "Loading config file."
-    source $configfile
+    source ./loadconf "$configfolder" "$filename" array[@]
   else
     echo "No config file found, creating one."
     checkpath $configfolder
