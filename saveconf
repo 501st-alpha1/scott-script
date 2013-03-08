@@ -1,0 +1,44 @@
+#!/bin/bash
+# Usage: source saveconf <name> <folder> <file> <arglist>
+# <name> is the name of the script whose config file is being saved.
+# <folder> is the folder where the config file is stored.
+# <file> is the name of the config file.
+# <arglist> is an array of the variable names to be saved. 
+# If the array is called "arr", pass it as "arr[@]".
+# Note that the script *must* be called using the source command.
+name=$1
+configfolder=$2
+configfile=$3
+file=$configfolder/$configfile
+
+if [ "$4" != "" ]
+then
+  declare -a validArgs=("${!4}")
+else
+  echo "Nothing to save!"
+  return 1
+fi
+
+# Check if array contains an element.
+# $1 is the element to check for.
+# $2 is the array.
+function containsElement () {
+  local e
+  for e in "${@:2}"
+  do [[ "$e" == "$1" ]] && return 0
+  done
+  return 1
+}
+
+echo "# $name script config file. DO NOT EDIT." > $file
+echo >> $file
+for var in ${validArgs[*]}
+do
+  if [ "$var" != "" ]
+  then
+    echo "$var=\"${!var}\"" >> $file
+  fi
+done
+
+echo "Configuration saved."
+

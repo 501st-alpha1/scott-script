@@ -1,4 +1,4 @@
-#PATH="/mnt/data/Scripts:$PATH"
+PATH="/mnt/data/Scripts:$PATH"
 
 function customAlias() {
   cmd="$1"
@@ -16,7 +16,7 @@ function customAlias() {
     return 1
   fi
   
-  for exe in $possibles
+  for exe in ${possibles[*]}
   do
     type -t $exe > /dev/null
     if [ $? -eq 0 ]
