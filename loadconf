@@ -32,11 +32,16 @@ then
   return 1
 fi
 
-echo "Loading config file at $file"
+echo "Loading config file at $file" > /dev/null
 
-for line in `cat $file`
-#while read -r -u $file var val extra
+while read -r var val extra
 do
+  # Skip comments.
+  if [ "${line:0:1}" == "#" ]
+  then
+    continue
+  fi
+
   oifs=$IFS
   IFS='='
   read -a arr <<< "$line"
@@ -49,15 +54,15 @@ do
   if [ "$var" == "" ]
   #if [ $arrlen -eq "0" ]
   then
-    echo "Skipping blank line."
+    echo "Skipping blank line." > /dev/null
   elif [ "$val" == "" ]
   #elif [ $arrlen -eq "1" ]
   then
-    echo "Skipping fail line."
+    echo "Skipping fail line." > /dev/null
   elif [ "$extra" != "" ]
   #elif [ $arrlen -gt "2" ]
   then
-    echo "More than one = on that line! Hax!"
+    echo "More than one = on that line! Hax!" #> /dev/null
   else
     if [ "$validArgs" == "" ]
     then
@@ -68,11 +73,11 @@ do
       then
         $var="$val"
       else
-        echo "Variable \"$var\" is not allowed, skipping."
+        echo "Variable \"$var\" is not allowed, skipping." #> /dev/null
       fi
     fi
   fi
   IFS=$oifs
-done
+done < $file
 
 return 0
