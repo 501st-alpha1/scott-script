@@ -1,0 +1,83 @@
+#!/bin/bash
+# Script to facilitate recording of the screen, including various tools.
+# Copyright (C) 2013 Scott Weldon
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+year=$(date +%Y)
+month=$(date +%m)
+day=$(date +%d)
+hour=$(date +%H)
+min=$(date +%M)
+sec=$(date +%S)
+
+file="$HOME/video-$year-$month-$day-$hour.$min.$sec.mpg"
+
+function usage() {
+  echo "Usage: record [command]"
+  echo
+  echo "Commands:"
+  echo "  crop <input video> <output video> <'small' | 'full'>"
+  echo "  cut <input video> <output video> <start time> [end time]"
+  echo "  split <input video> <first output video> <second output video> <split time>"
+  echo
+
+  exit 1
+}
+
+in=$(pwd)/$2
+out=$(pwd)/$3
+
+if [ "$1" == "" ]
+then
+  ffmpeg -f x11grab -s wxga -i :0.0 -sameq $file > /dev/null 2>&1
+  echo
+elif [ "$1" == "crop" ]
+then
+  if [ "$4" == "small" ]
+  then
+    dim="560:425:0:75"
+  elif [ "$4" == "full" ]
+  then
+    dim="925:685:225:0"
+  else
+    usage
+  fi
+
+  ffmpeg -vf crop=$dim -i $in -b 1500k $out
+elif [ "$1" == "cut" ]
+then
+  if [ "$5" != "" ]
+  then
+    end=" -t $5"
+  fi
+
+  ffmpeg -i $in -vcodec copy -ss $4$end $out
+elif [ "$1" == "split" ]
+then
+  out2=$(pwd)/$4
+  time=$5
+  IFS=':' read -r hour min sec <<<"$time"
+  secafter=`expr $sec + 1`
+  secbefore=`expr $sec - 1`
+  echo "bef: $secbefore aft: $secafter"
+
+  ffmpeg -i $in -vcodec copy -t $secafter $out > /dev/null 2>&1
+  ffmpeg -i $in -vcodec copy -ss $secbefore $out2 #> /dev/null 2>&1
+
+  echo "File $in may be safely deleted."
+else
+  usage
+fi
+
