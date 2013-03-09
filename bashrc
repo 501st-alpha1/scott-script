@@ -13,9 +13,14 @@
 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-    
-PATH="/mnt/data/Scripts:$PATH"
 
+# Hard-coded Vars #
+data="/mnt/data"
+
+# Env Vars #
+PATH="$data/Scripts:$PATH"
+
+# Helper Functions #
 function customAlias() {
   cmd="$1"
   
@@ -48,3 +53,5 @@ function customAlias() {
 customAlias pdf
 customAlias txt
 customAlias doc
+unset customAlias
+
