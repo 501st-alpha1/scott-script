@@ -1,0 +1,126 @@
+#!/bin/bash
+# Minecraft server admin script.
+# Copyright (C) 2013 Scott Weldon
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+validArgs=("ip" "user" "mc" "status")
+
+source loadconf "$HOME/.scott_script/mcserver" "config" validArgs[@]
+
+remote=$user@$ip
+file=""
+
+function usage() {
+  echo "Usage: mcserver [command]"
+  echo
+  echo "Commands:"
+  echo "  ssh"
+  echo "  up <local file> <remote file>"
+  echo "  down <remote file> <local file>"
+  echo "  edit <perms|inv|file>"
+  echo "  log [num lines]"
+  echo "  install (BROKEN!)"
+  echo "  ping"
+  echo "  status [set <up|custom>]"
+  echo
+  exit 1
+}
+
+if [ "$1" == "" ]
+then
+  ssh -t $remote $mc/Ascii-Bukkit-Menu/abm.sh
+elif [ "$1" == "ssh" ]
+then
+  ssh $remote
+elif [ "$1" == "up" ]
+then
+  scp $2 $remote:$3
+elif [ "$1" == "down" ]
+then
+  scp $remote:$2 $3
+elif [ "$1" == "edit" ]
+then
+  if [ "$2" == "perms" ]
+  then
+    file="plugins/PermissionsBukkit/config.yml"
+  elif [ "$2" == "inv" ]
+  then
+    file="plugins/Multiverse-Inventories/groups.yml"
+  elif [ "$2" == "permconf" ]
+  then
+    file="permissions.yml"
+  else
+    file=$2
+  fi
+
+  ssh -t $remote nano $mc/$file
+elif [ "$1" == "log" ]
+then
+  if [ "$2" == "" ]
+  then
+    ssh $remote "cat $mc/server.log | tail"
+  else
+    ssh $remote "cat $mc/server.log | tail -n $2"
+  fi
+elif [ "$1" == "install" ]
+then
+  echo "This is broken!"
+  exit 2
+  regex=".*\\.zip"
+  if [[ $3 =~ $regex ]]
+  then
+    zip="unzip $3"
+  else
+    zip=""
+  fi
+  ssh -t $remote "cd $mc/plugins/ && wget http://$2$3 && $zip"
+elif [ "$1" == "ping" ]
+then
+  ping $ip
+elif [ "$1" == "status" ]
+then
+  statusfile="$status/status.txt"
+  descripfile="$status/description.txt"
+
+  if [ "$2" == "" ]
+  then
+    echo "Status:"
+    cat $statusfile
+    echo "Description:"
+    cat $descripfile
+  elif [ "$2" == "set" ]
+  then
+    if [ "$3" == "up" ]
+    then
+      statusmsg="Up"
+      descripmsg="All is well!"
+    elif [ "$3" == "custom" ]
+    then
+      echo "Not implemented yet."
+      exit 3
+    else
+      usage
+    fi
+    
+    echo $statusmsg > $statusfile
+    echo $descripmsg > $descripfile
+
+    mcserver status
+  else
+    usage
+  fi
+else
+  usage
+fi
