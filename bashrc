@@ -55,3 +55,27 @@ customAlias txt
 customAlias doc
 unset customAlias
 
+# Useful functions #
+function chdir() {
+  validArgs=("args" "dirs")
+  source loadconf "$HOME/.scott_script/bashrc" "chdir.cfg" validArgs[@]
+  
+  i=0
+  len=${#args[*]}
+  while [ $i -lt $len ]
+  do
+    if [ ${args[$i]} == "$1" ]
+    then
+      newdir=${dirs[$i]}
+      break
+    fi
+    i=`expr $i + 1`
+  done
+  
+  if [ "$newdir" == "" ]
+  then
+    newdir="$1"
+  fi
+  
+  cd $newdir
+}
