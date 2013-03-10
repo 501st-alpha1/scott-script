@@ -33,7 +33,7 @@ function usage() {
   echo "  log [num lines]"
   echo "  install (BROKEN!)"
   echo "  ping"
-  echo "  status [set <up|custom>]"
+  echo "  status [set <up|down [net]|custom>]"
   echo
   exit 1
 }
@@ -106,6 +106,15 @@ then
     then
       statusmsg="Up"
       descripmsg="All is well!"
+    elif [ "$3" == "down" ]
+    then
+      statusmsg="Down"
+      if [ "$3" == "net" ]
+      then
+        descripmsg="Network problems."
+      else
+        descripmsg="Unknown."
+      fi
     elif [ "$3" == "custom" ]
     then
       echo "Not implemented yet."
