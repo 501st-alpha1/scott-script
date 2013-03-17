@@ -78,4 +78,7 @@ function chdir() {
   fi
   
   cd $newdir
+  
+  unset validArgs newdir i len args dirs
 }
+
