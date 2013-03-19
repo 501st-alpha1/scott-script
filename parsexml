@@ -20,9 +20,14 @@
 # <file> is the name of the XML file.
 # Note that the script *must* be called using the source command.
 
+# Also sets "parents" array, which contains the names of all tags that have
+# sub-tags.
+
 configfolder=$1
 configfile=$2
 file=$configfolder/$configfile
+parents=()
+
 if [ "$3" != "" ]
 then
   declare -a validArgs=("${!3}")
@@ -76,6 +81,7 @@ do
       if [ "$parent" == "" ]
       then
         parent=$entity
+        parents+=("$entity")
       else
         echo "Error! No nesting!"
         return 3
