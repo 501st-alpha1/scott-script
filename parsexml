@@ -1,0 +1,104 @@
+#!/bin/bash
+# Helper script to parse XML files.
+# Copyright (C) 2013 Scott Weldon
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Usage: source parsexml <folder> <file>
+# <folder> is the folder where the XML file is stored.
+# <file> is the name of the XML file.
+# Note that the script *must* be called using the source command.
+
+configfolder=$1
+configfile=$2
+file=$configfolder/$configfile
+if [ "$3" != "" ]
+then
+  declare -a validArgs=("${!3}")
+else
+  validArgs=""
+fi
+
+if [ ! -f "$file" ]
+then
+  echo "File doesn't exist!"
+  return 1
+fi
+
+echo "Loading XML file at $file" > /dev/null
+
+function read_dom() {
+  oifs=$IFS
+  IFS=\>
+  read -d \< entity content
+  IFS=$oifs
+}
+
+while read_dom
+do
+  content=`echo "$content" | xargs`
+  if [ "$entity" == "" ] && [ "$content" == "" ]
+  then
+    continue
+  elif [ "$entity" == "xml" ]
+  then
+    continue
+  elif [ "$entity" == "/xml" ]
+  then
+    break
+  elif [ "$content" == "" ] && [ "$entity" != "" ]
+  then
+    # Closing tags.
+    if [ "${entity:0:1}" == "/" ]
+    then
+      if [ "$current" == "${entity:1}" ]
+      then
+        current=""
+      elif [ "$parent" == "${entity:1}" ]
+      then
+        parent=""
+      else
+        echo "Error! Mismatched closing tag!"
+        return 2
+      fi
+    else
+      if [ "$parent" == "" ]
+      then
+        parent=$entity
+      else
+        echo "Error! No nesting!"
+        return 3
+      fi
+    fi
+  elif [ "$current" == "" ]
+  then
+    if [ "$parent" != "" ]
+    then
+      var="${parent}_$entity"
+      eval "$var=\"$content\""
+      current=$entity
+    else
+      eval "$entity=\"$content\""
+      current=$entity
+    fi
+  else
+    echo "Error! Shouldn't reach here!"
+    return 4
+  fi
+done < $file
+
+unset content current entity parent file configfolder configfile var
+
+return 0
+
