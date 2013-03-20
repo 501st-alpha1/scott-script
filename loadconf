@@ -61,6 +61,7 @@ do
   oifs=$IFS
   IFS='='
   read -a arr <<< "$line"
+  IFS=$oifs
   arrlen="${#arr[*]}"
   
   var="${arr[0]}"
@@ -93,7 +94,6 @@ do
       fi
     fi
   fi
-  IFS=$oifs
 done < $file
 
 return 0
