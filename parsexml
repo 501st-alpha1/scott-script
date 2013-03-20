@@ -53,6 +53,7 @@ function read_dom() {
 while read_dom
 do
   content=`echo "$content" | xargs`
+  echo "$entity : $content" > /dev/null
   if [ "$entity" == "" ] && [ "$content" == "" ]
   then
     continue
@@ -62,6 +63,10 @@ do
   elif [ "$entity" == "/xml" ]
   then
     break
+  elif [ "${entity:0:3}" == "!--" ]
+  then
+    # Skip comments
+    continue
   elif [ "$content" == "" ] && [ "$entity" != "" ]
   then
     # Closing tags.
