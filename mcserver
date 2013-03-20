@@ -112,6 +112,9 @@ then
       if [ "$3" == "net" ]
       then
         descripmsg="Network problems."
+      elif [ "$3" == "dns" ]
+      then
+        descripmsg="DNS configuration reset."
       else
         descripmsg="Unknown."
       fi
