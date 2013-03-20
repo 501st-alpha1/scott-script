@@ -1,0 +1,7 @@
+<xml>
+  <logloctext>
+    <prompt>"In what folder would you like the logs to be saved?"</prompt>
+    <example>"Example: \"/var/log\""</example>
+    <default>"(none yet...)"</default>
+  </logloctext>
+</xml>
