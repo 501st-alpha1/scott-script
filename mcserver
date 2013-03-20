@@ -109,10 +109,10 @@ then
     elif [ "$3" == "down" ]
     then
       statusmsg="Down"
-      if [ "$3" == "net" ]
+      if [ "$4" == "net" ]
       then
         descripmsg="Network problems."
-      elif [ "$3" == "dns" ]
+      elif [ "$4" == "dns" ]
       then
         descripmsg="DNS configuration reset."
       else
