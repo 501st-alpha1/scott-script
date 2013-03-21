@@ -81,20 +81,7 @@ function loadconf() {
 function editoption() {
   if [ "$1" == "logloc" ]
   then
-    echo "In what folder would you like the logs to be saved?"
-    echo "Example: \"/var/log\""
-    if [ "$logloc" == "" ]
-    then
-      echo "Default: \"<none yet...>\""
-    else
-      echo "Current: \"$logloc\""
-    fi
-    read tmp
-    if [ "$tmp" != "" ]
-    then
-      logloc=$tmp
-    fi
-    echo "You have chosen: \"$logloc\""
+    source editconf "$configfolder" "config" "wine.xml" logloc
   elif [ "$1" == "wineloc" ]
   then
     echo "Temp! Wine location:"

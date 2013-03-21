@@ -1,0 +1,70 @@
+#!/bin/bash
+# Helper script to edit config files.
+# Copyright (C) 2013 Scott Weldon
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Usage: source editconf <folder> <file> <xml> [arg]
+# <folder> is the folder where the config file is stored.
+# <file> is the name of the config file.
+# <xml> is the name of the XML file containing the strings to prompt the user
+#   with. It should be stored in the same folder as this script.
+# [arg] is, optionally, the name of the argument to be edited.
+# Note that the script *must* be called using the source command.
+
+fullpath=$( cd $(dirname $0) ; pwd )
+
+source parsexml "$fullpath" "$3"
+
+function editoption() {
+  option="${1}text_"
+
+  pvar="${option}prompt"
+  evar="${option}example"
+  dvar="${option}default"
+  
+  prompt=${!pvar}
+  example=${!evar}
+  default=${!dvar}
+  
+  echo "$prompt"
+  echo "$example"
+  if [ "${!1}" == "" ]
+  then
+    echo "Default: \"<none yet...>\""
+  else
+    echo "Current: \"${!1}\""
+  fi
+  read tmp
+  if [ "$tmp" != "" ]
+  then
+    eval "$1=$tmp"
+  fi
+  echo "You have chosen: \"${!1}\""
+
+  unset option tmp
+}
+
+if [ "$4" == "" ]
+then
+  for arg in ${parents[*]}
+  do
+    editoption $arg
+  done
+else
+  editoption $4
+fi
+
+unset prompt example default arg fullpath
+
