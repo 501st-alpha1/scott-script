@@ -21,14 +21,14 @@
 # <validArgs> is an array of allowed variable names. If none are given, all
 # names are allowed. If the array is called "arr", pass it as "arr[@]".
 # Note that the script *must* be called using the source command.
-configfolder=$1
-configfile=$2
-file=$configfolder/$configfile
+loadconf_configfolder=$1
+loadconf_configfile=$2
+loadconf_file=$loadconf_configfolder/$loadconf_configfile
 if [ "$3" != "" ]
 then
-  declare -a validArgs=("${!3}")
+  declare -a loadconf_validArgs=("${!3}")
 else
-  validArgs=""
+  loadconf_validArgs=""
 fi
 
 # Check if array contains an element.
@@ -42,58 +42,54 @@ function containsElement () {
   return 1
 }
 
-if [ ! -f "$file" ]
+if [ ! -f "$loadconf_file" ]
 then
   echo "File doesn't exist!"
   return 1
 fi
 
-echo "Loading config file at $file" > /dev/null
+echo "Loading config file at $loadconf_file" > /dev/null
 
-while read -r line
+while read -r loadconf_line
 do
   # Skip comments.
-  if [ "${line:0:1}" == "#" ]
+  if [ "${loadconf_line:0:1}" == "#" ]
   then
     continue
   fi
   
   oifs=$IFS
   IFS='='
-  read -a arr <<< "$line"
+  read -a loadconf_arr <<< "$loadconf_line"
   IFS=$oifs
-  arrlen="${#arr[*]}"
   
-  var="${arr[0]}"
-  val="${arr[1]}"
-  extra="${arr[2]}"
+  loadconf_var="${loadconf_arr[0]}"
+  loadconf_val="${loadconf_arr[1]}"
+  loadconf_extra="${loadconf_arr[2]}"
   
-  if [ "$var" == "" ]
-  #if [ $arrlen -eq "0" ]
+  if [ "$loadconf_var" == "" ]
   then
     echo "Skipping blank line." > /dev/null
-  elif [ "$val" == "" ]
-  #elif [ $arrlen -eq "1" ]
+  elif [ "$loadconf_val" == "" ]
   then
     echo "Skipping fail line." > /dev/null
-  elif [ "$extra" != "" ]
-  #elif [ $arrlen -gt "2" ]
+  elif [ "$loadconf_extra" != "" ]
   then
     echo "More than one = on that line! Hax!" #> /dev/null
   else
-    if [ "$validArgs" == "" ]
+    if [ "$loadconf_validArgs" == "" ]
     then
-      eval "$var=$val"
+      eval "$loadconf_var=$loadconf_val"
     else
-      $(containsElement $var "${validArgs[@]}")
+      $(containsElement $loadconf_var "${loadconf_validArgs[@]}")
       if [ $? -eq "0" ]
       then
-        eval "$var=$val"
+        eval "$loadconf_var=$loadconf_val"
       else
-        echo "Variable \"$var\" is not allowed, skipping." #> /dev/null
+        echo "Variable \"$loadconf_var\" is not allowed, skipping." #> /dev/null
       fi
     fi
   fi
-done < $file
+done < $loadconf_file
 
 return 0
