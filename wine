@@ -59,21 +59,25 @@ function loadconf() {
   if [ "$logloc" == "" ]
   then
     editoption logloc
-    saveconf
+    save="true"
   fi
   if [ "$wineloc" == "" ]
   then
     editoption wineloc
-    saveconf
+    save="true"
   fi
   if [ "$prefix" == "" ]
   then
     editoption prefix
-    saveconf
+    save="true"
   fi
   if [ "$progbin" == "" ]
   then
     editoption progbin
+    save="true"
+  fi
+  if [ "$save" == "true" ]
+  then
     saveconf
   fi
 }
@@ -81,7 +85,7 @@ function loadconf() {
 function editoption() {
   if [ "$1" == "logloc" ]
   then
-    source editconf "$configfolder" "config" "wine.xml" logloc
+    source editconf "$configfolder" "$filename" "wine.xml" logloc
   elif [ "$1" == "wineloc" ]
   then
     echo "Temp! Wine location:"
@@ -166,22 +170,23 @@ function run() {
 
 loadconf
 
-if [ "$1" == "config" ]
-then
-  editconf $2
-elif [ "$1" == "edit" ]
-then
-  run init
-elif [ "$1" == "debug" ]
-then
-  printconf
-elif [ "$1" == "run" ]
-then
-  run program $2
-elif [ "$1" == "install" ]
-then
-  run "install" $2
-else
-  usage
-fi
+case $1 in
+  "config")
+    editconf $2
+    ;;
+  "edit")
+    run init
+    ;;
+  "debug")
+    printconf
+    ;;
+  "run")
+    run program $2
+    ;;
+  "install")
+    run "install" $2
+    ;;
+  *)
+    usage
+esac
 
