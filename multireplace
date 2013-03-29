@@ -33,6 +33,6 @@ do
   then
     continue
   else
-    sed "s:$s1:$s2:" -i $f
+    sed "s:$s1:$s2:" --in-place $f
   fi
 done

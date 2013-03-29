@@ -42,7 +42,7 @@ function usage() {
 function checkpath() {
   if [ ! -d "$1" ]
   then
-    mkdir -p $1
+    mkdir --parents $1
   fi
 }
 
