@@ -40,26 +40,32 @@ function editoption() {
   
   echo "$prompt"
   echo "$example"
-  if [ "${!1}" == "" ]
+  
+  value="${!1}"
+  if [ "$value" == "" ]
   then
     echo "Default: \"<none yet...>\""
   else
-    echo "Current: \"${!1}\""
+    echo "Current: \"$value\""
   fi
   read tmp
   if [ "$tmp" != "" ]
   then
     eval "$1=$tmp"
   fi
-  echo "You have chosen: \"${!1}\""
+  
+  value="${!1}"
+  echo "You have chosen: \"${value[*]}\""
 
-  unset option tmp
+  unset option tmp pvar evar dvar prompt example default
 }
 
 if [ "$4" == "" ]
 then
   for arg in ${parents[*]}
   do
+    len=`expr ${#arg} - 4`
+    arg=${arg:0:$len}
     editoption $arg
   done
 else

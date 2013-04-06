@@ -25,7 +25,7 @@ day=$(date +%d)
 hour=$(date +%H)
 min=$(date +%M)
 
-validArgs=("logloc" "wineloc" "prefix" "progbin")
+validArgs=("logloc" "winenames" "winelocs" "prefix" "progbin")
 
 function usage() {
   echo "Usage: wine <command>"
@@ -50,83 +50,17 @@ function loadconf() {
   if [ -e $configfile ]
   then
     echo "Loading config file."
-    source ./loadconf "$configfolder" "$filename" validArgs[@]
+    source loadconf "$configfolder" "$filename" validArgs[@]
   else
     echo "No config file found, creating one."
     checkpath $configfolder
-  fi
-
-  if [ "$logloc" == "" ]
-  then
-    editoption logloc
-    save="true"
-  fi
-  if [ "$wineloc" == "" ]
-  then
-    editoption wineloc
-    save="true"
-  fi
-  if [ "$prefix" == "" ]
-  then
-    editoption prefix
-    save="true"
-  fi
-  if [ "$progbin" == "" ]
-  then
-    editoption progbin
-    save="true"
-  fi
-  if [ "$save" == "true" ]
-  then
+    edit
     saveconf
   fi
 }
 
-function editoption() {
-  if [ "$1" == "logloc" ]
-  then
-    source editconf "$configfolder" "$filename" "wine.xml" logloc
-  elif [ "$1" == "wineloc" ]
-  then
-    echo "Temp! Wine location:"
-    read tmp
-    if [ "$tmp" != "" ]
-    then
-      wineloc=$tmp
-    fi
-  elif [ "$1" == "prefix" ]
-  then
-    echo "Temp! Wine Prefix:"
-    read tmp
-    if [ "$tmp" != "" ]
-    then
-      prefix=$tmp
-    fi
-  elif [ "$1" == "progbin" ]
-  then
-    echo "Temp! Wine Program Bindir:"
-    read tmp
-    if [ "$tmp" != "" ]
-    then
-      progbin=$tmp
-    fi
-  else
-    echo "Error, wrong option for editoption(). Should never reach here."
-    exit 2
-  fi
-  echo
-}
-
-function editconf() {
-  if [ "$1" == "" ]
-  then
-    editoption logloc
-    editoption wineloc
-  else
-    editoption $1
-  fi
-
-  saveconf
+function edit() {
+  source editconf "$configfolder" "$filename" "wine.xml" $1
 }
 
 function saveconf() {
@@ -171,10 +105,10 @@ function run() {
 loadconf
 
 case $1 in
-  "config")
+  "edit")
     editconf $2
     ;;
-  "edit")
+  "init")
     run init
     ;;
   "debug")

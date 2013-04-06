@@ -20,8 +20,29 @@
 
 <xml>
   <logloctext>
-    <prompt>"In what folder would you like the logs to be saved?"</prompt>
-    <example>"Example: \"/var/log\""</example>
-    <default>"(none yet...)"</default>
+    <prompt>In what folder would you like the logs to be saved?</prompt>
+    <example>Example: \"/var/log\"</example>
+    <default>(none yet...)</default>
   </logloctext>
+  <winenamestext>
+    <prompt>Enter an array of names for wine installs. (TEMP)</prompt>
+    <example>Example: (\"git\" \"devel\" \"stable\" \"1.4.1\")</example>
+    <default>(none)</default>
+  </winenamestext>
+  <winelocstext>
+    <prompt>Enter an array of locations for wine installs. (TEMP)</prompt>
+    <example>Example: (\"/mnt/opt/wine/git\" \"/mnt/data/wine/dev\")</example>
+    <default>(none)</default>
+  </winelocstext>
+  <prefixtext>
+    <prompt>Where would you like the Wine prefix to be?</prompt>
+    <example>Example: \"$HOME/.wine\"</example>
+    <default>(none)</default>
+  </prefixtext>
+  <progbintext>
+    <prompt>Where should the bin directory of the program be (relative to the
+      Wine prefix)?</prompt>
+    <example>Example: \"drive_c/Program\ Files/MyProg\"</example>
+    <default>(none)</default>
+  </progbintext>
 </xml>
