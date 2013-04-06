@@ -29,8 +29,8 @@ function usage() {
   echo "  ssh"
   echo "  up <local file> <remote file>"
   echo "  down <remote file> <local file>"
-  echo "  edit <perms|inv|file>"
-  echo "  log [num lines]"
+  echo "  edit <perms|inv|file|permconf>"
+  echo "  log [full|num lines]"
   echo "  install (BROKEN!)"
   echo "  ping"
   echo "  status [set <up|down [net]|custom>]"
@@ -68,7 +68,10 @@ then
   ssh -t $remote nano $mc/$file
 elif [ "$1" == "log" ]
 then
-  if [ "$2" == "" ]
+  if [ "$2" == "full" ]
+  then
+    ssh -t $remote nano $mc/server.log
+  elif [ "$2" == "" ]
   then
     ssh $remote "cat $mc/server.log | tail"
   else
