@@ -18,7 +18,7 @@
 ffexec=/usr/bin/firefox
 
 function usage() {
-  echo "Usage: firefox [google|default]"
+  echo "Usage: firefox [google|default|profiles|junk]"
   echo
   exit 1
 }
@@ -35,6 +35,12 @@ then
 elif [ "$1" == "default" ]
 then
   $ffexec --no-remote -P "default"
+elif [ "$1" == "profiles" ]
+then
+  $ffexec --no-remote --ProfileManager
+elif [ "$1" == "junk" ]
+then
+  $ffexec --no-remote -P "Junk"
 else
   usage
 fi
