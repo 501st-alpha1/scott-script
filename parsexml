@@ -23,25 +23,25 @@
 # Also sets "parents" array, which contains the names of all tags that have
 # sub-tags.
 
-configfolder=$1
-configfile=$2
-file=$configfolder/$configfile
+parsexml_configfolder=$1
+parsexml_configfile=$2
+parsexml_file=$parsexml_configfolder/$parsexml_configfile
 parents=()
 
 if [ "$3" != "" ]
 then
-  declare -a validArgs=("${!3}")
+  declare -a parsexml_validArgs=("${!3}")
 else
-  validArgs=""
+  parsexml_validArgs=""
 fi
 
-if [ ! -f "$file" ]
+if [ ! -f "$parsexml_file" ]
 then
   echo "File doesn't exist!"
   return 1
 fi
 
-echo "Loading XML file at $file" > /dev/null
+echo "Loading XML file at $parsexml_file" > /dev/null
 
 function read_dom() {
   oifs=$IFS
@@ -107,9 +107,9 @@ do
     echo "Error! Shouldn't reach here!"
     return 4
   fi
-done < $file
+done < $parsexml_file
 
-unset content current entity parent file configfolder configfile var
+unset content current entity parent parsexml_file parsexml_configfolder parsexml_configfile var
 
 return 0
 
