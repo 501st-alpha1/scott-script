@@ -37,7 +37,7 @@ fi
 
 if [ ! -f "$parsexml_file" ]
 then
-  echo "File doesn't exist!"
+  echo "File \"$parsexml_file\" doesn't exist!"
   return 1
 fi
 
