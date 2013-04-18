@@ -60,7 +60,8 @@ function loadconf() {
 }
 
 function edit() {
-  source editconf "$configfolder" "$filename" "wine.xml" $1
+  source editconf "wine.xml" "$1"
+  saveconf
 }
 
 function saveconf() {

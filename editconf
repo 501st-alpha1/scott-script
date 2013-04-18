@@ -15,9 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Usage: source editconf <folder> <file> <xml> [arg]
-# <folder> is the folder where the config file is stored.
-# <file> is the name of the config file.
+# Usage: source editconf <xml> [arg]
 # <xml> is the name of the XML file containing the strings to prompt the user
 #   with. It should be stored in the same folder as this script.
 # [arg] is, optionally, the name of the argument to be edited.
@@ -25,7 +23,7 @@
 
 fullpath=$( cd $(dirname $0) ; pwd )
 
-source parsexml "$fullpath" "$3"
+source parsexml "$fullpath" "$1"
 
 function editoption() {
   option="${1}text_"
@@ -60,7 +58,7 @@ function editoption() {
   unset option tmp pvar evar dvar prompt example default
 }
 
-if [ "$4" == "" ]
+if [ "$2" == "" ]
 then
   for arg in ${parents[*]}
   do
@@ -69,7 +67,7 @@ then
     editoption $arg
   done
 else
-  editoption $4
+  editoption $2
 fi
 
 unset prompt example default arg fullpath
