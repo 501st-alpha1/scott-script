@@ -1,3 +1,7 @@
 This directory contains various bash scripts for my personal use. For usage,
 (if it isn't obvious by the name) see comments in the code. All these scripts
 are distributed under the GNU GPL, see the LICENSE file for details.
+
+Note: The usage of config files is *not* hack-proof. The only check that is made
+is for multiple equals signs. A malicious user could probably find some way to
+break things. You have been warned.
