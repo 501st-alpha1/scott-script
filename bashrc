@@ -34,6 +34,12 @@ function customAlias() {
     "doc")
       possibles=("libreoffice" "openoffice")
       ;;
+    "web")
+      possibles=("surf" "links" "lynx")
+      ;;
+    "fm")
+      possibles=("nautilus" "caja" "dolphin")
+      ;;
     *)
       return 1
       ;;
