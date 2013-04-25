@@ -24,18 +24,20 @@ PATH="$data/Scripts:$PATH"
 function customAlias() {
   cmd="$1"
   
-  if [ "$cmd" == "pdf" ]
-  then
-    possibles=("evince" "atril")
-  elif [ "$cmd" == "txt" ]
-  then
-    possibles=("gedit" "pluma")
-  elif [ "$cmd" == "doc" ]
-  then
-    possibles=("libreoffice" "openoffice")
-  else
-    return 1
-  fi
+  case "$cmd" in
+    "pdf")
+      possibles=("evince" "atril")
+      ;;
+    "txt")
+      possibles=("gedit" "pluma")
+      ;;
+    "doc")
+      possibles=("libreoffice" "openoffice")
+      ;;
+    *)
+      return 1
+      ;;
+  esac
   
   for exe in ${possibles[*]}
   do
@@ -50,9 +52,11 @@ function customAlias() {
   unset cmd exe possibles
 }
 
-customAlias pdf
-customAlias txt
-customAlias doc
+for cmd in pdf txt doc
+do
+  customAlias "$cmd"
+done
+
 unset customAlias
 
 # Useful functions #
