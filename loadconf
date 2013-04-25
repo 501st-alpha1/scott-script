@@ -15,10 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Usage: source loadconf <folder> <file> <validArgs>
+# Usage: source loadconf <folder> <file> [validArgs]
 # <folder> is the folder where the config file is stored.
 # <file> is the name of the config file.
-# <validArgs> is an array of allowed variable names. If none are given, all
+# [validArgs] is an array of allowed variable names. If none are given, all
 # names are allowed. If the array is called "arr", pass it as "arr[@]".
 # Note that the script *must* be called using the source command.
 loadconf_configfolder=$1
