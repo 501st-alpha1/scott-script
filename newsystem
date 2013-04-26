@@ -1,0 +1,39 @@
+#!/bin/bash
+# Helper script to transfer setup to new system.
+# Copyright (C) 2013 Scott Weldon
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+bashrc="$HOME/.bashrc"
+
+output="
+################################################################################
+#                                                                              #
+#                     Custom Stuff via Scott's Scripts                         #
+#                                                                              #
+################################################################################
+
+. /mnt/data/Scripts/bashrc"
+
+check=`cat "$bashrc" | grep "Custom Stuff via Scott's Scripts"`
+
+if [ -n "$check" ]
+then
+  echo "This system is already set up! Aborting.."
+  exit 1
+else
+  echo "$output" >> "$bashrc"
+  echo "Done."
+fi
+
