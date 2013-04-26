@@ -16,31 +16,42 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ffexec=/usr/bin/firefox
+profilefolder="$HOME/.mozilla/firefox"
+profiles="$profilefolder/profiles.ini"
+noremote=""
+profile=""
 
 function usage() {
-  echo "Usage: firefox [google|default|profiles|junk]"
+  echo "Usage: firefox [profile name]"
+  echo "Also supports standard Firefox command-line options."
   echo
   exit 1
 }
 
-if [ "$1" == "" ]
+if [ "$#" -eq "1" ]
 then
-  $ffexec -P "Scott"
-elif [ "$1" == "-P" ] && [ "$2" == "Scott" ]
-then
-  $ffexec -P "Scott"
-elif [ "$1" == "google" ]
-then
-  $ffexec --no-remote -P "Google"
-elif [ "$1" == "default" ]
-then
-  $ffexec --no-remote -P "default"
-elif [ "$1" == "profiles" ]
-then
-  $ffexec --no-remote --ProfileManager
-elif [ "$1" == "junk" ]
-then
-  $ffexec --no-remote -P "Junk"
+  case "$1" in
+    "help")
+      usage
+      ;;
+    "profiles")
+      $ffexec --no-remote --ProfileManager
+      exit 0
+      ;;
+    *)
+      profile="${1^}"
+      noremote="--no-remote"
+      check=`cat "$profiles" | grep "Name" | grep "$profile"`
+      if [ -z "$check" ]
+      then
+        echo "Profile \"$profile\" doesn't exist!"
+        exit 2
+      fi
+      ;;
+  esac
 else
-  usage
+  $ffexec "$@"
 fi
+
+$ffexec $noremote -P $profile
+
