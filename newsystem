@@ -30,7 +30,7 @@ check=`cat "$bashrc" | grep "Custom Stuff via Scott's Scripts"`
 
 if [ -n "$check" ]
 then
-  echo "This system is already set up! Aborting.."
+  echo "The bashrc has already been linked on this system! Aborting.."
   exit 1
 else
   echo "$output" >> "$bashrc"
