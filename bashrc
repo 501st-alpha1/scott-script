@@ -16,9 +16,10 @@
 
 # Hard-coded Vars #
 data="/mnt/data"
+script="$data/Scripts"
 
 # Env Vars #
-PATH="$data/Scripts:$PATH"
+PATH="`find "$script" -name '.*' -prune -o -type d -printf '%p:'`$PATH"
 
 # Helper Functions #
 function customAlias() {
