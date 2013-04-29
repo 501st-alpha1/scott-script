@@ -24,7 +24,7 @@ output="
 #                                                                              #
 ################################################################################
 
-. /mnt/data/Scripts/bashrc"
+. /mnt/data/Scripts/scott_script/bashrc"
 
 check=`cat "$bashrc" | grep "Custom Stuff via Scott's Scripts"`
 
