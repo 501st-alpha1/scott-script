@@ -59,7 +59,7 @@ function customAlias() {
   unset cmd exe possibles
 }
 
-for cmd in pdf txt doc
+for cmd in pdf txt doc web fm
 do
   customAlias "$cmd"
 done
@@ -69,7 +69,7 @@ unset customAlias
 # Useful functions #
 function chdir() {
   validArgs=("args" "dirs")
-  source loadconf "$HOME/.scott_script/bashrc" "chdir.cfg" validArgs[@]
+  source loadconf "$HOME/.scott_script/bashrc" "chdir.cfg" validArgs[@] > /dev/null
   
   i=0
   len=${#args[*]}
@@ -92,4 +92,6 @@ function chdir() {
   
   unset validArgs newdir i len args dirs
 }
+
+unset cfgdir
 

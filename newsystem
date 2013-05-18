@@ -15,6 +15,10 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+################################################################################
+#                              Bashrc Linkage                                  #
+################################################################################
+
 bashrc="$HOME/.bashrc"
 
 output="
@@ -30,10 +34,37 @@ check=`cat "$bashrc" | grep "Custom Stuff via Scott's Scripts"`
 
 if [ -n "$check" ]
 then
-  echo "The bashrc has already been linked on this system! Aborting.."
-  exit 1
+  echo "The bashrc has already been linked on this system! Skipping.."
 else
   echo "$output" >> "$bashrc"
-  echo "Done."
+  echo "Bashrc has been linked."
 fi
+
+unset bashrc output check
+
+################################################################################
+#                                 Git Stuff                                    #
+################################################################################
+
+function gitConfig() {
+  configname="$1"
+  configval="$2"
+  previous="`git config --get $configname`"
+  
+  if [ -z "$previous" ]
+  then
+    git config --global "$configname" "$configval"
+    echo "Git: $configname set."
+  else
+    echo "Git: $configname is already set to $previous."
+  fi
+}
+
+name="Scott Weldon"
+email="scott@scott-weldon.com"
+
+gitConfig "user.name" "$name"
+gitConfig "user.email" "$email"
+gitConfig "color.ui" "auto"
+gitConfig "format.suffix" ".txt"
 
