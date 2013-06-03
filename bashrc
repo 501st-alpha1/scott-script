@@ -24,6 +24,7 @@ PATH="`find "$script" -name '.*' -prune -o -type d -printf '%p:'`$PATH"
 # Helper Functions #
 function customAlias() {
   cmd="$1"
+  needsRoot=""
   
   case "$cmd" in
     "pdf")
@@ -41,6 +42,10 @@ function customAlias() {
     "fm")
       possibles=("nautilus" "caja" "dolphin")
       ;;
+    "inst")
+      possibles=("apt-get" "yum" "pacman")
+      needsRoot="sudo "
+      ;;
     *)
       return 1
       ;;
@@ -51,7 +56,7 @@ function customAlias() {
     type -t $exe > /dev/null
     if [ $? -eq 0 ]
     then
-      alias $cmd="$exe"
+      alias $cmd="$needsRoot$exe"
       break
     fi
   done
@@ -59,7 +64,7 @@ function customAlias() {
   unset cmd exe possibles
 }
 
-for cmd in pdf txt doc web fm
+for cmd in pdf txt doc web fm inst
 do
   customAlias "$cmd"
 done
