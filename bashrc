@@ -42,7 +42,7 @@ function customAlias() {
     "fm")
       possibles=("nautilus" "caja" "dolphin")
       ;;
-    "inst")
+    "pkg")
       possibles=("apt-get" "yum" "pacman")
       needsRoot="sudo "
       ;;
@@ -64,7 +64,7 @@ function customAlias() {
   unset cmd exe possibles
 }
 
-for cmd in pdf txt doc web fm inst
+for cmd in pdf txt doc web fm pkg
 do
   customAlias "$cmd"
 done
