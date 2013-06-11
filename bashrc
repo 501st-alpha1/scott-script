@@ -100,3 +100,6 @@ function chdir() {
 
 unset cfgdir
 
+# Other stuff
+alias dif="diff --suppress-common-lines -wy"
+
