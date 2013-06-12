@@ -100,6 +100,9 @@ function chdir() {
 
 unset cfgdir
 
-# Other stuff
+# Custom aliases
 alias dif="diff --suppress-common-lines -wy"
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
 
