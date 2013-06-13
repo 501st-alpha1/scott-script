@@ -30,14 +30,19 @@ output="
 
 . /mnt/data/Scripts/scott_script/bashrc"
 
-check=`cat "$bashrc" | grep "Custom Stuff via Scott's Scripts"`
-
-if [ -n "$check" ]
+if [ -f "$bashrc" ]
 then
-  echo "The bashrc has already been linked on this system! Skipping.."
+  check=`cat "$bashrc" | grep "Custom Stuff via Scott's Scripts"`
+
+  if [ -n "$check" ]
+  then
+    echo "The bashrc has already been linked on this system! Skipping.."
+  else
+    echo "$output" >> "$bashrc"
+    echo "Bashrc has been linked."
+  fi
 else
-  echo "$output" >> "$bashrc"
-  echo "Bashrc has been linked."
+  echo "User's bashrc file (\"$bashrc\") does not exist! Skipping.."
 fi
 
 unset bashrc output check
@@ -60,13 +65,18 @@ function gitConfig() {
   fi
 }
 
-name="Scott Weldon"
-email="scott@scott-weldon.com"
+if [ `command -v git` ]
+then
+  name="Scott Weldon"
+  email="scott@scott-weldon.com"
 
-gitConfig "user.name" "$name"
-gitConfig "user.email" "$email"
-gitConfig "color.ui" "auto"
-gitConfig "format.suffix" ".txt"
+  gitConfig "user.name" "$name"
+  gitConfig "user.email" "$email"
+  gitConfig "color.ui" "auto"
+  gitConfig "format.suffix" ".txt"
+else
+  echo "Error: git not installed! Skipping.."
+fi
 
 ################################################################################
 #                                 GRUB Stuff                                   #
