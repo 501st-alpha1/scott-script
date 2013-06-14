@@ -1,0 +1,24 @@
+#!/bin/bash
+
+source loadconf "$HOME/.scott_script/starred" "config" "user"
+
+if [ -n "$user" ]
+then
+  response=`curl --include https://api.github.com/users/$user/starred`
+fi
+
+echo $response
+echo "Work in progress. The above is all your starred repos!"
+
+exit 0
+
+# ...
+
+# repolist=(...)
+
+for i in "${repolist[@]}"
+do
+  cd "$i" && git pull
+  cd ..
+done
+
