@@ -18,7 +18,13 @@ exit 0
 
 for i in "${repolist[@]}"
 do
-  cd "$i" && git pull
-  cd ..
+  # repo=urlOfCurrentRepo
+  if [ -d "$i" ]
+  then
+    cd "$i" && git pull
+    cd ..
+  else
+    git clone $repo
+  fi
 done
 
