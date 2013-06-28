@@ -15,7 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-mcpath=/mnt/data/Downloads/Video.Games/Minecraft
+validArgs=("mcpath" "magicver")
+source loadconf "$HOME/.scott_script/minecraft" "config" validArgs[@]
 
 function usage() {
   echo "Usage: minecraft [vanilla|spout]"
@@ -25,7 +26,7 @@ function usage() {
 
 if [ "$1" == "" ]
 then
-  java -jar $mcpath/MagicLauncher_1.0.0.jar
+  java -jar "$mcpath/MagicLauncher_$magicver.jar"
 elif [ "$1" == "vanilla" ]
 then
   java -jar $mcpath/minecraft.jar
