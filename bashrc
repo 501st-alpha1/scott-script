@@ -106,3 +106,12 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 
+# Prompt customisation
+# Default Ubuntu: \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\h:\w\$
+returncode="\$?"
+currdir="[\w]"
+time="[\t]"
+user="[\u@\h]"
+stats="[\!:$returncode]"
+PS1="$currdir$stats\n$time$user\$ "
+
