@@ -108,10 +108,14 @@ alias l='ls -CF'
 
 # Prompt customisation
 # Default Ubuntu: \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\h:\w\$
+green="\[\033[0;32m\]"
+blue="\[\033[0;34m\]"
+red="\[\033[0;31m\]"
+end="\[\033[0m\]"
 returncode="\$?"
 currdir="[\w]"
 time="[\t]"
 user="[\u@\h]"
 stats="[\!:$returncode]"
-PS1="$currdir$stats\n$time$user\$ "
+PS1="$green$currdir$stats\n$time$user\$$end "
 
