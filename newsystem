@@ -61,19 +61,21 @@ output="
 
 . /mnt/data/Scripts/scott_script/bashrc"
 
+echo "Bashrc:"
+
 if [ -f "$bashrc" ]
 then
   check=`cat "$bashrc" | grep "Custom Stuff via Scott's Scripts"`
 
   if [ -n "$check" ]
   then
-    echo "The bashrc has already been linked on this system! Skipping.."
+    echo "  The bashrc has already been linked on this system! Skipping.."
   else
     echo "$output" >> "$bashrc"
-    echo "Bashrc has been linked."
+    echo "  Bashrc has been linked."
   fi
 else
-  echo "User's bashrc file (\"$bashrc\") does not exist! Skipping.."
+  echo "  User's bashrc file (\"$bashrc\") does not exist! Skipping.."
 fi
 
 unset bashrc output check
@@ -90,11 +92,13 @@ function gitConfig() {
   if [ -z "$previous" ]
   then
     git config --global "$configname" "$configval"
-    echo "Git: $configname set."
+    echo "  $configname set."
   else
-    echo "Git: $configname is already set to $previous."
+    echo "  $configname is already set to $previous."
   fi
 }
+
+echo "Git:"
 
 if [ `command -v git` ]
 then
@@ -106,7 +110,7 @@ then
   gitConfig "color.ui" "auto"
   gitConfig "format.suffix" ".txt"
 else
-  echo "Error: git not installed! Skipping.."
+  echo "  Error: git not installed! Skipping.."
 fi
 
 ################################################################################
@@ -120,17 +124,19 @@ contents="quiet splash acpi_osi=Linux acpi_backlight=vendor"
 line="${optionname}${contents}\""
 grubcmd=`cat "$config" | grep "$line"`
 
+echo "GRUB:"
+
 if [ -z "$grubcmd" ]
 then
-  read -p "Permission required to modify $config, continue? [Y/n] " response
+  read -p "  Permission required to modify $config, continue? [Y/n] " response
   if [ -z "$response" ] || [ "$response" == "Y" ] || [ "$response" == "y" ]
   then
     sudo sed --in-place s:"$optionname":\&"$contents": /etc/default/grub
-    echo "Backlight stuff added to $config"
+    echo "  Backlight stuff added to $config"
   else
-    echo "Skipping backlight stuff."
+    echo "  Skipping backlight stuff."
   fi
 else
-  echo "GRUB_CMDLINE_LINUX already set."
+  echo "  GRUB_CMDLINE_LINUX already set."
 fi
 
