@@ -16,6 +16,37 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ################################################################################
+#                             Argument Parsing                                 #
+################################################################################
+
+function usage() {
+  echo "You lose!"
+  exit 1
+}
+
+if [ $# -eq 0 ]
+then
+  echo "No arguments passed. Running everything."
+else
+  while [ $# -gt 0 ]
+  do
+    case "$1" in
+      "--help")
+        usage
+        ;;
+      "-h")
+        usage
+        ;;
+      *)
+        # TODO: Parse args
+        echo "Argument parsing not yet implemented."
+        ;;
+    esac
+    shift
+  done
+fi
+
+################################################################################
 #                              Bashrc Linkage                                  #
 ################################################################################
 
