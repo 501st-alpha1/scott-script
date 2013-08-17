@@ -119,3 +119,5 @@ user="[\u@\h]"
 stats="[\!:$returncode]"
 PS1="$green$currdir$stats\n$time$user\$$end "
 
+# GitHub script
+alias git=hub
