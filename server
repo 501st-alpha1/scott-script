@@ -1,0 +1,79 @@
+#!/bin/bash
+# Generic server admin script
+# Copyright (C) 2013 Scott Weldon
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# This script is to make it easier to manage multiple servers. For now, the
+# mcserver script is separate because that still has some unique needs. May
+# eventually refactor to reference this one.
+
+validArgs=("servers" "ips" "users")
+
+source loadconf "$HOME/.scott_script/server" "config" validArgs[@]
+
+function usage() {
+  echo "Usage: server <server> [command]"
+  echo
+  echo "<server> is the name of the server you wish to work with."
+  echo
+  echo "Commands:"
+  echo "  ssh"
+  echo "  up <local file> <remote file>"
+  echo "  down <remote file> <local file>"
+  echo "  ping"
+  echo
+  exit 1
+}
+
+server="$1"
+
+if [ "$server" == "" ]
+then
+  usage
+fi
+
+for (( i=0; i < "${#servers[@]}"; i++ ))
+do
+  if [ "${servers[$i]}" == "$server" ]
+  then
+    ip="${ips[$i]}"
+    user="${users[$i]}"
+  fi
+done
+
+if [ "$ip" == "" ] || [ "$user" == "" ]
+then
+  echo "The server \"$server\" does not exist!"
+  exit 2
+fi
+
+case "$2" in
+  "ssh")
+    ssh $user@$ip
+    ;;
+  "up")
+    echo "up"
+    ;;
+  "down")
+    echo "down"
+    ;;
+  "ping")
+    ping $ip
+    ;;
+  *)
+    usage
+    ;;
+esac
+
