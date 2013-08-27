@@ -64,10 +64,10 @@ case "$2" in
     ssh $user@$ip
     ;;
   "up")
-    echo "up"
+    scp $3 $remote:$4
     ;;
   "down")
-    echo "down"
+    scp $remote:$3 $4
     ;;
   "ping")
     ping $ip
