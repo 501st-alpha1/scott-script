@@ -1,0 +1,27 @@
+#!/bin/bash
+# Launcher script for Need for Speed: World, running through Wine
+# Copyright (C) 2013 Scott Weldon
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# bin - full path of the Wine executable
+# data - Wine prefix folder
+# log - log folder
+validArgs=("bin" "data" "log")
+
+source loadconf "$HOME/.scott_script/wine" "nfsw.cfg" validArgs[@]
+
+cd "$data/drive_c/Program Files/Electronic Arts/Need for Speed World"
+WINEPREFIX="$data" "$bin" ./GameLauncher.exe >> "$log/nfsw" 2>&1
+
