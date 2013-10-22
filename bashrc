@@ -101,10 +101,11 @@ function chdir() {
 unset cfgdir
 
 # Custom aliases
-alias dif="diff --suppress-common-lines -wy"
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+alias dif="diff --suppress-common-lines --ignore-all-space --side-by-side"
+alias ll='ls --all -l --file-type'
+alias la='ls --almost-all'
+alias l='ls -C --file-type'
+alias emacs="/usr/bin/emacs --no-window-system"
 
 # Prompt customisation
 # Default Ubuntu: \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\h:\w\$
