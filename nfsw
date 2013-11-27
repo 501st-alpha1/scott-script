@@ -18,10 +18,39 @@
 # bin - full path of the Wine executable
 # data - Wine prefix folder
 # log - log folder
+
+function myrun() {
+  if [ "$1" == "" ]
+  then
+    echo "Fail"
+    return 1
+  fi
+
+  "$bin" "$1" >> "$log/nfsw" 2>&1
+}
+
 validArgs=("bin" "data" "log")
 
 source loadconf "$HOME/.scott_script/wine" "nfsw.cfg" validArgs[@]
 
-cd "$data/drive_c/Program Files/Electronic Arts/Need for Speed World"
-WINEPREFIX="$data" "$bin" ./GameLauncher.exe >> "$log/nfsw" 2>&1
+export WINEPREFIX="$data"
+export WINEARCH="win32"
+
+if [ "$1" == "install" ]
+then
+  echo "First, ensure prefix is initialized."
+  myrun winecfg
+
+  echo "Winetricks stuff"
+  WINE="$bin" winetricks dotnet20 ie7 glsl-enable >> "$log/nfsw" 2>&1
+  myrun wineboot
+
+  echo "Now install"
+  myrun ./setup_nfsw.exe
+
+  echo "Install should have been successful. If not, check the logs and run again."
+else
+  cd "$data/drive_c/Program Files/Electronic Arts/Need For Speed World"
+  WINEPREFIX="$data" "$bin" ./GameLauncher.exe >> "$log/nfsw" 2>&1
+fi
 
