@@ -1,0 +1,20 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+#max_line_length = 80
+
+[*.yml]
+indent_style = space
+indent_size = 2
+
+[*.java]
+indent_style = space
+indent_size = 2
+#curly_bracket_next_line = false
+#spaces_around_operators = true
+#spaces_around_brackets = none
