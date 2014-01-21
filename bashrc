@@ -16,7 +16,7 @@
 
 # Hard-coded Vars #
 data="/mnt/data"
-script="$data/Scripts"
+script="$data/scripts"
 
 # Env Vars #
 PATH="`find "$script" -name '.*' -prune -o -type d -printf '%p:'`$PATH"
@@ -123,4 +123,9 @@ stats="[\!:$returncode]"
 PS1="$green$currdir$stats\n$time$user\$$end "
 
 # GitHub script
-alias git=hub
+type -t "hub" > /dev/null
+if [ $? -eq 0 ]
+then
+  alias git=hub
+fi
+
