@@ -1,0 +1,49 @@
+# My personal bashrc file for use on servers, esp. with ssh.
+# Copyright (C) 2013 Scott Weldon
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Hard-coded Vars #
+# Nothing to see here...
+
+# Env Vars #
+# Or here...
+
+# Useful functions #
+# Or here...
+
+# Custom aliases
+alias dif="diff --suppress-common-lines --ignore-all-space --side-by-side"
+alias ll='ls --all -l --file-type'
+alias la='ls --almost-all'
+alias l='ls -C --file-type'
+#alias emacs="/usr/bin/emacs --no-window-system"
+alias e="emacsclient -t"
+
+# Prompt customisation
+green="\[\033[0;32m\]"
+blue="\[\033[0;34m\]"
+red="\[\033[0;31m\]"
+end="\[\033[0m\]"
+returncode="\$?"
+currdir="[\w]"
+time="[\t]"
+user="[\u@\h]"
+stats="[\!:$returncode]"
+if [ "$UID" -eq 0 ]
+then
+  PS1="$red$currdir$stats\n$time$user\$$end "
+else
+  PS1="$blue$currdir$stats\n$time$user\$$end "
+fi
