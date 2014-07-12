@@ -107,6 +107,7 @@ alias la='ls --almost-all'
 alias l='ls -C --file-type'
 #alias emacs="/usr/bin/emacs --no-window-system"
 alias emacsd="emacs --daemon"
+alias semacsd="torify emacs --daemon"
 alias e="emacsclient -t"
 alias psurf="surf -c /dev/null"
 
