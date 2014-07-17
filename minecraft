@@ -29,7 +29,7 @@ then
   java -jar "$mcpath/MagicLauncher_$magicver.jar"
 elif [ "$1" == "vanilla" ]
 then
-  java -jar $mcpath/minecraft.jar
+  java -jar $mcpath/Minecraft.jar
 elif [ "$1" == "spout" ]
 then
   java -jar $mcpath/Spoutcraft.jar
