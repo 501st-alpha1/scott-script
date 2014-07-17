@@ -59,7 +59,7 @@ output="
 #                                                                              #
 ################################################################################
 
-. /mnt/data/Scripts/scott_script/bashrc"
+. /mnt/data/scripts/scott_script/bashrc"
 
 echo "Bashrc:"
 
@@ -109,6 +109,12 @@ then
   gitConfig "user.email" "$email"
   gitConfig "color.ui" "auto"
   gitConfig "format.suffix" ".txt"
+
+  ### Hub ###
+  if [ ! -d "../hub" ]
+  then
+    /usr/bin/git clone git@github.com:github/hub.git ../hub
+  fi
 else
   echo "  Error: git not installed! Skipping.."
 fi
