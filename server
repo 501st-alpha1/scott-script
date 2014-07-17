@@ -30,6 +30,7 @@ function usage() {
   echo
   echo "Commands:"
   echo "  ssh"
+  echo "  ssh-tor"
   echo "  up <local file> <remote file>"
   echo "  down <remote file> <local file>"
   echo "  ping"
@@ -63,11 +64,15 @@ case "$2" in
   "ssh")
     ssh $user@$ip
     ;;
+  "ssh-tor")
+    safeip=`tor-resolve $ip`
+    ssh -l $user@$safeip -o ProxyCommand="/usr/bin/connect -4 -S localhost:9050 %h %p" $user@$safeip
+    ;;
   "up")
-    scp $3 $remote:$4
+    scp $3 $user@$ip:$4
     ;;
   "down")
-    scp $remote:$3 $4
+    scp $user@$ip:$3 $4
     ;;
   "ping")
     ping $ip
@@ -76,4 +81,3 @@ case "$2" in
     usage
     ;;
 esac
-

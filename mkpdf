@@ -1,0 +1,3 @@
+#!/bin/bash
+
+pandoc Paper.md -o Paper.pdf --template=mla-template.tex

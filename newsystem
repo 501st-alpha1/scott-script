@@ -109,6 +109,7 @@ then
   gitConfig "user.email" "$email"
   gitConfig "color.ui" "auto"
   gitConfig "format.suffix" ".txt"
+  gitConfig "alias.wdiff" "diff --color-words"
 
   ### Hub ###
   if [ ! -d "../hub" ]

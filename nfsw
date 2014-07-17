@@ -42,7 +42,7 @@ then
   myrun winecfg
 
   echo "Winetricks stuff"
-  WINE="$bin" winetricks dotnet20 ie7 glsl-enable >> "$log/nfsw" 2>&1
+  WINE="$bin" winetricks dotnet20 ie7 glsl-enable gdiplus >> "$log/nfsw" 2>&1
   myrun wineboot
 
   echo "Now install"
@@ -53,4 +53,3 @@ else
   cd "$data/drive_c/Program Files/Electronic Arts/Need For Speed World"
   WINEPREFIX="$data" "$bin" ./GameLauncher.exe >> "$log/nfsw" 2>&1
 fi
-

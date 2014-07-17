@@ -70,12 +70,12 @@ elif [ "$1" == "log" ]
 then
   if [ "$2" == "full" ]
   then
-    ssh -t $remote nano $mc/server.log
+    ssh -t $remote nano "$mc/logs/latest.log"
   elif [ "$2" == "" ]
   then
-    ssh $remote "cat $mc/server.log | tail"
+    ssh $remote "cat $mc/logs/latest.log | tail"
   else
-    ssh $remote "cat $mc/server.log | tail -n $2"
+    ssh $remote "cat $mc/logs/latest.log | tail -n $2"
   fi
 elif [ "$1" == "install" ]
 then

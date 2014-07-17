@@ -25,7 +25,7 @@ PATH="`find "$script" -name '.*' -prune -o -type d -printf '%p:'`$PATH"
 function customAlias() {
   cmd="$1"
   needsRoot=""
-  
+
   case "$cmd" in
     "pdf")
       possibles=("evince" "atril")
@@ -50,7 +50,7 @@ function customAlias() {
       return 1
       ;;
   esac
-  
+
   for exe in ${possibles[*]}
   do
     type -t $exe > /dev/null
@@ -60,7 +60,7 @@ function customAlias() {
       break
     fi
   done
-  
+
   unset cmd exe possibles
 }
 
@@ -75,7 +75,7 @@ unset customAlias
 function chdir() {
   validArgs=("args" "dirs")
   source loadconf "$HOME/.scott_script/bashrc" "chdir.cfg" validArgs[@] > /dev/null
-  
+
   i=0
   len=${#args[*]}
   while [ $i -lt $len ]
@@ -87,14 +87,14 @@ function chdir() {
     fi
     i=`expr $i + 1`
   done
-  
+
   if [ "$newdir" == "" ]
   then
     newdir="$1"
   fi
-  
+
   cd $newdir
-  
+
   unset validArgs newdir i len args dirs
 }
 
@@ -105,7 +105,13 @@ alias dif="diff --suppress-common-lines --ignore-all-space --side-by-side"
 alias ll='ls --all -l --file-type'
 alias la='ls --almost-all'
 alias l='ls -C --file-type'
-alias emacs="/usr/bin/emacs --no-window-system"
+#alias emacs="/usr/bin/emacs --no-window-system"
+alias emacsd="emacs --daemon"
+alias semacsd="torify emacs --daemon"
+alias e="emacsclient -t"
+alias psurf="surf -c /dev/null"
+alias speedtest="wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip"
+alias sspeedtest="torify wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip"
 
 # Prompt customisation
 # Default Ubuntu: \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\h:\w\$
@@ -126,4 +132,3 @@ if [ $? -eq 0 ]
 then
   alias git=hub
 fi
-
