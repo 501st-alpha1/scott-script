@@ -1,0 +1,32 @@
+#!/bin/bash
+
+start=`date`
+successful=0;
+fail=`date`
+failures=0;
+
+while true
+do
+  ping speedtest.net -c 10
+  if [ $? == 0 ]
+  then
+    successful=`expr $successful + 1`;
+    fail=`date`;
+    failures=0;
+  else
+    failures=`expr $failures + 1`;
+    start=`date`
+    successful=0;
+  fi
+
+  if [ $successful != 0 ]
+  then
+    echo "Successful connections since '$start': $successful";
+  fi
+
+  if [ $failures != 0 ]
+  then
+    echo "Failed connections since '$fail': $failures";
+  fi
+  sleep 10;
+done
