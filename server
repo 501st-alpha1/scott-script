@@ -19,7 +19,7 @@
 # mcserver script is separate because that still has some unique needs. May
 # eventually refactor to reference this one.
 
-validArgs=("servers" "ips" "users")
+validArgs=("servers" "ips" "users" "ports")
 
 source loadconf "$HOME/.scott_script/server" "config" validArgs[@]
 
@@ -51,10 +51,11 @@ do
   then
     ip="${ips[$i]}"
     user="${users[$i]}"
+    port="${ports[$i]}"
   fi
 done
 
-if [ "$ip" == "" ] || [ "$user" == "" ]
+if [ "$ip" == "" ] || [ "$user" == "" ] || [ "$port" == "" ]
 then
   echo "The server \"$server\" does not exist!"
   exit 2
@@ -62,17 +63,17 @@ fi
 
 case "$2" in
   "ssh")
-    ssh $user@$ip
+    ssh $user@$ip -p $port
     ;;
   "ssh-tor")
     safeip=`tor-resolve $ip`
-    ssh -l $user@$safeip -o ProxyCommand="/usr/bin/connect -4 -S localhost:9050 %h %p" $user@$safeip
+    ssh -l $user@$safeip -o ProxyCommand="/usr/bin/connect -4 -S localhost:9050 %h %p" $user@$safeip -p $port
     ;;
   "up")
-    scp $3 $user@$ip:$4
+    scp -P $port $3 $user@$ip:$4
     ;;
   "down")
-    scp $user@$ip:$3 $4
+    scp -P $port $user@$ip:$3 $4
     ;;
   "ping")
     ping $ip
