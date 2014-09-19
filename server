@@ -29,6 +29,7 @@ function usage() {
   echo "<server> is the name of the server you wish to work with."
   echo
   echo "Commands:"
+  echo "  mosh"
   echo "  ssh"
   echo "  ssh-tor"
   echo "  up <local file> <remote file>"
@@ -62,6 +63,9 @@ then
 fi
 
 case "$2" in
+  "mosh")
+    mosh --ssh="ssh -p $port" $user@$ip --predict=always
+    ;;
   "ssh")
     ssh $user@$ip -p $port
     ;;
