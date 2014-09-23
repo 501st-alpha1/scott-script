@@ -108,6 +108,7 @@ alias l='ls -C --file-type'
 #alias emacs="/usr/bin/emacs --no-window-system"
 alias semacsd="torify emacs --daemon"
 alias e="emacsclient -t"
+alias ef="emacsclient -c"
 alias psurf="surf -c /dev/null"
 alias speedtest="wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip"
 alias sspeedtest="torify wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip"
