@@ -88,7 +88,7 @@ function gitConfig() {
   configname="$1"
   configval="$2"
   previous="`git config --get $configname`"
-  
+
   if [ -z "$previous" ]
   then
     git config --global "$configname" "$configval"
@@ -110,6 +110,7 @@ then
   gitConfig "color.ui" "auto"
   gitConfig "format.suffix" ".txt"
   gitConfig "alias.wdiff" "diff --color-words"
+  gitConfig "push.default" "simple"
 
   ### Hub ###
   if [ ! -d "../hub" ]
@@ -146,4 +147,3 @@ then
 else
   echo "  GRUB_CMDLINE_LINUX already set."
 fi
-
