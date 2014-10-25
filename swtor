@@ -29,6 +29,15 @@ function myrun() {
   "$bin" "$1" >> "$log/swtor" 2>&1
 }
 
+function usage() {
+  echo "usage: swtor [install]"
+  echo "  If install command is provided, game will be installed for first "
+  echo "  time. Assumes that wine is installed, arguments are configured, and "
+  echo "  SWTOR_setup.exe has been downloaded to the current folder."
+  echo
+  echo "  TODO: automate install of swtor_fix"
+}
+
 validArgs=("bin" "data" "log")
 
 source loadconf "$HOME/.scott_script/wine" "swtor.cfg" validArgs[@]
@@ -48,6 +57,9 @@ then
   echo "If you get an error about admin permissions, try setting "
   echo "bitraider_disable to false in `launcher.settings`."
   #TODO: install swtor_fix automatically
+elif [ "$1" == "help" ]
+then
+  usage
 else
   #export WINEDEBUG=+fps
   cd "$data/drive_c/Program Files/Electronic Arts/BioWare/Star Wars - The Old Republic"
