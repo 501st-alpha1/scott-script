@@ -63,6 +63,12 @@ then
 elif [ "$1" == "help" ]
 then
   usage
+elif [ "$1" == "config" ]
+then
+  myrun winecfg
+elif [ "$1" == "reboot" ]
+then
+  myrun wineboot -u
 else
   #export WINEDEBUG=+fps
   cd "$progdir"
