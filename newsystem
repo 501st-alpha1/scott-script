@@ -110,6 +110,7 @@ then
   gitConfig "color.ui" "auto"
   gitConfig "format.suffix" ".txt"
   gitConfig "alias.wdiff" "diff --color-words"
+  gitConfig "push.default" "simple"
 
   ### Hub ###
   if [ ! -d "../hub" ]
