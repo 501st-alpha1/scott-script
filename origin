@@ -1,0 +1,38 @@
+#!/bin/bash
+
+function myrun() {
+  if [ "$1" == "" ]
+  then
+    echo "Fail"
+    return 1
+  fi
+
+  "$bin" "$1" >> "$log/origin" 2>&1
+}
+
+validArgs=("bin" "data" "log")
+
+source loadconf "$HOME/.scott_script/wine" "swtor.cfg" validArgs[@]
+
+export env WINEPREFIX="$data"
+
+if [ "$1" == "install" ]
+then
+  echo "First, ensure Wine prefix has been initialized."
+  myrun "winecfg"
+  echo "Downloading all files"
+  wget "http://www.dm.origin.com/download"
+  mv download "OriginThinSetup.exe"
+  #change version to Windows 7!
+  wget "http://download.qt-project.org/official_releases/qt/5.1/5.1.1/qt-windows-opensource-5.1.1-mingw48_opengl-x86-offline.exe"
+  #...
+else
+  cd "/opt/wine/data/origin/drive_c/Program Files/Origin"
+  WINEPREFIX="/opt/wine/data/origin/" "/opt/wine/bin/wine-1.7.7-32only/wine" ./Origin.exe >> "/opt/wine/log/origin" 2>&1
+fi
+
+#Install log
+#WINEPREFIX=/opt/wine/data/origin/ /opt/wine/bin/wine-1.7.7-32only/wine winecfg >> /opt/wine/log/origin 2>&1
+#WINEPREFIX=/opt/wine/data/origin/ /opt/wine/bin/wine-1.7.7-32only/wine ./OriginThinSetup.exe >> /opt/wine/log/origin 2>&1
+#Success!
+#Ish...
