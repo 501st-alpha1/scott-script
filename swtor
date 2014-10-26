@@ -44,6 +44,9 @@ source loadconf "$HOME/.scott_script/wine" "swtor.cfg" validArgs[@]
 
 export env WINEARCH=win32 WINEPREFIX="$data"
 
+progdir="$data/drive_c/Program Files/Electronic Arts/BioWare/Star Wars - The Old Republic"
+#progdir="$data/drive_c/Program Files/Electronic Arts/BioWare/Star Wars-The Old Republic"
+
 if [ "$1" == "install" ]
 then
   echo "First, ensure prefix is initialized."
@@ -52,18 +55,17 @@ then
   WINE="$bin" winetricks d3dx9 vcrun2008 msls31 >> "$log/swtor" 2>&1
   echo "Now install."
   myrun ./SWTOR_setup.exe
+  file="https://github.com/aljen/swtor_fix/blob/master/swtor_fix.exe?raw=true"
+  wget -O "$progdir/swtor_fix.exe" "$file"
   echo "Should have been successful. If not, check logs and try again."
-  echo "Be sure to place swtor_fix.exe in SWTOR program folder."
   echo "If you get an error about admin permissions, try setting "
   echo "bitraider_disable to false in `launcher.settings`."
-  #TODO: install swtor_fix automatically
 elif [ "$1" == "help" ]
 then
   usage
 else
   #export WINEDEBUG=+fps
-  cd "$data/drive_c/Program Files/Electronic Arts/BioWare/Star Wars - The Old Republic"
-  #cd "$data/drive_c/Program Files/Electronic Arts/BioWare/Star Wars-The Old Republic"
+  cd "$progdir"
   "$bin" ./swtor_fix.exe >> "$log/swtor" 2>&1 &
   "$bin" ./launcher.exe >> "$log/swtor" 2>&1
 fi
