@@ -1,4 +1,19 @@
 #!/bin/bash
+# Launcher script for EA's Origin, running through Wine
+# Copyright (C) 2013-2014 Scott Weldon
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 function myrun() {
   if [ "$1" == "" ]
@@ -12,7 +27,7 @@ function myrun() {
 
 validArgs=("bin" "data" "log")
 
-source loadconf "$HOME/.scott_script/wine" "swtor.cfg" validArgs[@]
+source loadconf "$HOME/.scott_script/wine" "origin.cfg" validArgs[@]
 
 export env WINEPREFIX="$data"
 
@@ -21,18 +36,11 @@ then
   echo "First, ensure Wine prefix has been initialized."
   myrun "winecfg"
   echo "Downloading all files"
-  wget "http://www.dm.origin.com/download"
-  mv download "OriginThinSetup.exe"
+  wget -O OriginThinSetup.exe "http://www.dm.origin.com/download"
   #change version to Windows 7!
-  wget "http://download.qt-project.org/official_releases/qt/5.1/5.1.1/qt-windows-opensource-5.1.1-mingw48_opengl-x86-offline.exe"
-  #...
+  wget -O qt-setup.exe "http://download.qt-project.org/official_releases/qt/5.1/5.1.1/qt-windows-opensource-5.1.1-mingw48_opengl-x86-offline.exe"
+  myrun qt-setup.exe
 else
   cd "/opt/wine/data/origin/drive_c/Program Files/Origin"
-  WINEPREFIX="/opt/wine/data/origin/" "/opt/wine/bin/wine-1.7.7-32only/wine" ./Origin.exe >> "/opt/wine/log/origin" 2>&1
+  myrun ./Origin.exe
 fi
-
-#Install log
-#WINEPREFIX=/opt/wine/data/origin/ /opt/wine/bin/wine-1.7.7-32only/wine winecfg >> /opt/wine/log/origin 2>&1
-#WINEPREFIX=/opt/wine/data/origin/ /opt/wine/bin/wine-1.7.7-32only/wine ./OriginThinSetup.exe >> /opt/wine/log/origin 2>&1
-#Success!
-#Ish...
