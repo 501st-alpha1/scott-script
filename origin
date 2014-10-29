@@ -29,17 +29,20 @@ validArgs=("bin" "data" "log")
 
 source loadconf "$HOME/.scott_script/wine" "origin.cfg" validArgs[@]
 
-export env WINEPREFIX="$data"
+export env WINEPREFIX="$data" WINEARCH=win32
 
 if [ "$1" == "install" ]
 then
   echo "First, ensure Wine prefix has been initialized."
   myrun "winecfg"
+  echo "Testing winetricks stuff"
+  WINE="$bin" winetricks ie8 dotnet30 d3dx9_36 glsl-enable corefonts wininet vcrun2010 gdiplus >> "$log/origin" 2>&1
   echo "Downloading all files"
   wget -O OriginThinSetup.exe "http://www.dm.origin.com/download"
-  #change version to Windows 7!
   wget -O qt-setup.exe "http://download.qt-project.org/official_releases/qt/5.1/5.1.1/qt-windows-opensource-5.1.1-mingw48_opengl-x86-offline.exe"
   myrun qt-setup.exe
+  echo "Now install"
+  myrun OriginThinSetup.exe
 else
   cd "/opt/wine/data/origin/drive_c/Program Files/Origin"
   myrun ./Origin.exe
