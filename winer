@@ -17,7 +17,7 @@
 
 if [ "$1" == "kill" ]
 then
-  killall wineserver winedevice.exe
+  killall wineserver winedevice.exe explorer.exe
 else
   echo "Error: no such command. TODO: usage."
 fi
