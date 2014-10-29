@@ -42,7 +42,7 @@ then
   myrun winecfg
 
   echo "Winetricks stuff"
-  WINE="$bin" winetricks dotnet20 ie7 glsl-enable gdiplus >> "$log/nfsw" 2>&1
+  WINE="$bin" winetricks d3dx9 dotnet20 ie7 glsl-enable gdiplus >> "$log/nfsw" 2>&1
   myrun wineboot
 
   echo "Now install"
