@@ -22,7 +22,7 @@ function myrun() {
     return 1
   fi
 
-  "$bin" "$1" "$2" >> "$log/nfs3" 2>&1
+  taskset -c 0 "$bin" "$1" "$2" >> "$log/nfs3" 2>&1
 }
 
 validArgs=("bin" "data" "log")
