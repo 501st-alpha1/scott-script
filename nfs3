@@ -39,6 +39,9 @@ then
   cd "/mnt/cdrom/setup/english"
   myrun "setup.exe"
   echo "Install should be complete."
+elif [ "$1" == "bugfix" ]
+then
+  sudo su -c "echo 1 > /proc/sys/abi/ldt16"
 else
   cd "$data/drive_c/Program Files/Electronic Arts/Need For Speed III"
   myrun "nfs3.exe" "-d3d0"
