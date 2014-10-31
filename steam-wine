@@ -1,0 +1,54 @@
+#!/bin/bash
+# Launcher script for Steam, running through Wine
+# Copyright (C) 2014 Scott Weldon
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# bin - full path of the Wine executable
+# data - Wine prefix folder
+# log - log folder
+
+function myrun() {
+  if [ "$1" == "" ]
+  then
+    echo "Fail"
+    return 1
+  fi
+
+  "$bin" "$1" "$2" >> "$log/steam" 2>&1
+}
+
+validArgs=("bin" "data" "log")
+
+source loadconf "$HOME/.scott_script/wine" "steam.cfg" validArgs[@]
+
+export WINEPREFIX="$data"
+export WINEARCH="win32"
+
+if [ "$1" == "install" ]
+then
+  echo "First, ensure prefix is initialized."
+  myrun winecfg
+
+  echo "Winetricks stuff"
+  WINE="$bin" winetricks corefonts >> "$log/steam" 2>&1
+
+  echo "Now install"
+  myrun SteamSetup.exe
+
+  echo "Install should have been successful. If not, check the logs and run again."
+else
+  cd "$data/drive_c/Program Files/Steam"
+  myrun "Steam.exe" "-no-dwrite"
+fi
