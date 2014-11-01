@@ -1,3 +1,4 @@
+#!/bin/bash
 # My personal bashrc file.
 # Copyright (C) 2013 Scott Weldon
 
