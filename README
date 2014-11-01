@@ -5,3 +5,6 @@ are distributed under the GNU GPL, see the LICENSE file for details.
 Note: The usage of config files is *not* hack-proof. The only check that is made
 is for multiple equals signs. A malicious user could probably find some way to
 break things. You have been warned.
+
+Warning: loadconf fails silently when the config file does not end with a
+newline. I should probably fix that sometime...
