@@ -73,7 +73,7 @@ unset customAlias
 
 # Useful functions #
 function chdir() {
-  validArgs=("args" "dirs")
+  validArgs=("args" "dirlist")
   source loadconf "$HOME/.scott_script/bashrc" "chdir.cfg" validArgs[@] > /dev/null
 
   i=0
@@ -82,7 +82,7 @@ function chdir() {
   do
     if [ ${args[$i]} == "$1" ]
     then
-      newdir=${dirs[$i]}
+      newdir=${dirlist[$i]}
       break
     fi
     i=`expr $i + 1`
