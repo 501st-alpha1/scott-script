@@ -22,6 +22,7 @@ function myrun() {
     return 1
   fi
 
+  #taskset -c 0 "$bin" "$1" >> "$log/origin" 2>&1
   "$bin" "$1" >> "$log/origin" 2>&1
 }
 

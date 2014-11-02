@@ -26,6 +26,7 @@ function myrun() {
     return 1
   fi
 
+  #taskset -c 0 "$bin" "$1" "$2" >> "$log/steam" 2>&1
   "$bin" "$1" "$2" >> "$log/steam" 2>&1
 }
 
