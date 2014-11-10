@@ -15,11 +15,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-i=0
+seconds=0
+minutes=0
 
 while true
 do
-  echo "$i seconds"
-  i=`expr $i + 1`
+  if [ "$seconds" == "60" ]
+  then
+    minutes=`expr $minutes + 1`
+    seconds=0
+  fi
+  echo "$minutes minute(s) and $seconds second(s)"
+  seconds=`expr $seconds + 1`
   sleep 1
 done
