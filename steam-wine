@@ -1,6 +1,6 @@
 #!/bin/bash
-# Launcher script for Need for Speed: World, running through Wine
-# Copyright (C) 2013-2014 Scott Weldon
+# Launcher script for Steam, running through Wine
+# Copyright (C) 2014 Scott Weldon
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,12 +26,13 @@ function myrun() {
     return 1
   fi
 
-  "$bin" "$1" >> "$log/nfsw" 2>&1
+  #taskset -c 0 "$bin" "$1" "$2" >> "$log/steam" 2>&1
+  "$bin" "$1" "$2" >> "$log/steam" 2>&1
 }
 
 validArgs=("bin" "data" "log")
 
-source loadconf "$HOME/.scott_script/wine" "nfsw.cfg" validArgs[@]
+source loadconf "$HOME/.scott_script/wine" "steam.cfg" validArgs[@]
 
 export WINEPREFIX="$data"
 export WINEARCH="win32"
@@ -42,14 +43,13 @@ then
   myrun winecfg
 
   echo "Winetricks stuff"
-  WINE="$bin" winetricks d3dx9 dotnet20 ie7 glsl-enable gdiplus >> "$log/nfsw" 2>&1
-  myrun wineboot
+  WINE="$bin" winetricks corefonts >> "$log/steam" 2>&1
 
   echo "Now install"
-  myrun ./setup_nfsw.exe
+  myrun SteamSetup.exe
 
   echo "Install should have been successful. If not, check the logs and run again."
 else
-  cd "$data/drive_c/Program Files/Electronic Arts/Need For Speed World"
-  WINEPREFIX="$data" "$bin" ./GameLauncher.exe >> "$log/nfsw" 2>&1
+  cd "$data/drive_c/Program Files/Steam"
+  myrun "Steam.exe" "-no-dwrite"
 fi

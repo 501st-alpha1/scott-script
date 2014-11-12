@@ -1,0 +1,77 @@
+#!/bin/bash
+# Launcher script for Star Wars: The Old Republic, running through Wine
+# Copyright (C) 2013-2014 Scott Weldon
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# bin - full path of the Wine executable
+# data - Wine prefix folder
+# log - log folder
+
+function myrun() {
+  if [ "$1" == "" ]
+  then
+    echo "Fail"
+    return 1
+  fi
+
+  "$bin" "$1" >> "$log/swtor" 2>&1
+}
+
+function usage() {
+  echo "usage: swtor [install]"
+  echo "  If install command is provided, game will be installed for first "
+  echo "  time. Assumes that wine is installed, arguments are configured, and "
+  echo "  SWTOR_setup.exe has been downloaded to the current folder."
+  echo
+  echo "  TODO: automate install of swtor_fix"
+}
+
+validArgs=("bin" "data" "log")
+
+source loadconf "$HOME/.scott_script/wine" "swtor.cfg" validArgs[@]
+
+export env WINEARCH=win32 WINEPREFIX="$data"
+
+progdir="$data/drive_c/Program Files/Electronic Arts/BioWare/Star Wars - The Old Republic"
+#progdir="$data/drive_c/Program Files/Electronic Arts/BioWare/Star Wars-The Old Republic"
+
+if [ "$1" == "install" ]
+then
+  echo "First, ensure prefix is initialized."
+  myrun winecfg
+  echo "winetricks d3dx9 vcrun2008 msls31"
+  WINE="$bin" winetricks d3dx9 vcrun2008 msls31 >> "$log/swtor" 2>&1
+  echo "Now install."
+  myrun ./SWTOR_setup.exe
+  file="https://github.com/aljen/swtor_fix/blob/master/swtor_fix.exe?raw=true"
+  wget -O "$progdir/swtor_fix.exe" "$file"
+  echo "Should have been successful. If not, check logs and try again."
+  echo "If you get an error about admin permissions, try setting "
+  echo "bitraider_disable to false in `launcher.settings`."
+elif [ "$1" == "help" ]
+then
+  usage
+elif [ "$1" == "config" ]
+then
+  myrun winecfg
+elif [ "$1" == "reboot" ]
+then
+  myrun wineboot -u
+else
+  #export WINEDEBUG=+fps
+  cd "$progdir"
+  "$bin" ./swtor_fix.exe >> "$log/swtor" 2>&1 &
+  "$bin" ./launcher.exe >> "$log/swtor" 2>&1
+fi

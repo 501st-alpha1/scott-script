@@ -1,5 +1,6 @@
+#!/bin/bash
 # My personal bashrc file.
-# Copyright (C) 2013 Scott Weldon
+# Copyright (C) 2013-2014 Scott Weldon
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -73,7 +74,7 @@ unset customAlias
 
 # Useful functions #
 function chdir() {
-  validArgs=("args" "dirs")
+  validArgs=("args" "dirlist")
   source loadconf "$HOME/.scott_script/bashrc" "chdir.cfg" validArgs[@] > /dev/null
 
   i=0
@@ -82,7 +83,7 @@ function chdir() {
   do
     if [ ${args[$i]} == "$1" ]
     then
-      newdir=${dirs[$i]}
+      newdir=${dirlist[$i]}
       break
     fi
     i=`expr $i + 1`

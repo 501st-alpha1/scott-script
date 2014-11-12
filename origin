@@ -1,5 +1,5 @@
 #!/bin/bash
-# Launcher script for Need for Speed: World, running through Wine
+# Launcher script for EA's Origin, running through Wine
 # Copyright (C) 2013-2014 Scott Weldon
 
 # This program is free software: you can redistribute it and/or modify
@@ -15,10 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# bin - full path of the Wine executable
-# data - Wine prefix folder
-# log - log folder
-
 function myrun() {
   if [ "$1" == "" ]
   then
@@ -26,30 +22,29 @@ function myrun() {
     return 1
   fi
 
-  "$bin" "$1" >> "$log/nfsw" 2>&1
+  #taskset -c 0 "$bin" "$1" >> "$log/origin" 2>&1
+  "$bin" "$1" >> "$log/origin" 2>&1
 }
 
 validArgs=("bin" "data" "log")
 
-source loadconf "$HOME/.scott_script/wine" "nfsw.cfg" validArgs[@]
+source loadconf "$HOME/.scott_script/wine" "origin.cfg" validArgs[@]
 
-export WINEPREFIX="$data"
-export WINEARCH="win32"
+export env WINEPREFIX="$data" WINEARCH=win32
 
 if [ "$1" == "install" ]
 then
-  echo "First, ensure prefix is initialized."
-  myrun winecfg
-
-  echo "Winetricks stuff"
-  WINE="$bin" winetricks d3dx9 dotnet20 ie7 glsl-enable gdiplus >> "$log/nfsw" 2>&1
-  myrun wineboot
-
+  echo "First, ensure Wine prefix has been initialized."
+  myrun "winecfg"
+  echo "Testing winetricks stuff"
+  WINE="$bin" winetricks ie8 dotnet30 d3dx9_36 glsl-enable corefonts wininet vcrun2010 gdiplus >> "$log/origin" 2>&1
+  echo "Downloading all files"
+  wget -O OriginThinSetup.exe "http://www.dm.origin.com/download"
+  wget -O qt-setup.exe "http://download.qt-project.org/official_releases/qt/5.1/5.1.1/qt-windows-opensource-5.1.1-mingw48_opengl-x86-offline.exe"
+  myrun qt-setup.exe
   echo "Now install"
-  myrun ./setup_nfsw.exe
-
-  echo "Install should have been successful. If not, check the logs and run again."
+  myrun OriginThinSetup.exe
 else
-  cd "$data/drive_c/Program Files/Electronic Arts/Need For Speed World"
-  WINEPREFIX="$data" "$bin" ./GameLauncher.exe >> "$log/nfsw" 2>&1
+  cd "/opt/wine/data/origin/drive_c/Program Files/Origin"
+  myrun ./Origin.exe
 fi
