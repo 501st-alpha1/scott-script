@@ -1,0 +1,63 @@
+#!/bin/bash
+# Helper script for Wine
+# Copyright (C) 2014 Scott Weldon
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+[ -z "$1" ] && echo "Error, missing argument for name." && return 1
+
+name="$1"
+
+function myrun() {
+  [ -z "$1" ] && echo "Error, missing argument for executable." && return 1
+
+  "$bin" "$1" >> "$log/$name" 2>&1
+}
+
+function myinitprefix() {
+  [ -d "$data" ] || mkdir -p "$data"
+
+  echo "Initializing prefix."
+  myrun winecfg
+}
+
+function mywinetricks() {
+  echo "Winetricks stuff."
+  WINE="$bin" winetricks "$1" >> "$log/$name" 2>&1
+  [ -z "$2" ] || myrun wineboot
+}
+
+function myinstall() {
+  echo "Installing game."
+  for arg in "$@"
+  do
+    myrun "$arg"
+  done
+  echo "Install should have been successful. If not, check the logs and run again."
+}
+
+function mylaunch() {
+  [ -z "$1" ] && echo "Error, missing launcher folder." && return 1
+  [ -z "$1" ] && echo "Error, missing launcher executable." && return 1
+  cd "$data/$1"
+  myrun "$2"
+}
+
+validArgs=("bin" "data" "log")
+
+source loadconf "$HOME/.scott_script/wine" "$name.cfg" validArgs[@]
+
+export WINEPREFIX="$data"
+export WINEARCH="win32"
+
