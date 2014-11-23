@@ -22,7 +22,8 @@ name="$1"
 function myrun() {
   [ -z "$1" ] && echo "Error, missing argument for executable." && return 1
 
-  "$bin" "$1" >> "$log/$name" 2>&1
+  #taskset -c 0 "$bin" "$1" >> "$log/$name" 2>&1
+  "$bin" "$1" "$2" >> "$log/$name" 2>&1
 }
 
 function myinitprefix() {
@@ -51,7 +52,7 @@ function mylaunch() {
   [ -z "$1" ] && echo "Error, missing launcher folder." && return 1
   [ -z "$1" ] && echo "Error, missing launcher executable." && return 1
   cd "$data/$1"
-  myrun "$2"
+  myrun "$2" "$3"
 }
 
 validArgs=("bin" "data" "log")

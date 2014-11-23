@@ -19,37 +19,16 @@
 # data - Wine prefix folder
 # log - log folder
 
-function myrun() {
-  if [ "$1" == "" ]
-  then
-    echo "Fail"
-    return 1
-  fi
-
-  #taskset -c 0 "$bin" "$1" "$2" >> "$log/steam" 2>&1
-  "$bin" "$1" "$2" >> "$log/steam" 2>&1
-}
-
-validArgs=("bin" "data" "log")
-
-source loadconf "$HOME/.scott_script/wine" "steam.cfg" validArgs[@]
-
-export WINEPREFIX="$data"
-export WINEARCH="win32"
+source winesrc "steam"
 
 if [ "$1" == "install" ]
 then
-  echo "First, ensure prefix is initialized."
-  myrun winecfg
+  myinitprefix
 
-  echo "Winetricks stuff"
-  WINE="$bin" winetricks corefonts >> "$log/steam" 2>&1
+  mywinetricks "corefonts"
 
-  echo "Now install"
-  myrun SteamSetup.exe
-
-  echo "Install should have been successful. If not, check the logs and run again."
+  myinstall "SteamSetup.exe"
 else
-  cd "$data/drive_c/Program Files/Steam"
-  myrun "Steam.exe" "-no-dwrite"
+  mydir="drive_c/Program Files/Steam"
+  mylaunch "$mydir" "Steam.exe" "-no-dwrite"
 fi
