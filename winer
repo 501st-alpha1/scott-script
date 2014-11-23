@@ -19,6 +19,11 @@ case "$1" in
   "kill")
     killall wineserver winedevice.exe explorer.exe services.exe plugplay.exe
     ;;
+  "cfg")
+    [ -z "$2" ] && "Error, specify which game to run." && exit 1
+    source winesrc "$2"
+    myrun winecfg
+    ;;
   *)
     echo "Error: no such command. TODO: usage."
     ;;
