@@ -15,8 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+if [ "$1" != "" ]
+then
+  minutes=$1
+else
+  minutes=0
+fi
+
 seconds=0
-minutes=0
 
 while true
 do
