@@ -29,5 +29,12 @@ do
         git pull
     fi
 
+    if [ "$?" -ne 0 ]
+    then
+        echo "There was a problem pushing or pulling."
+        echo -e "Please resolve any merge conflicts and try again.\a"
+        break;
+    fi
+
     sleep 60
 done
