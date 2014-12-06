@@ -25,6 +25,8 @@ do
     if [ "$?" == "0" ]
     then
         git push
+    else
+        git pull
     fi
 
     sleep 60
