@@ -99,6 +99,10 @@ function chdir() {
   unset validArgs newdir i len args dirs
 }
 
+function say {
+  echo "$1" | festival --tts;
+}
+
 unset cfgdir
 
 # Custom aliases
