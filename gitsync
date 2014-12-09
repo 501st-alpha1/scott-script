@@ -20,34 +20,40 @@ cd /mnt/data/documents/todo-list
 
 while true
 do
-    git commit -a -m "auto-commit at `date`"
+  git commit -a -m "auto-commit at `date`"
 
-    git remote update
+  git remote update
+
+  if [ "$?" -eq 0 ]
+  then
     localCommit=`git rev-parse @`
     remoteCommit=`git rev-parse @{u}`
     base=`git merge-base @ @{u}`
 
     if [ "$localCommit" == "$remoteCommit" ]
     then
-        echo "Up-to-date"
+      echo "Up-to-date"
     elif [ "$localCommit" == "$base" ]
     then
-        git pull
+      git pull
     elif [ "$remoteCommit" == "$base" ]
     then
-        git push
+      git push
     else
-        echo "Local and remote have diverged. Attempting automatic resolution."
-        git pull
-        if [ "$?" -eq 0 ]
-        then
-            echo "Successfully resolved."
-            git push
-        else
-            echo -e "\a"
-            break;
-        fi
+      echo "Local and remote have diverged. Attempting automatic resolution."
+      git pull
+      if [ "$?" -eq 0 ]
+      then
+        echo "Successfully resolved."
+        git push
+      else
+        echo -e "\a"
+        break;
+      fi
     fi
+  else
+    echo "Network error, trying again next time."
+  fi
 
-    sleep 60
+  sleep 60
 done
