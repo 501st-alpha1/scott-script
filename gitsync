@@ -22,18 +22,31 @@ while true
 do
     git commit -a -m "auto-commit at `date`"
 
-    if [ "$?" == "0" ]
+    git remote update
+    localCommit=`git rev-parse @`
+    remoteCommit=`git rev-parse @{u}`
+    base=`git merge-base @ @{u}`
+
+    if [ "$localCommit" == "$remoteCommit" ]
+    then
+        echo "Up-to-date"
+    elif [ "$localCommit" == "$base" ]
+    then
+        git pull
+    elif [ "$remoteCommit" == "$base" ]
     then
         git push
     else
+        echo "Local and remote have diverged. Attempting automatic resolution."
         git pull
-    fi
-
-    if [ "$?" -ne 0 ]
-    then
-        echo "There was a problem pushing or pulling."
-        echo -e "Please resolve any merge conflicts and try again.\a"
-        break;
+        if [ "$?" -eq 0 ]
+        then
+            echo "Successfully resolved."
+            git push
+        else
+            echo -e "\a"
+            break;
+        fi
     fi
 
     sleep 60
