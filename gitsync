@@ -58,5 +58,10 @@ do
     fi
   fi
 
-  sleep 60
+  if [ "$2" == "" ]
+  then
+    sleep 60
+  else
+    sleep "$2"
+  fi
 done
