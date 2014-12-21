@@ -1,0 +1,6 @@
+#!/bin/bash
+
+string="*(*'s conflicted copy [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]*"
+find "$HOME/Dropbox" -path "$string" -print0 | while read -d $'\0' -r file; do
+  kdialog --passivepopup "Found a Dropbox conflicted file: $file"
+done
