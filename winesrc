@@ -50,7 +50,7 @@ function myinstall() {
 
 function mylaunch() {
   [ -z "$1" ] && echo "Error, missing launcher folder." && return 1
-  [ -z "$1" ] && echo "Error, missing launcher executable." && return 1
+  [ -z "$2" ] && echo "Error, missing launcher executable." && return 1
   cd "$data/$1"
   myrun "$2" "$3"
 }
