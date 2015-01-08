@@ -15,8 +15,30 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# FIXME: this shouldn't be hard-coded
-cd /mnt/data/documents/todo-list
+validArgs=("names" "paths")
+source loadconf "$HOME/.scott_script/gitsync" "config" validArgs[@]
+
+if [ -z "$1" ]
+then
+  echo "Please specify what repo to sync."
+  exit 1
+fi
+
+for (( i=0; i < "${#names[@]}"; i++ ))
+do
+  if [ "${names[$i]}" == "$1" ]
+  then
+    path="${paths[$i]}"
+  fi
+done
+
+if [ -z "$path" ]
+then
+  echo "The repo \"$1\" does not exist!"
+  exit 2
+fi
+
+cd "$path"
 
 while true
 do
