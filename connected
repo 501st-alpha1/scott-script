@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [ "$1" == "" ]
+then
+  site="speedtest.net"
+else
+  site="$1"
+fi
+
 start=`date`
 successful=0;
 fail=`date`
@@ -7,7 +14,7 @@ failures=0;
 
 while true
 do
-  ping speedtest.net -c 10
+  ping "$1" -c 10
   if [ $? == 0 ]
   then
     successful=`expr $successful + 1`;
