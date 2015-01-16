@@ -1,6 +1,6 @@
 #!/bin/bash
 # Launcher script for Need for Speed III: Hot Pursuit, running through Wine
-# Copyright (C) 2014 Scott Weldon
+# Copyright (C) 2014-2015 Scott Weldon
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -46,4 +46,3 @@ else
   cd "$data/drive_c/Program Files/Electronic Arts/Need For Speed III"
   myrun "nfs3.exe" "-d3d0"
 fi
-

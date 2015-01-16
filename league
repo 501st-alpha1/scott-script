@@ -1,6 +1,6 @@
 #!/bin/bash
 # Launcher script for League of Legends, running through Wine
-# Copyright (C) 2014 Scott Weldon
+# Copyright (C) 2014-2015 Scott Weldon
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,4 +28,3 @@ else
   mydir="drive_c/Riot Games/League of Legends"
   mylaunch "$mydir" "./GameLauncher.exe"
 fi
-

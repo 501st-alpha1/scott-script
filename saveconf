@@ -1,6 +1,6 @@
 #!/bin/bash
 # Helper script to save config files.
-# Copyright (C) 2013-2014 Scott Weldon
+# Copyright (C) 2013-2015 Scott Weldon
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
 # <name> is the name of the script whose config file is being saved.
 # <folder> is the folder where the config file is stored.
 # <file> is the name of the config file.
-# <arglist> is an array of the variable names to be saved. 
+# <arglist> is an array of the variable names to be saved.
 # If the array is called "arr", pass it as "arr[@]".
 # Note that the script *must* be called using the source command.
 name=$1
@@ -57,4 +57,3 @@ do
 done
 
 echo "Configuration saved."
-

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Helper script to edit config files.
-# Copyright (C) 2013-2014 Scott Weldon
+# Copyright (C) 2013-2015 Scott Weldon
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,14 +31,14 @@ function editoption() {
   pvar="${option}prompt"
   evar="${option}example"
   dvar="${option}default"
-  
+
   prompt=${!pvar}
   example=${!evar}
   default=${!dvar}
-  
+
   echo "$prompt"
   echo "$example"
-  
+
   value="${!1}"
   if [ "$value" == "" ]
   then
@@ -51,7 +51,7 @@ function editoption() {
   then
     eval "$1=$tmp"
   fi
-  
+
   value="${!1}"
   echo "You have chosen: \"${value[*]}\""
 
@@ -71,4 +71,3 @@ else
 fi
 
 unset prompt example default arg fullpath
-

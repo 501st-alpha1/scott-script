@@ -1,6 +1,6 @@
 #!/bin/bash
 # Helper script to parse XML files.
-# Copyright (C) 2013-2014 Scott Weldon
+# Copyright (C) 2013-2015 Scott Weldon
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -112,4 +112,3 @@ done < $parsexml_file
 unset content current entity parent parsexml_file parsexml_configfolder parsexml_configfile var
 
 return 0
-
