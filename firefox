@@ -49,8 +49,7 @@ then
       fi
       ;;
   esac
+  $ffexec $noremote -P $profile
 else
   $ffexec "$@"
 fi
-
-$ffexec $noremote -P $profile
