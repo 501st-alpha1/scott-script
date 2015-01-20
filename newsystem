@@ -110,8 +110,8 @@ echo "Git:"
 
 if [ `command -v git` ]
 then
-  name="Scott Weldon"
-  email="scott@scott-weldon.com"
+  read -p "What is your full name? " name
+  read -p "What is your email address? " email
 
   gitConfig "user.name" "$name"
   gitConfig "user.email" "$email"
