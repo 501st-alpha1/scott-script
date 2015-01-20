@@ -89,7 +89,7 @@ fi
 unset bashrc output check
 
 ################################################################################
-# Emacs
+#                                     Emacs                                    #
 ################################################################################
 
 read -p "Enter the path to the Emacs appdata folder: " response
