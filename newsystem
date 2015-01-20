@@ -108,6 +108,8 @@ fi
 #                            Caps Lock <--> Control                            #
 ################################################################################
 
+echo "Swapping the Caps Lock and (Right) Control keys."
+
 echo "! Swap Caps Lock and Control
 
 remove Lock = Caps_Lock
