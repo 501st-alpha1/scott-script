@@ -52,6 +52,14 @@ fi
 
 bashrc="$HOME/.bashrc"
 
+path=`pwd`
+read -p "Detected path to this repo as $path. Is this correct? [Y/n] " response
+if [ ! -z "$response" ] && [ "$response" != "Y" ] && [ "$response" != "y" ]
+then
+    echo "Failed to auto-detect path. Exiting."
+    exit 1
+fi
+
 output="
 ################################################################################
 #                                                                              #
@@ -59,7 +67,7 @@ output="
 #                                                                              #
 ################################################################################
 
-. /mnt/data/scripts/scott_script/bashrc"
+. $path/bashrc"
 
 echo "Bashrc:"
 
