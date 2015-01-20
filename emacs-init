@@ -1,0 +1,70 @@
+#!/bin/bash
+
+array=("Bruce-Connor/names" "Bruce-Connor/aggressive-indent-mode" "sprang/emacs-2048" "auto-complete/auto-complete" "mina86/auto-dim-other-buffers.el" "jwiegley/emacs-chess" "editorconfig/editorconfig-emacs" "emacsmirror/emms" "501st-alpha1/facebook" "lewang/fic-mode" "lewang/flx" "syohex/emacs-git-gutter" "magit/magit" "jtatarik/magit-gitflow" "auto-complete/popup-el" "nonsequitur/inf-ruby" "magit/git-modes" "kazu-yamamoto/Mew" "mattkeller/mk-project" "org-trello/org-trello" "kiwanami/emacs-deferred" "tkf/emacs-request" "nex3/perspective-el" "bbatsov/projectile" "rejeep/f.el" "jwiegley/ruby-mode" "mbunkus/simple-rtm" "501st-alpha1/twittering-mode" "fxbois/web-mode" "vibhavp/emacs-xkcd" "yoshiki/yaml-mode")
+
+for name in ${array[*]}
+do
+  IFS='/' read -ra array <<< "$name"
+  test=`echo ${array[1]} | sed 's/\./-/g'`
+  if [ -d "$test" ]
+  then
+    echo "Folder exists, skipping $name..."
+  else
+    git clone ssh://git@github.com/$name
+    if [ "$test" != "${array[1]}" ]
+    then
+      mv "${array[1]}" "$test"
+    fi
+  fi
+done
+
+if [ ! -d "deft" ]
+then
+  git clone git://jblevins.org/git/deft.git
+fi
+
+if [ ! -d "markdown-mode" ]
+then
+  git clone git://jblevins.org/git/markdown-mode.git
+fi
+
+if [ ! -d "org-mode" ]
+then
+  git clone git://orgmode.org/org-mode.git
+fi
+
+pushd org-mode
+make autoloads
+popd
+
+if [ ! -d "no-repos" ]
+then
+  mkdir no-repos
+fi
+cd no-repos
+
+norepoarray=("http://www.emacswiki.org/emacs/download/csharp-mode.el" "http://www.emacswiki.org/emacs/download/csv-mode.el" "http://www.emacswiki.org/emacs/download/notify.el")
+
+for file in ${norepoarray[*]}
+do
+  IFS='/' read -ra newarray <<< "$file"
+  echo "array is ${newarray[*]}"  
+  num=${#newarray}
+  echo "num is $num"
+  test=${newarray[$num]}
+  echo "test is $test"
+  if [ -f "$test" ]
+  then
+    echo "File exists, skipping $test"
+  else
+    wget $file
+  fi
+done
+
+if [ ! -d "erc-5.3-extras" ]
+then
+  wget http://ftp.gnu.org/old-gnu/erc/erc-5.3-extras.zip
+  unzip erc-5.3-extras.zip
+else
+  echo "Folder exists, skipping erc-chess."
+fi
