@@ -129,7 +129,7 @@ currdir="[\w]"
 time="[\t]"
 user="[\u@\h]"
 stats="[\!:$returncode]"
-PS1="$green$currdir$stats\n$time$user\$$end "
+PS1="\n$green$currdir$stats\n$time$user\$$end "
 
 # GitHub script
 type -t "hub" > /dev/null
