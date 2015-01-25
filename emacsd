@@ -50,4 +50,7 @@ then
   fi
 fi
 
-emacs --daemon
+if [ "$1" != "--no-start" ]
+then
+  emacs --daemon
+fi
