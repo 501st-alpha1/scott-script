@@ -29,13 +29,20 @@ do
   if [ "${names[$i]}" == "$1" ]
   then
     path="${paths[$i]}"
+    name="${names[$i]}"
   fi
 done
 
-if [ -z "$path" ]
+if [ -z "$name" ]
 then
-  echo "The repo \"$1\" does not exist!"
+  echo "There is no repo called \"$1\"!"
   exit 2
+fi
+
+if [ ! -d "$path" ]
+then
+  echo "The repo \"$1\" (located at \"$path\") does not exist!"
+  exit 3
 fi
 
 cd "$path"
