@@ -1,3 +1,10 @@
 #!/bin/bash
 
-pandoc Paper.md -o Paper.pdf --template=mla-template.tex
+if [ -n "$1" ]
+then
+  name="$1"
+else
+  name="Paper"
+fi
+
+pandoc "$name.md" -o "$name.pdf" --template=mla-template.tex
