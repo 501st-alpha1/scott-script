@@ -82,10 +82,10 @@ case "$2" in
     ssh -l $user@$safeip -o ProxyCommand="/usr/bin/connect -4 -S localhost:9050 %h %p" $user@$safeip $args
     ;;
   "up")
-    scp -P $port $3 $user@$ip:$4
+    scp -P $port -i $id $3 $user@$ip:$4
     ;;
   "down")
-    scp -P $port $user@$ip:$3 $4
+    scp -P $port -i $id $user@$ip:$3 $4
     ;;
   "ping")
     ping $ip
