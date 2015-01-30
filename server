@@ -19,7 +19,7 @@
 # mcserver script is separate because that still has some unique needs. May
 # eventually refactor to reference this one.
 
-validArgs=("servers" "ips" "users" "ports")
+validArgs=("servers" "ips" "users" "ports" "ids")
 
 source loadconf "$HOME/.scott_script/server" "config" validArgs[@]
 
@@ -53,6 +53,7 @@ do
     ip="${ips[$i]}"
     user="${users[$i]}"
     port="${ports[$i]}"
+    id="${ids[$i]}"
   fi
 done
 
@@ -62,16 +63,23 @@ then
   exit 2
 fi
 
+if [ "$id" == "" ]
+then
+  id="$HOME/.ssh/id_rsa"
+fi
+
+args="-p $port -i $id"
+
 case "$2" in
   "mosh")
-    mosh --ssh="ssh -p $port" $user@$ip --predict=always
+    mosh --ssh="ssh $args" $user@$ip --predict=always
     ;;
   "ssh")
-    ssh $user@$ip -p $port
+    ssh $user@$ip $args
     ;;
   "ssh-tor")
     safeip=`tor-resolve $ip`
-    ssh -l $user@$safeip -o ProxyCommand="/usr/bin/connect -4 -S localhost:9050 %h %p" $user@$safeip -p $port
+    ssh -l $user@$safeip -o ProxyCommand="/usr/bin/connect -4 -S localhost:9050 %h %p" $user@$safeip $args
     ;;
   "up")
     scp -P $port $3 $user@$ip:$4
