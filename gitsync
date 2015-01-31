@@ -45,6 +45,13 @@ then
   exit 3
 fi
 
+if [ "$3" == "" ]
+then
+  remote="origin"
+else
+  remote="$3"
+fi
+
 cd "$path"
 
 while true
@@ -53,7 +60,7 @@ do
 
   if [ "$1" != "commit-only" ]
   then
-    git remote update
+    git remote update "$remote"
 
     if [ "$?" -eq 0 ]
     then
@@ -66,17 +73,17 @@ do
         echo "Up-to-date"
       elif [ "$localCommit" == "$base" ]
       then
-        git pull
+        git pull "$remote" master
       elif [ "$remoteCommit" == "$base" ]
       then
-        git push
+        git push "$remote" master
       else
         echo "Local and remote have diverged. Attempting automatic resolution."
-        git pull
+        git pull "$remote" master
         if [ "$?" -eq 0 ]
         then
           echo "Successfully resolved."
-          git push
+          git push "$remote" master
         else
           echo -e "\a"
           break;
