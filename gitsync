@@ -24,6 +24,12 @@ then
   exit 1
 fi
 
+if [ "$1" == "commit-only" ]
+then
+  commits=1
+  shift
+fi
+
 for (( i=0; i < "${#names[@]}"; i++ ))
 do
   if [ "${names[$i]}" == "$1" ]
@@ -58,7 +64,7 @@ while true
 do
   git commit -a -m "auto-commit at `date` on `hostname`"
 
-  if [ "$1" != "commit-only" ]
+  if [ "$commits" -ne 1 ]
   then
     git remote update "$remote"
 
