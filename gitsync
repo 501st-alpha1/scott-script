@@ -64,7 +64,7 @@ while true
 do
   git commit -a -m "auto-commit at `date` on `hostname`"
 
-  if [ "$commits" -ne 1 ]
+  if [ "$commits" != "1" ]
   then
     git remote update "$remote"
 
