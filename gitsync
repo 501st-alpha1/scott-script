@@ -70,6 +70,7 @@ do
 
     if [ "$?" -eq 0 ]
     then
+      #FIXME: this part doesn't work with custom remote name
       localCommit=`git rev-parse @`
       remoteCommit=`git rev-parse @{u}`
       base=`git merge-base @ @{u}`
