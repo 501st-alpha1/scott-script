@@ -57,10 +57,10 @@ fi
 ################################################################################
 #                              Bashrc Linkage                                  #
 ################################################################################
+function linkBashrc() {
+  bashrc="$HOME/.bashrc"
 
-bashrc="$HOME/.bashrc"
-
-output="
+  output="
 ################################################################################
 #                                                                              #
 #                     Custom Stuff via Scott's Scripts                         #
@@ -69,24 +69,27 @@ output="
 
 . $path/bashrc"
 
-echo "Bashrc:"
+  echo "Bashrc:"
 
-if [ -f "$bashrc" ]
-then
-  check=`cat "$bashrc" | grep "Custom Stuff via Scott's Scripts"`
-
-  if [ -n "$check" ]
+  if [ -f "$bashrc" ]
   then
-    echo "  The bashrc has already been linked on this system! Skipping.."
-  else
-    echo "$output" >> "$bashrc"
-    echo "  Bashrc has been linked."
-  fi
-else
-  echo "  User's bashrc file (\"$bashrc\") does not exist! Skipping.."
-fi
+    check=`cat "$bashrc" | grep "Custom Stuff via Scott's Scripts"`
 
-unset bashrc output check
+    if [ -n "$check" ]
+    then
+      echo "  The bashrc has already been linked on this system! Skipping.."
+    else
+      echo "$output" >> "$bashrc"
+      echo "  Bashrc has been linked."
+    fi
+  else
+    echo "  User's bashrc file (\"$bashrc\") does not exist! Skipping.."
+  fi
+
+  unset bashrc output check
+}
+
+linkBashrc
 
 ################################################################################
 #                                     Emacs                                    #
