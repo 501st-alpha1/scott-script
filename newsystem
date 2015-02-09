@@ -37,6 +37,9 @@ else
       "-h")
         usage
         ;;
+      "--no-bashrc")
+        nobashrc=1
+        ;;
       *)
         # TODO: Parse args
         echo "Argument parsing not yet implemented."
@@ -89,7 +92,12 @@ function linkBashrc() {
   unset bashrc output check
 }
 
-linkBashrc
+if [ "$nobashrc" == "1" ]
+then
+  echo "Skipping bashrc linking at user's request."
+else
+  linkBashrc
+fi
 
 ################################################################################
 #                                     Emacs                                    #
