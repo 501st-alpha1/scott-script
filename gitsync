@@ -20,7 +20,14 @@ source loadconf "$HOME/.scott_script/gitsync" "config" validArgs[@]
 
 if [ -z "$1" ]
 then
-  echo "Please specify what repo to sync."
+  echo "usage: `basename $0` <name> [<time> [commit-only|<remote>]]"
+  echo
+  echo "Arguments:"
+  echo "  <name>: The name of the repo to sync, defined in config file."
+  echo "  <time>: Amount of delay between syncs in seconds. Default 60."
+  echo "  commit-only|<remote>:"
+  echo "    commit-only: Don't sync to any remotes."
+  echo "    <remote>: The remote to sync to. Default 'origin'."
   exit 1
 fi
 
@@ -45,18 +52,26 @@ then
   exit 3
 fi
 
+if [ "$3" == "" ]
+then
+  remote="origin"
+else
+  remote="$3"
+fi
+
 cd "$path"
 
 while true
 do
   git commit -a -m "auto-commit at `date` on `hostname`"
 
-  if [ "$1" != "commit-only" ]
+  if [ "$3" != "commit-only" ]
   then
-    git remote update
+    git remote update "$remote"
 
     if [ "$?" -eq 0 ]
     then
+      #FIXME: this part doesn't work with custom remote name
       localCommit=`git rev-parse @`
       remoteCommit=`git rev-parse @{u}`
       base=`git merge-base @ @{u}`
@@ -66,17 +81,17 @@ do
         echo "Up-to-date"
       elif [ "$localCommit" == "$base" ]
       then
-        git pull
+        git pull "$remote" master
       elif [ "$remoteCommit" == "$base" ]
       then
-        git push
+        git push "$remote" master
       else
         echo "Local and remote have diverged. Attempting automatic resolution."
-        git pull
+        git pull "$remote" master
         if [ "$?" -eq 0 ]
         then
           echo "Successfully resolved."
-          git push
+          git push "$remote" master
         else
           echo -e "\a"
           break;
