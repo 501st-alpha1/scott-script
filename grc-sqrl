@@ -22,8 +22,8 @@ if [ "$1" == "install" ]
 then
   myinitprefix
 
-  mkdir -p "$mydir"
-  cp ./sqrl*.exe "$mydir"
+  mkdir -p "$data/$mydir"
+  cp ./sqrl*.exe "$data/$mydir"
 else
   mylaunch "$mydir" "./sqrl*.exe"
 fi
