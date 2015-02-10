@@ -23,7 +23,7 @@ then
   myinitprefix
 
   mkdir -p "$data/$mydir"
-  cp ./sqrl*.exe "$data/$mydir"
+  cp ./sqrl*.exe "$data/$mydir/sqrl.exe"
 else
-  mylaunch "$mydir" "./sqrl*.exe"
+  mylaunch "$mydir" "./sqrl.exe"
 fi
