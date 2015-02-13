@@ -102,18 +102,21 @@ fi
 ################################################################################
 #                                     Emacs                                    #
 ################################################################################
-
-read -p "Enter the path to the Emacs appdata folder: " response
-if [ ! -d "$response" ]
-then
-  echo "Path doesn't exist! Skipping..."
-else
-  cd "$response"
-  if [ ! -d "emacs-init" ]
+function setupEmacs() {
+  read -p "Enter the path to the Emacs appdata folder: " response
+  if [ ! -d "$response" ]
   then
-    git clone ssh://git@github.com/501st-alpha1/emacs-init
+    echo "Path doesn't exist! Skipping..."
+  else
+    cd "$response"
+    if [ ! -d "emacs-init" ]
+    then
+      git clone ssh://git@github.com/501st-alpha1/emacs-init
+    fi
   fi
-fi
+}
+
+setupEmacs
 
 ################################################################################
 #                            Caps Lock <--> Control                            #
