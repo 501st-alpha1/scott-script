@@ -121,10 +121,10 @@ setupEmacs
 ################################################################################
 #                            Caps Lock <--> Control                            #
 ################################################################################
+function swapCaps() {
+  echo "Swapping the Caps Lock and (Right) Control keys."
 
-echo "Swapping the Caps Lock and (Right) Control keys."
-
-echo "! Swap Caps Lock and Control
+  echo "! Swap Caps Lock and Control
 
 remove Lock = Caps_Lock
 remove Control = Control_R
@@ -133,6 +133,9 @@ keysym Caps_Lock = Control_R
 add Lock = Caps_Lock
 add Control = Control_R
 " > $HOME/.xmodmap
+}
+
+swapCaps
 
 ################################################################################
 #                                 Git Stuff                                    #
