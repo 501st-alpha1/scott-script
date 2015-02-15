@@ -155,33 +155,37 @@ function gitConfig() {
   fi
 }
 
-echo "Git:"
+function gitSetup() {
+  echo "Git:"
 
-if [ `command -v git` ]
-then
-  read -p "What is your full name? " name
-  read -p "What is your email address? " email
-
-  gitConfig "user.name" "$name"
-  gitConfig "user.email" "$email"
-  gitConfig "color.ui" "auto"
-  gitConfig "format.suffix" ".txt"
-  gitConfig "alias.wdiff" "diff --color-words"
-  gitConfig "push.default" "simple"
-
-  ### Hub ###
-  if [ ! -d "../../hub" ]
+  if [ `command -v git` ]
   then
-    pushd ../..
-    /usr/bin/git clone git@github.com:github/hub.git
-    cd hub
-    ./script/build
-    popd
-    ln -s ../../hub/hub ../hub
+    read -p "What is your full name? " name
+    read -p "What is your email address? " email
+
+    gitConfig "user.name" "$name"
+    gitConfig "user.email" "$email"
+    gitConfig "color.ui" "auto"
+    gitConfig "format.suffix" ".txt"
+    gitConfig "alias.wdiff" "diff --color-words"
+    gitConfig "push.default" "simple"
+
+    ### Hub ###
+    if [ ! -d "../../hub" ]
+    then
+      pushd ../..
+      /usr/bin/git clone git@github.com:github/hub.git
+      cd hub
+      ./script/build
+      popd
+      ln -s ../../hub/hub ../hub
+    fi
+  else
+    echo "  Error: git not installed! Skipping.."
   fi
-else
-  echo "  Error: git not installed! Skipping.."
-fi
+}
+
+gitSetup
 
 ################################################################################
 #                                 GRUB Stuff                                   #
