@@ -40,6 +40,9 @@ else
       "--no-bashrc")
         nobashrc=1
         ;;
+      "--no-emacs")
+        noemacs=1
+        ;;
       *)
         # TODO: Parse args
         echo "Argument parsing not yet implemented."
@@ -116,7 +119,12 @@ function setupEmacs() {
   fi
 }
 
-setupEmacs
+if [ "$noemacs" == "1" ]
+then
+  echo "Skipping Emacs linkage at user's request."
+else
+  setupEmacs
+fi
 
 ################################################################################
 #                            Caps Lock <--> Control                            #
