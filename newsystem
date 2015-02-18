@@ -190,26 +190,29 @@ gitSetup
 ################################################################################
 #                                 GRUB Stuff                                   #
 ################################################################################
+function backlightFix() {
+  # Fix backlight controls
+  config="/etc/default/grub"
+  optionname='GRUB_CMDLINE_LINUX="'
+  contents="quiet splash acpi_osi=Linux acpi_backlight=vendor"
+  line="${optionname}${contents}\""
+  grubcmd=`cat "$config" | grep "$line"`
 
-# Fix backlight controls
-config="/etc/default/grub"
-optionname='GRUB_CMDLINE_LINUX="'
-contents="quiet splash acpi_osi=Linux acpi_backlight=vendor"
-line="${optionname}${contents}\""
-grubcmd=`cat "$config" | grep "$line"`
+  echo "GRUB:"
 
-echo "GRUB:"
-
-if [ -z "$grubcmd" ]
-then
-  read -p "  Permission required to modify $config, continue? [Y/n] " response
-  if [ -z "$response" ] || [ "$response" == "Y" ] || [ "$response" == "y" ]
+  if [ -z "$grubcmd" ]
   then
-    sudo sed --in-place s:"$optionname":\&"$contents": /etc/default/grub
-    echo "  Backlight stuff added to $config"
+    read -p "  Permission required to modify $config, continue? [Y/n] " response
+    if [ -z "$response" ] || [ "$response" == "Y" ] || [ "$response" == "y" ]
+    then
+      sudo sed --in-place s:"$optionname":\&"$contents": /etc/default/grub
+      echo "  Backlight stuff added to $config"
+    else
+      echo "  Skipping backlight stuff."
+    fi
   else
-    echo "  Skipping backlight stuff."
+    echo "  GRUB_CMDLINE_LINUX already set."
   fi
-else
-  echo "  GRUB_CMDLINE_LINUX already set."
-fi
+}
+
+backlightFix
