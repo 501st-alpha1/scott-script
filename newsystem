@@ -20,7 +20,15 @@
 ################################################################################
 
 function usage() {
-  echo "You lose!"
+  echo "usage: $0 [arguments]"
+  echo
+  echo "This script is to automate some common things needed in setting up"
+  echo "a new GNU/Linux system."
+  echo
+  echo "Possible arguments:"
+  echo "  -h  --help      Display this help text."
+  echo "      --no-bashrc Disable linking of bashrc."
+  echo "      --no-emacs  Disable Emacs initialization."
   exit 1
 }
 
