@@ -23,7 +23,9 @@ function usage() {
   echo "usage: $0 [arguments]"
   echo
   echo "This script is to automate some common things needed in setting up"
-  echo "a new GNU/Linux system."
+  echo "a new GNU/Linux system. It is designed such that it should be safe"
+  echo "to run again. That is, checks are built in to see that nothing is"
+  echo "clobbered."
   echo
   echo "Possible arguments:"
   echo "  -h  --help      Display this help text."
