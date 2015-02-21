@@ -31,6 +31,7 @@ function usage() {
   echo "  -h  --help      Display this help text."
   echo "      --no-bashrc Disable linking of bashrc."
   echo "      --no-emacs  Disable Emacs initialization."
+  echo "      --no-caps   Disable swapping of Caps Lock with Right Control."
   exit 1
 }
 
@@ -52,6 +53,9 @@ else
         ;;
       "--no-emacs")
         noemacs=1
+        ;;
+      "--no-caps")
+        nocaps=1
         ;;
       *)
         # TODO: Parse args
@@ -153,7 +157,12 @@ add Control = Control_R
 " > $HOME/.xmodmap
 }
 
-swapCaps
+if [ "$nocaps" == "1" ]
+then
+  echo "Skipping Caps Lock swapping at user's request."
+else
+  swapCaps
+fi
 
 ################################################################################
 #                                 Git Stuff                                    #
