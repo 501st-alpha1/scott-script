@@ -32,6 +32,7 @@ function usage() {
   echo "      --no-bashrc Disable linking of bashrc."
   echo "      --no-emacs  Disable Emacs initialization."
   echo "      --no-caps   Disable swapping of Caps Lock with Right Control."
+  echo "      --no-git    Disable Git configuration"
   exit 1
 }
 
@@ -56,6 +57,9 @@ else
         ;;
       "--no-caps")
         nocaps=1
+        ;;
+      "--no-git")
+        nogit=1
         ;;
       *)
         # TODO: Parse args
@@ -212,7 +216,12 @@ function gitSetup() {
   fi
 }
 
-gitSetup
+if [ "$nogit" == "1" ]
+then
+  echo "Skipping Git config at user's request."
+else
+  gitSetup
+fi
 
 ################################################################################
 #                                 GRUB Stuff                                   #
