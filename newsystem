@@ -28,11 +28,12 @@ function usage() {
   echo "clobbered."
   echo
   echo "Possible arguments:"
-  echo "  -h  --help      Display this help text."
-  echo "      --no-bashrc Disable linking of bashrc."
-  echo "      --no-emacs  Disable Emacs initialization."
-  echo "      --no-caps   Disable swapping of Caps Lock with Right Control."
-  echo "      --no-git    Disable Git configuration"
+  echo "  -h  --help        Display this help text."
+  echo "      --no-bashrc   Disable linking of bashrc."
+  echo "      --no-emacs    Disable Emacs initialization."
+  echo "      --no-caps     Disable swapping of Caps Lock with Right Control."
+  echo "      --no-git      Disable Git configuration"
+  echo "      --name <name> Your full name. (Used for Git config.)"
   exit 1
 }
 
@@ -60,6 +61,10 @@ else
         ;;
       "--no-git")
         nogit=1
+        ;;
+      "--name")
+        shift
+        name="$1"
         ;;
       *)
         # TODO: Parse args
@@ -191,7 +196,10 @@ function gitSetup() {
 
   if [ `command -v git` ]
   then
-    read -p "What is your full name? " name
+    if [ "$name" == "" ]
+    then
+      read -p "What is your full name? " name
+    fi
     read -p "What is your email address? " email
 
     gitConfig "user.name" "$name"
