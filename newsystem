@@ -72,8 +72,8 @@ else
         email="$1"
         ;;
       *)
-        # TODO: Parse args
-        echo "Argument parsing not yet implemented."
+        echo "Error: unrecognized argument."
+        usage
         ;;
     esac
     shift
