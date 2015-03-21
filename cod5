@@ -30,7 +30,11 @@ then
   myinstall "./CodWorldAtWar.exe"
 elif [ "$1" == "patch" ]
 then
-  echo "FIXME"
+  myinstall "./CoDWaW_patch_v1.2_dd.exe"
+  myinstall "./CoDWaW-1.2-1.4-PatchSetup_dd.exe"
+  myinstall "./CoDWaW_1.4to1.5_ddsetup.exe"
+  myinstall "./CoDWaW-1.5-1.6-Patch_ddsetup.exe"
+  myinstall "./CoDWaW-1.6-1.7-PatchSetup_dd.exe"
 else
   echo "FIXME"
 fi
