@@ -58,6 +58,10 @@ EOF
      )
   echo "${REG}" > cod5-edit.reg
   myrun "regedit" "cod5-edit.reg"
+elif [ "$1" == "multi" ]
+then
+  mydir="drive_c/Program Files/Activision/Call of Duty - World at War"
+  mylaunch "$mydir" "./CoDWaWmp.exe"
 else
   mydir="drive_c/Program Files/Activision/Call of Duty - World at War"
   mylaunch "$mydir" "./CoDWaW.exe"
