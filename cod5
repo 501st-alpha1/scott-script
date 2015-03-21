@@ -35,6 +35,29 @@ then
   myinstall "./CoDWaW_1.4to1.5_ddsetup.exe"
   myinstall "./CoDWaW-1.5-1.6-Patch_ddsetup.exe"
   myinstall "./CoDWaW-1.6-1.7-PatchSetup_dd.exe"
+elif [ "$1" == "edit" ]
+then
+  REG=$(cat <<EOF
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{fac23f48-31f5-45a8-b49b-5225d61401aa}]
+@="\"XAudio2\"
+\n"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{fac23f48-31f5-45a8-b49b-5225d61401aa}\InProcServer32]
+@="C:\\\\WINDOWS\\\\system32\\\\XAudio2_0.dll"
+"ThreadingModel"="Both"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{6f6ea3a9-2cf5-41cf-91c1-2170b1540063}]
+@="AudioReverb"
+
+[HKEY_LOCAL_MACHINE\Software\Classes\CLSID\{6f6ea3a9-2cf5-41cf-91c1-2170b1540063}\InProcServer32]
+@="C:\\\\WINDOWS\\\\system32\\\\XAudio2_0.dll"
+"ThreadingModel"="Both"
+EOF
+     )
+  echo "${REG}" > cod5-edit.reg
+  myrun "regedit" "cod5-edit.reg"
 else
   mydir="drive_c/Program Files/Activision/Call of Duty - World at War"
   mylaunch "$mydir" "./CoDWaW.exe"
