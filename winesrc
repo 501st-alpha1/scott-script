@@ -22,8 +22,13 @@ name="$1"
 function myrun() {
   [ -z "$1" ] && echo "Error, missing argument for executable." && return 1
 
+  if [ -z "$2" ]
+  then
+    "$bin" "$1" >> "$log/$name" 2>&1
+  else
+    "$bin" "$1" "$2" >> "$log/$name" 2>&1
+  fi
   #taskset -c 0 "$bin" "$1" >> "$log/$name" 2>&1
-  "$bin" "$1" "$2" >> "$log/$name" 2>&1
 }
 
 function myinitprefix() {
