@@ -36,5 +36,6 @@ then
   myinstall "./CoDWaW-1.5-1.6-Patch_ddsetup.exe"
   myinstall "./CoDWaW-1.6-1.7-PatchSetup_dd.exe"
 else
-  echo "FIXME"
+  mydir="drive_c/Program Files/Activision/Call of Duty - World at War"
+  mylaunch "$mydir" "./CoDWaW.exe"
 fi
