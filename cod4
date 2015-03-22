@@ -26,6 +26,9 @@ then
   myinitprefix
 
   myinstall "./setup.exe"
+elif [ "$1" == "patch" ]
+then
+  myinstall "./CoD4MW_dd_patch_1.7.exe"
 else
   mydir="drive_c/Program Files/Activision/Call of Duty 4 - Modern Warfare"
   mylaunch "$mydir" "./iw3sp.exe"
