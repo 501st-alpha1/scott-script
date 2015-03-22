@@ -25,7 +25,8 @@ if [ "$1" == "install" ]
 then
   myinitprefix
 
-  mywinetricks "d3dx9 ie7"
+  mywinetricks "d3dx9"
+  mywinetricks "ie7"
 
   myinstall "./CodWorldAtWar.exe"
 elif [ "$1" == "patch" ]
