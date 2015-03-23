@@ -231,6 +231,16 @@ function gitSetup() {
       popd
       ln -s ../../hub/hub ../hub
     fi
+
+    ### Git Flow ###
+    flowdir="/mnt/data/code/misc-github"
+    if [ ! -d "$flowdir" ]
+      mkdir -p "$flowdir"
+      cd "$flowdir"
+      git clone https://github.com/petervanderdoes/gitflow.git
+      cd gitflow
+      make
+    fi
   else
     echo "  Error: git not installed! Skipping.."
   fi
