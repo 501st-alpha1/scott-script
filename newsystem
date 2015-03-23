@@ -219,6 +219,7 @@ function gitSetup() {
     gitConfig "format.suffix" ".txt"
     gitConfig "alias.wdiff" "diff --color-words"
     gitConfig "push.default" "simple"
+    gitConfig "gitflow.multi-hotfix" "true"
 
     ### Hub ###
     if [ ! -d "../../hub" ]
