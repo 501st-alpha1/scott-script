@@ -31,3 +31,5 @@ then
     exit 2
   fi
 fi
+
+cd "$rootdir"
