@@ -39,3 +39,8 @@ then
   echo "Subdir music not found, creating..."
   mkdir "$rootdir/music"
 fi
+if [ ! -d "$rootdir/movies" ]
+then
+  echo "Subdir movies not found, creating..."
+  mkdir "$rootdir/movies"
+fi
