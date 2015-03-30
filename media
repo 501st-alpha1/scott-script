@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-validArgs=("rootdir")
+validArgs=("rootdir" "server")
 source loadconf "$HOME/.scott_script/media" "config" validArgs[@]
 
 [ -z "$rootdir" ] && echo "Root directory not defined!" && exit 1
@@ -45,6 +45,21 @@ then
   mkdir "$rootdir/movies"
 fi
 
+function sync() {
+  echo "Syncing with server..."
+  server $server sync-dry "$rootdir/" "$rootdir/"
+  echo "If there is anything to sync, and it looks correct, please press [y/Y]"
+  echo "to sync it. Otherwise, press Enter to continue."
+  read -p "Press [y/Y/Enter]: " response
+
+  if [ "$response" == "Y" ] || [ "$response" == "y" ]
+  then
+    server $server sync
+  else
+    echo "Not syncing."
+  fi
+}
+
 function music() {
   echo "FIXME"
 }
@@ -59,9 +74,11 @@ do
   echo "  1) Listen to music."
   echo "  2) Watch movies."
   echo
+  echo "  s) Sync local files to server."
+  echo
   echo "  q) Quit."
 
-  read -p "Press [1/2/q]: " response
+  read -p "Press [1/2/s/q]: " response
 
   case $response in
     "1")
@@ -69,6 +86,9 @@ do
       ;;
     "2")
       movies
+      ;;
+    "s")
+      sync
       ;;
     "q")
       break
