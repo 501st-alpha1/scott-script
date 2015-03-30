@@ -71,8 +71,8 @@ function movies() {
 while true
 do
   echo "What do you want to do?"
-  echo "  1) Listen to music."
-  echo "  2) Watch movies."
+  echo "  1) Download music."
+  echo "  2) Download movies."
   echo
   echo "  s) Sync local files to server."
   echo
