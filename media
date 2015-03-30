@@ -19,3 +19,15 @@ validArgs=("rootdir")
 source loadconf "$HOME/.scott_script/media" "config" validArgs[@]
 
 [ -z "$rootdir" ] && echo "Root directory not defined!" && exit 1
+
+if [ ! -d "$rootdir" ]
+then
+  read -p "Root directory ($rootdir) does not exist. Create it? [y/N]" response
+  if [ "$response" == "Y" ] || [ "$response" == "y" ]
+  then
+    mkdir -p "$rootdir"
+  else
+    echo "Not creating root directory. Exiting..."
+    exit 2
+  fi
+fi
