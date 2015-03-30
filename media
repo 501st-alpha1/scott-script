@@ -44,3 +44,29 @@ then
   echo "Subdir movies not found, creating..."
   mkdir "$rootdir/movies"
 fi
+
+while true
+do
+  echo "What do you want to do?"
+  echo "  1) Listen to music."
+  echo "  2) Watch movies."
+  echo
+  echo "  q) Quit."
+
+  read -p "Press [1/2/q]: " response
+
+  case $response in
+    "1")
+      echo "FIXME"
+      ;;
+    "2")
+      echo "FIXME"
+      ;;
+    "q")
+      break
+      ;;
+    *)
+      echo "Invalid option ($response). Please try again."
+      ;;
+  esac
+done
