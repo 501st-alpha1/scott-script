@@ -45,6 +45,14 @@ then
   mkdir "$rootdir/movies"
 fi
 
+function music() {
+  echo "FIXME"
+}
+
+function movies() {
+  echo "FIXME"
+}
+
 while true
 do
   echo "What do you want to do?"
@@ -57,10 +65,10 @@ do
 
   case $response in
     "1")
-      echo "FIXME"
+      music
       ;;
     "2")
-      echo "FIXME"
+      movies
       ;;
     "q")
       break
