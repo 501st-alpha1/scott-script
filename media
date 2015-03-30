@@ -33,3 +33,9 @@ then
 fi
 
 cd "$rootdir"
+echo "Checking existence of subdirectories (music, movies)"
+if [ ! -d "$rootdir/music" ]
+then
+  echo "Subdir music not found, creating..."
+  mkdir "$rootdir/music"
+fi
