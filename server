@@ -94,6 +94,16 @@ case "$2" in
   "ping")
     ping $ip
     ;;
+  "sync-dry")
+    export RSYNC_RSH="ssh $args"
+    options="--recursive --verbose --compress --times --checksum --omit-dir-times"
+    rsync --dry-run $options "$3" "$4"
+    ;;
+  "sync")
+    export RSYNC_RSH="ssh $args"
+    options="--recursive --verbose --compress --times --checksum --omit-dir-times"
+    rsync $options "$3" "$4"
+    ;;
   *)
     usage
     ;;
