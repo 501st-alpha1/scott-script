@@ -104,8 +104,10 @@ do
 
   if [ "$2" == "" ]
   then
+    echo "Sleeping for 60 seconds."
     sleep 60
   else
+    echo "Sleeping for $2 seconds."
     sleep "$2"
   fi
 done
