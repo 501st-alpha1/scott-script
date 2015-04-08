@@ -20,12 +20,13 @@ source loadconf "$HOME/.scott_script/gitsync" "config" validArgs[@]
 
 if [ -z "$1" ]
 then
-  echo "usage: `basename $0` <name> [<time> [commit-only|<remote>]]"
+  echo "usage: `basename $0` <name> [<time> [no-commit|commit-only|<remote>]]"
   echo
   echo "Arguments:"
   echo "  <name>: The name of the repo to sync, defined in config file."
   echo "  <time>: Amount of delay between syncs in seconds. Default 60."
-  echo "  commit-only|<remote>:"
+  echo "  no-commit|commit-only|<remote>:"
+  echo "    no-commit: Don't commit, only sync to remote."
   echo "    commit-only: Don't sync to any remotes."
   echo "    <remote>: The remote to sync to. Default 'origin'."
   exit 1
@@ -63,7 +64,10 @@ cd "$path"
 
 while true
 do
-  git commit -a -m "auto-commit at `date` on `hostname`"
+  if [ "$3" != "no-commit" ]
+  then
+    git commit -a -m "auto-commit at `date` on `hostname`"
+  fi
 
   if [ "$3" != "commit-only" ]
   then
