@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-validArgs=("names" "paths")
+validArgs=("names" "paths" "commits")
 source loadconf "$HOME/.scott_script/gitsync" "config" validArgs[@]
 
 if [ -z "$1" ]
@@ -25,8 +25,7 @@ then
   echo "Arguments:"
   echo "  <name>: The name of the repo to sync, defined in config file."
   echo "  <time>: Amount of delay between syncs in seconds. Default 60."
-  echo "  no-commit|commit-only|<remote>:"
-  echo "    no-commit: Don't commit, only sync to remote."
+  echo "  commit-only|<remote>:"
   echo "    commit-only: Don't sync to any remotes."
   echo "    <remote>: The remote to sync to. Default 'origin'."
   exit 1
@@ -38,6 +37,7 @@ do
   then
     path="${paths[$i]}"
     name="${names[$i]}"
+    commit="${commits[$i]}"
   fi
 done
 
@@ -64,7 +64,7 @@ cd "$path"
 
 while true
 do
-  if [ "$3" != "no-commit" ]
+  if $commit
   then
     git commit -a -m "auto-commit at `date` on `hostname`"
   fi
