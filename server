@@ -19,7 +19,7 @@
 # mcserver script is separate because that still has some unique needs. May
 # eventually refactor to reference this one.
 
-validArgs=("servers" "ips" "users" "ports" "ids")
+validArgs=("servers" "ips" "users" "ports" "ids" "moshports")
 
 source loadconf "$HOME/.scott_script/server" "config" validArgs[@]
 
@@ -55,6 +55,7 @@ do
     user="${users[$i]}"
     port="${ports[$i]}"
     id="${ids[$i]}"
+    moshport="${moshports[$i]}"
   fi
 done
 
@@ -73,7 +74,12 @@ args="-p $port -i $id"
 
 case "$2" in
   "mosh")
-    mosh --ssh="ssh $args" $user@$ip --predict=always
+    if [ "$moshport" == "" ]
+    then
+      mosh --ssh="ssh $args" $user@$ip --predict=always
+    else
+      mosh -p $moshport --ssh="ssh $args" $user@$ip --predict=always
+    fi
     ;;
   "ssh")
     ssh $user@$ip $args
