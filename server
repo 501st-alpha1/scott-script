@@ -88,6 +88,9 @@ case "$2" in
     safeip=`tor-resolve $ip`
     ssh -l $user@$safeip -o ProxyCommand="/usr/bin/connect -4 -S localhost:9050 %h %p" $user@$safeip $args
     ;;
+  "trace")
+    traceroute $ip
+    ;;
   "up")
     scp -P $port -i $id "$3" $user@$ip:$4
     ;;
