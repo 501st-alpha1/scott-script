@@ -66,13 +66,15 @@ else
   remote="$3"
 fi
 
-cd "$path"
+function sync() {
+  path=$1
+  remote=$2
 
-while true
-do
+  cd "$path"
+
   git commit -a -m "auto-commit at `date` on `hostname`"
 
-  if [ "$3" != "commit-only" ]
+  if [ "$remote" != "commit-only" ]
   then
     git remote update "$remote"
 
@@ -101,13 +103,18 @@ do
           git push "$remote" master
         else
           echo -e "\a"
-          break;
+          return 1
         fi
       fi
     else
       echo "Network error, trying again next time."
     fi
   fi
+}
+
+while true
+do
+  sync "$path" "$remote" || break;
 
   echo "Sleeping for $2 seconds."
   sleep "$2"
