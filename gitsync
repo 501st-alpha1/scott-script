@@ -52,6 +52,13 @@ then
   exit 3
 fi
 
+if [ "$2" == "" ]
+then
+  time=60
+else
+  time="$2"
+fi
+
 if [ "$3" == "" ]
 then
   remote="origin"
@@ -102,12 +109,6 @@ do
     fi
   fi
 
-  if [ "$2" == "" ]
-  then
-    echo "Sleeping for 60 seconds."
-    sleep 60
-  else
-    echo "Sleeping for $2 seconds."
-    sleep "$2"
-  fi
+  echo "Sleeping for $2 seconds."
+  sleep "$2"
 done
