@@ -120,6 +120,6 @@ while true
 do
   sync "$path" "$remote" || break;
 
-  echo "Sleeping for $2 seconds."
-  sleep "$2"
+  echo "Sleeping for $time seconds."
+  sleep "$time"
 done
