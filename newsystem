@@ -33,6 +33,7 @@ function usage() {
   echo "      --no-emacs      Disable Emacs initialization."
   echo "      --no-caps       Disable swapping of Caps Lock with Right Control."
   echo "      --no-git        Disable Git configuration"
+  echo "      --no-backlight  Disable backlight fix."
   echo "      --name <name>   Your full name. (Used for Git config.)"
   echo "      --email <email> Your email address. (Used for Git config.)"
   exit 1
@@ -65,6 +66,9 @@ else
         ;;
       "--no-git")
         nogit=1
+        ;;
+      "--no-backlight")
+        nobacklight=1
         ;;
       "--name")
         shift
@@ -281,4 +285,9 @@ function backlightFix() {
   fi
 }
 
-backlightFix
+if [ "$nobacklight" == "1" ]
+then
+  echo "Skipping backlight fix at user's request."
+else
+  backlightFix
+fi

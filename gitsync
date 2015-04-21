@@ -15,18 +15,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-validArgs=("names" "paths")
+validArgs=("names" "paths" "commits")
 source loadconf "$HOME/.scott_script/gitsync" "config" validArgs[@]
 
 if [ -z "$1" ]
 then
-  echo "usage: `basename $0` <name> [<time> [commit-only|<remote>]]"
+  echo "usage: `basename $0` <name> [<time> [no-commit|commit-only|<remote>]]"
   echo
   echo "Arguments:"
   echo "  <name>: The name of the repo to sync, defined in config file."
   echo "  <time>: Amount of delay between syncs in seconds. Default 60."
-  echo "  commit-only|<remote>:"
-  echo "    commit-only: Don't sync to any remotes."
+  echo "  no-sync|<remote>:"
+  echo "    no-sync: Don't sync to any remotes."
   echo "    <remote>: The remote to sync to. Default 'origin'."
   exit 1
 fi
@@ -37,6 +37,7 @@ do
   then
     path="${paths[$i]}"
     name="${names[$i]}"
+    commit="${commits[$i]}"
   fi
 done
 
@@ -72,9 +73,12 @@ function sync() {
 
   cd "$path"
 
-  git commit -a -m "auto-commit at `date` on `hostname`"
+  if $commit
+  then
+    git commit -a -m "auto-commit at `date` on `hostname`"
+  fi
 
-  if [ "$remote" != "commit-only" ]
+  if [ "$remote" != "no-sync" ]
   then
     git remote update "$remote"
 
