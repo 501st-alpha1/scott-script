@@ -102,11 +102,11 @@ function sync() {
       then
         git push "$remote" master
       else
-        echo "Local and remote have diverged. Attempting automatic resolution."
+        echo "-----> Local and remote have diverged. Attempting automatic resolution."
         git pull "$remote" master
         if [ "$?" -eq 0 ]
         then
-          echo "Successfully resolved."
+          echo "-----> Successfully resolved."
           git push "$remote" master
         else
           echo -e "\a"
@@ -114,7 +114,7 @@ function sync() {
         fi
       fi
     else
-      echo "Network error, trying again next time."
+      echo "-----> Network error, trying again next time."
     fi
   fi
 }
@@ -127,11 +127,11 @@ do
   else
     for i in ${paths[@]}
     do
-      echo "Syncing repo at $i..."
+      echo "-----> Syncing repo at $i..."
       sync "$i" "$remote" || break;
     done
   fi
 
-  echo "Sleeping for $time seconds."
+  echo "-----> Sleeping for $time seconds."
   sleep "$time"
 done
