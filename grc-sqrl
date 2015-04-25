@@ -15,7 +15,32 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-source winesrc "grc-sqrl"
+bin="/opt/wine/bin/wine-1.7.39/wine"
+data="/opt/wine/data/grc-sqrl"
+log="/opt/wine/log"
+
+export WINEPREFIX="$data"
+export WINEARCH="win32"
+
+name="grc-sqrl"
+
+function myrun() {
+  [ -z "$1" ] && echo "Error, missing argument for executable." && return 1
+
+  if [ -z "$2" ]
+  then
+    "$bin" "$1" >> "$log/$name" 2>&1
+  else
+    "$bin" "$1" "$2" >> "$log/$name" 2>&1
+  fi
+}
+
+function mylaunch() {
+  [ -z "$1" ] && echo "Error, missing launcher folder." && return 1
+  [ -z "$2" ] && echo "Error, missing launcher executable." && return 1
+  cd "$data/$1"
+  myrun "$2" "$3"
+}
 
 mydir="drive_c/Program Files/GRC/SQRL"
 if [ "$1" == "install" ]
