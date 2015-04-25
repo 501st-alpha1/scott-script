@@ -24,6 +24,11 @@ then
 
   mkdir -p "$data/$mydir"
   cp --verbose ./sqrl*.exe "$data/$mydir/sqrl.exe"
+  echo "To set up Firefox to work with this script, do the following:"
+  echo "  1. Open 'about:config'."
+  echo "  2. Set 'network.protocol-handler.expose.sqrl' to the boolean 'false'."
+  echo "  3. Click an SQRL link, and choose this script in the dialog box."
+  # TODO look into automating this, by modifying prefs.js, etc.
 else
   mylaunch "$mydir" "./sqrl.exe" "$1"
 fi
