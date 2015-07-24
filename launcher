@@ -1,0 +1,41 @@
+#!/bin/bash
+# Script to manually launch web sites by syncing with rsync
+# Copyright (C) 2015 Scott Weldon
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+validArgs=("localpath" "remotepath" "server" "excludes")
+source loadconf "$HOME/.scott_script/launcher" "$1.cfg" validArgs[@]
+
+options=("--recursive" "--verbose" "--compress" "--times" "--checksum"
+         "--omit-dir-times" "--delete-after" --filter=':- .gitignore'
+         --exclude='.git/')
+
+for e in ${excludes[@]}
+do
+  options[${#options[@]}]=--exclude="${e}"
+done
+
+# First, do a dry run.
+rsync --dry-run "${options[@]}" "$localpath" "$server:$remotepath"
+
+read -p "Does this look okay? [y/N] " ret
+
+if [ "$ret" == "y" ] || [ "$ret" == "Y" ]
+then
+  # Run the sync
+  rsync "${options[@]}" "$localpath" "$server:$remotepath"
+else
+  echo "Sync aborted!"
+fi
