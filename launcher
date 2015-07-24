@@ -22,7 +22,7 @@ options=("--recursive" "--verbose" "--compress" "--times" "--checksum"
          "--omit-dir-times" "--delete-after" --filter=':- .gitignore'
          --exclude='.git/')
 
-for e in ${excludes[@]}
+for e in "${excludes[@]}"
 do
   options[${#options[@]}]=--exclude="${e}"
 done
