@@ -113,6 +113,9 @@ case "$2" in
     options="--recursive --verbose --compress --times --checksum --omit-dir-times"
     rsync $options "$3" "$4"
     ;;
+  "diff")
+    diff --suppress-common-lines -wy $3 <(ssh $user@$ip $args "cat $4")
+    ;;
   *)
     usage
     ;;
