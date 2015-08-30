@@ -59,7 +59,7 @@ then
   wget -O "$progdir/swtor_fix.exe" "$file"
   echo "Should have been successful. If not, check logs and try again."
   echo "If you get an error about admin permissions, try setting "
-  echo "bitraider_disable to false in `launcher.settings`."
+  echo "bitraider_disable to false in 'launcher.settings'."
 elif [ "$1" == "help" ]
 then
   usage
