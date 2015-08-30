@@ -44,8 +44,8 @@ source loadconf "$HOME/.scott_script/wine" "swtor.cfg" validArgs[@]
 
 export env WINEARCH=win32 WINEPREFIX="$data"
 
-progdir="$data/drive_c/Program Files/Electronic Arts/BioWare/Star Wars - The Old Republic"
-#progdir="$data/drive_c/Program Files/Electronic Arts/BioWare/Star Wars-The Old Republic"
+#progdir="$data/drive_c/Program Files/Electronic Arts/BioWare/Star Wars - The Old Republic"
+progdir="$data/drive_c/Program Files/Electronic Arts/BioWare/Star Wars-The Old Republic"
 
 if [ "$1" == "install" ]
 then
