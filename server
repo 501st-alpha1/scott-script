@@ -53,7 +53,7 @@ then
   exit 2
 fi
 
-if [ "$port" == ""]
+if [ "$port" == "" ]
 then
   port="22"
 fi
