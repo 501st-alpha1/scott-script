@@ -1,6 +1,6 @@
 #!/bin/bash
 
-array=("Bruce-Connor/names" "Bruce-Connor/aggressive-indent-mode" "sprang/emacs-2048" "auto-complete/auto-complete" "mina86/auto-dim-other-buffers.el" "jwiegley/emacs-chess" "editorconfig/editorconfig-emacs" "emacsmirror/emms" "501st-alpha1/facebook" "lewang/fic-mode" "lewang/flx" "syohex/emacs-git-gutter" "magit/magit" "jtatarik/magit-gitflow" "auto-complete/popup-el" "nonsequitur/inf-ruby" "magit/git-modes" "kazu-yamamoto/Mew" "mattkeller/mk-project" "org-trello/org-trello" "kiwanami/emacs-deferred" "tkf/emacs-request" "nex3/perspective-el" "bbatsov/projectile" "rejeep/f.el" "jwiegley/ruby-mode" "mbunkus/simple-rtm" "501st-alpha1/twittering-mode" "fxbois/web-mode" "vibhavp/emacs-xkcd" "yoshiki/yaml-mode" "magnars/dash.el")
+array=("Bruce-Connor/names" "Bruce-Connor/aggressive-indent-mode" "sprang/emacs-2048" "auto-complete/auto-complete" "mina86/auto-dim-other-buffers.el" "jwiegley/emacs-chess" "editorconfig/editorconfig-emacs" "emacsmirror/emms" "501st-alpha1/facebook" "lewang/fic-mode" "lewang/flx" "syohex/emacs-git-gutter" "magit/magit" "jtatarik/magit-gitflow" "auto-complete/popup-el" "nonsequitur/inf-ruby" "magit/git-modes" "kazu-yamamoto/Mew" "mattkeller/mk-project" "org-trello/org-trello" "kiwanami/emacs-deferred" "tkf/emacs-request" "nex3/perspective-el" "bbatsov/projectile" "rejeep/f.el" "jwiegley/ruby-mode" "mbunkus/simple-rtm" "501st-alpha1/twittering-mode" "fxbois/web-mode" "vibhavp/emacs-xkcd" "yoshiki/yaml-mode" "magnars/dash.el" "winterTTr/ace-jump-mode")
 
 for name in ${array[*]}
 do
