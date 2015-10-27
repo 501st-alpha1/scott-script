@@ -33,6 +33,11 @@ then
   git clone git://orgmode.org/org-mode.git
 fi
 
+if [ ! -d "org-sync" ]
+then
+   git clone git://orgmode.org/org-sync.git
+fi
+
 pushd org-mode
 make autoloads
 popd
