@@ -239,6 +239,7 @@ function gitSetup() {
     ### Git Flow ###
     flowdir="/mnt/data/code/misc-github"
     if [ ! -d "$flowdir" ]
+    then
       mkdir -p "$flowdir"
       cd "$flowdir"
       git clone https://github.com/petervanderdoes/gitflow.git
