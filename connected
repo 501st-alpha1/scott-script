@@ -29,7 +29,7 @@ failures=0;
 
 while true
 do
-  ping "$1" -c 10
+  ping "$site" -c 10
   if [ $? == 0 ]
   then
     successful=`expr $successful + 1`;
