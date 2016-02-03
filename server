@@ -47,10 +47,15 @@ validArgs=("ip" "user" "port" "id" "moshports")
 
 source loadconf "$HOME/.scott_script/server" "$server.cfg" validArgs[@]
 
-if [ "$ip" == "" ] || [ "$user" == "" ]
+if [ "$ip" == "" ]
 then
   echo "The server \"$server\" does not exist or is improperly configured!"
   exit 2
+fi
+
+if [ "$user" == "" ]
+then
+  user="$USER"
 fi
 
 if [ "$port" == "" ]
