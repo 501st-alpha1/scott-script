@@ -224,6 +224,7 @@ function gitSetup() {
     gitConfig "alias.wdiff" "diff --color-words"
     gitConfig "push.default" "simple"
     gitConfig "gitflow.multi-hotfix" "true"
+    gitConfig "gitflow.feature.finish.no-ff" "true"
 
     ### Hub ###
     if [ ! -d "../../hub" ]
