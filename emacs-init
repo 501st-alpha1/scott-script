@@ -38,6 +38,12 @@ then
    git clone git://orgmode.org/org-sync.git
 fi
 
+# FIXME: flycheck tests cause load errors.
+if [ -d "flycheck/test" ]
+then
+   rm -rf flycheck/test
+fi
+
 pushd org-mode
 make autoloads
 popd
