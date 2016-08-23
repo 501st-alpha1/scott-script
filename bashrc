@@ -117,6 +117,7 @@ alias ef="emacsclient -c"
 alias psurf="surf -c /dev/null"
 alias speedtest="wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip --report-speed=bits"
 alias sspeedtest="torify wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip --report-speed=bits"
+alias git-repo-authors="git ls-tree -r HEAD --name-only | xargs -I{} git blame --line-porcelain {} | sed -n 's/^author //p' | sort | uniq -c | sort -rn"
 
 # Prompt customisation
 # Default Ubuntu: \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\h:\w\$
