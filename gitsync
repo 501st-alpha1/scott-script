@@ -119,16 +119,28 @@ function sync() {
   fi
 }
 
+function newsync() {
+  if [ "$2" != "origin" ]
+  then
+    echo "New sync doesn't support custom remotes!"
+    exit 4
+  fi
+
+  cd $1
+
+  git-sync sync
+}
+
 while true
 do
   if [ "$1" != "all" ]
   then
-    sync "$path" "$remote" || break;
+    newsync "$path" "$remote" || break;
   else
     for i in ${paths[@]}
     do
       echo "-----> Syncing repo at $i..."
-      sync "$i" "$remote" || break;
+      newsync "$i" "$remote" || break;
     done
   fi
 
