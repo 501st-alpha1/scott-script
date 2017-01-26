@@ -138,3 +138,5 @@ if [ $? -eq 0 ]
 then
   alias git=hub
 fi
+
+export GOPATH="$GOPATH:$HOME/.go"
