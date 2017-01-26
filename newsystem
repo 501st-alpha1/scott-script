@@ -225,6 +225,7 @@ function gitSetup() {
     gitConfig "push.default" "simple"
     gitConfig "gitflow.multi-hotfix" "true"
     gitConfig "gitflow.feature.finish.no-ff" "true"
+    gitConfig "branch.master.syncCommitMsg" "Auto commit from \$(uname -n) on \$(date)"
 
     ### Hub ###
     if [ ! -d "../../hub" ]
