@@ -139,4 +139,10 @@ then
   alias git=hub
 fi
 
-export GOPATH="$GOPATH:$HOME/.go"
+current_gopath=$GOPATH
+if [ "$current_gopath" != "" ]
+then
+  current_gopath="$current_gopath:"
+fi
+
+export GOPATH="$current_gopath$HOME/.go"
