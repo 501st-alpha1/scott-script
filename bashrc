@@ -21,6 +21,7 @@ script="$data/scripts"
 
 # Env Vars #
 PATH="`find "$script" -name '.*' -prune -o -type d -printf '%p:'`$PATH"
+PATH="$data/bin:$PATH"
 
 # Helper Functions #
 function customAlias() {
