@@ -24,7 +24,7 @@ third_party=("jblevins.org/git/deft.git" "jblevins.org/git/markdown-mode.git" "o
 
 function loadRepo() {
   url=$1
-  IFS='/' read -ra array <<< "$name"
+  IFS='/' read -ra array <<< "$url"
   len=${#array[@]}
   last=$(expr $len - 1)
   dir=$(echo ${array[$last]} | sed 's/\./-/g')
