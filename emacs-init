@@ -113,11 +113,8 @@ norepoarray=("http://www.emacswiki.org/emacs/download/csharp-mode.el" "http://ww
 for file in ${norepoarray[*]}
 do
   IFS='/' read -ra newarray <<< "$file"
-  echo "array is ${newarray[*]}"
   num=${#newarray}
-  echo "num is $num"
   test=${newarray[$num]}
-  echo "test is $test"
   if [ -f "$test" ]
   then
     echo "File exists, skipping $test"
