@@ -26,7 +26,8 @@ function loadRepo() {
   url=$1
   IFS='/' read -ra array <<< "$name"
   len=${#array[@]}
-  dir=$(echo ${array[$len]} | sed 's/\./-/g')
+  last=$(expr $len - 1)
+  dir=$(echo ${array[$last]} | sed 's/\./-/g')
 
   if [ -d $dir ]
   then
