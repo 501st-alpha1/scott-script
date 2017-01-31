@@ -58,7 +58,14 @@ fi
 
 cd $basedir
 
-if [ "$1" != "--no-update" ]
+if [ "$1" == "--no-update" ]
+then
+  update=0
+else
+  update=1
+fi
+
+if [ $update -eq 1 ]
 then
   echo "Running ssh-add, please unlock once, if necessary."
   ssh-add -l > /dev/null
