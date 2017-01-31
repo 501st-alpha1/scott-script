@@ -15,41 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-validArgs=("basedir")
-source loadconf "$HOME/.scott_script/emacs" "daemon.cfg" validArgs[@]
-
-if [ "$1" != "--no-update" ]
-then
-  echo "Running ssh-add, please unlock once, if necessary."
-  ssh-add -l > /dev/null
-  if [ "$?" -ne 0 ]
-  then
-    ssh-add
-  fi
-
-  if [ -d "$basedir" ]
-  then
-    cd "$basedir"
-    echo "Updating plugins..."
-    for i in *
-    do
-      if [ -d "$i" ] && [ "$i" != "no-repos" ]
-      then
-        pushd "$i" > /dev/null
-        git pull
-        popd > /dev/null
-        echo "Updated $i"; echo;
-      fi
-    done
-    echo "Updating finished."; echo;
-    echo "-----"; echo;
-  else
-    echo "Variable basedir is incorrectly configured."
-    echo "It is $basedir."
-    echo "It should be a folder."
-  fi
-fi
-
 if [ "$1" != "--no-start" ]
 then
   emacs --daemon
