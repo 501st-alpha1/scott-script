@@ -37,7 +37,15 @@ function loadRepo() {
 
   if [ -d $dir ]
   then
-    echo "Folder exists, skipping $url..."
+    if [ $update -eq 0 ]
+    then
+      echo "Folder exists, skipping $url..."
+    else
+      pushd "$dir" > /dev/null
+      git pull
+      popd > /dev/null
+      echo "Updated $dir"; echo;
+    fi
   else
     git clone $url
     if [ "$dir" != "${array[1]}" ]
@@ -73,20 +81,6 @@ then
   then
     ssh-add
   fi
-
-  echo "Updating plugins..."
-  for i in *
-  do
-    if [ -d "$i" ] && [ "$i" != "no-repos" ]
-    then
-      pushd "$i" > /dev/null
-      git pull
-      popd > /dev/null
-      echo "Updated $i"; echo;
-    fi
-  done
-  echo "Updating finished."; echo;
-  echo "-----"; echo;
 fi
 
 for name in ${github[*]}
