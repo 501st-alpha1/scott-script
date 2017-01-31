@@ -22,6 +22,24 @@ github=("Bruce-Connor/names" "Bruce-Connor/aggressive-indent-mode" "sprang/emacs
 
 third_party=("jblevins.org/git/deft.git" "jblevins.org/git/markdown-mode.git" "orgmode.org/org-mode.git" "orgmode.org/org-sync.git")
 
+function loadRepo() {
+  url=$1
+  IFS='/' read -ra array <<< "$name"
+  len=${#array[@]}
+  dir=$(echo ${array[$len]} | sed 's/\./-/g')
+
+  if [ -d $dir ]
+  then
+    echo "Folder exists, skipping $url..."
+  else
+    git clone $url
+    if [ "$dir" != "${array[1]}" ]
+    then
+      mv "${array[1]}" "$test"
+    fi
+  fi
+}
+
 if [ ! -d "$basedir" ]
 then
   echo "Variable basedir is incorrectly configured."
@@ -59,18 +77,7 @@ fi
 
 for name in ${github[*]}
 do
-  IFS='/' read -ra array <<< "$name"
-  test=`echo ${array[1]} | sed 's/\./-/g'`
-  if [ -d "$test" ]
-  then
-    echo "Folder exists, skipping $name..."
-  else
-    git clone ssh://git@github.com/$name
-    if [ "$test" != "${array[1]}" ]
-    then
-      mv "${array[1]}" "$test"
-    fi
-  fi
+  loadRepo ssh://git@github.com/$name
 done
 
 if [ ! -d "deft" ]
