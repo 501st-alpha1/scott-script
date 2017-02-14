@@ -96,7 +96,8 @@ case "$2" in
     scp -r -P $port -i $id $user@$ip:$3 "$4"
     ;;
   "cmd")
-    ssh $user@$ip $args "$3"
+    shift; shift;
+    ssh $user@$ip $args $@
     ;;
   "ping")
     ping $ip
