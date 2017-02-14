@@ -20,15 +20,24 @@ source loadconf "$HOME/.scott_script/gitsync" "config" validArgs[@]
 
 if [ -z "$1" ]
 then
-  echo "usage: `basename $0` <name> [<time> [no-commit|commit-only|<remote>]]"
+  echo "usage: `basename $0` [oldsync] <name> [<time> [no-commit|commit-only|<remote>]]"
   echo
   echo "Arguments:"
+  echo "  oldsync: Give as first argument to use old sync logic."
   echo "  <name>: The name of the repo to sync, defined in config file."
   echo "  <time>: Amount of delay between syncs in seconds. Default 60."
   echo "  no-sync|<remote>:"
   echo "    no-sync: Don't sync to any remotes."
   echo "    <remote>: The remote to sync to. Default 'origin'."
   exit 1
+fi
+
+if [ "$1" == "oldsync" ]
+then
+  cmd=sync
+  shift
+else
+  cmd=newsync
 fi
 
 if [ "$1" != "all" ]
@@ -135,12 +144,12 @@ while true
 do
   if [ "$1" != "all" ]
   then
-    newsync "$path" "$remote" || break;
+    $cmd "$path" "$remote" || break;
   else
     for i in ${paths[@]}
     do
       echo "-----> Syncing repo at $i..."
-      newsync "$i" "$remote" || break;
+      $cmd "$i" "$remote" || break;
     done
   fi
 
