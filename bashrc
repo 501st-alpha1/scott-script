@@ -120,6 +120,9 @@ alias speedtest="wget -O /dev/null http://speedtest.wdc01.softlayer.com/download
 alias sspeedtest="torify wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip --report-speed=bits"
 alias git-repo-authors="git ls-tree -r HEAD --name-only | xargs -I{} git blame --line-porcelain {} | sed -n 's/^author //p' | sort | uniq -c | sort -rn"
 
+# Remove unused Docker images, see https://stackoverflow.com/a/32723127/2747593
+alias drmi="docker rmi \$(docker images --filter \"dangling=true\" -q --no-trunc)"
+
 # Prompt customisation
 # Default Ubuntu: \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\h:\w\$
 green="\[\033[0;32m\]"
