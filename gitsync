@@ -129,7 +129,7 @@ function sync() {
 }
 
 function newsync() {
-  if [ "$2" != "origin" ]
+  if [ "$2" != "origin" ] && [ "$2" != "no-sync" ]
   then
     echo "New sync doesn't support custom remotes!"
     exit 4
@@ -137,7 +137,7 @@ function newsync() {
 
   cd $1
 
-  git-sync sync
+  git-sync sync $2
 }
 
 while true
