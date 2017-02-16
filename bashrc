@@ -135,6 +135,7 @@ time="[\t]"
 user="[\u@\h]"
 stats="[\!:$returncode]"
 PS1="\n$green$currdir$stats\n$time$user\$$end "
+[ "$TERM" == "dumb" ] && PS1='$ '
 
 # GitHub script
 type -t "hub" > /dev/null
