@@ -27,15 +27,18 @@ do
   options[${#options[@]}]=--exclude="${e}"
 done
 
+source="$localpath"
+dest="$server:$remotepath"
+
 # First, do a dry run.
-rsync --dry-run "${options[@]}" "$localpath" "$server:$remotepath"
+rsync --dry-run "${options[@]}" "$source" "$dest"
 
 read -p "Does this look okay? [y/N] " ret
 
 if [ "$ret" == "y" ] || [ "$ret" == "Y" ]
 then
   # Run the sync
-  rsync "${options[@]}" "$localpath" "$server:$remotepath"
+  rsync "${options[@]}" "$source" "$dest"
 else
   echo "Sync aborted!"
 fi
