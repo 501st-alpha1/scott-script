@@ -17,6 +17,7 @@
 
 validArgs=("localpath" "remotepath" "server" "excludes")
 source loadconf "$HOME/.scott_script/launcher" "$1.cfg" validArgs[@]
+shift
 
 options=("--recursive" "--verbose" "--compress" "--times" "--checksum"
          "--omit-dir-times" "--delete-after" --filter=':- .gitignore'
@@ -27,8 +28,14 @@ do
   options[${#options[@]}]=--exclude="${e}"
 done
 
-source="$localpath"
-dest="$server:$remotepath"
+if [ "$1" == "--invert" ]
+then
+  source="$server:$remotepath"
+  dest="$localpath"
+else
+  source="$localpath"
+  dest="$server:$remotepath"
+fi
 
 # First, do a dry run.
 rsync --dry-run "${options[@]}" "$source" "$dest"
