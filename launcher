@@ -20,7 +20,7 @@ source loadconf "$HOME/.scott_script/launcher" "$1.cfg" validArgs[@]
 shift
 
 options=("--recursive" "--verbose" "--compress" "--times" "--checksum"
-         "--omit-dir-times" "--delete-after" --filter=':- .gitignore'
+         "--omit-dir-times" --filter=':- .gitignore'
          --exclude='.git/')
 
 if [ "$port" != "" ]
@@ -37,9 +37,15 @@ if [ "$1" == "--invert" ]
 then
   source="$server:$remotepath"
   dest="$localpath"
+  shift
 else
   source="$localpath"
   dest="$server:$remotepath"
+fi
+
+if [ "$1" != "--no-delete" ]
+then
+  options+=("--delete-after")
 fi
 
 # First, do a dry run.
