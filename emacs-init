@@ -114,9 +114,9 @@ function loadRepo() {
     fi
   else
     git clone $url
-    if [ "$dir" != "${array[1]}" ]
+    if [ "$dir" != "${array[$last]}" ]
     then
-      mv "${array[1]}" "$test"
+      mv "${array[$last]}" "$dir"
     fi
   fi
 }
