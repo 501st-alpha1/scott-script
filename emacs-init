@@ -29,6 +29,7 @@ github=(
   "michaelklishin/cucumber.el"
   "magnars/dash.el"
   "dengste/doc-present"
+  "Silex/docker.el"
   "emacs-pe/docker-tramp.el"
   "spotify/dockerfile-mode"
   "editorconfig/editorconfig-emacs"
