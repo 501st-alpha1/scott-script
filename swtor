@@ -51,8 +51,8 @@ if [ "$1" == "install" ]
 then
   echo "First, ensure prefix is initialized."
   myrun winecfg
-  echo "winetricks d3dx9 vcrun2008 msls31"
-  WINE="$bin" winetricks d3dx9 vcrun2008 msls31 >> "$log/swtor" 2>&1
+  echo "winetricks d3dx9"
+  WINE="$bin" winetricks d3dx9 >> "$log/swtor" 2>&1
   echo "Now install."
   myrun ./SWTOR_setup.exe
   file="https://github.com/aljen/swtor_fix/blob/master/swtor_fix.exe?raw=true"
