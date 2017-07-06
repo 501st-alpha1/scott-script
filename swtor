@@ -53,6 +53,8 @@ then
   myrun winecfg
   echo "winetricks d3dx9"
   WINE="$bin" winetricks d3dx9 >> "$log/swtor" 2>&1
+  echo "Download installer."
+  wget "http://www.swtor.com/download"
   echo "Now install."
   myrun ./SWTOR_setup.exe
   file="https://github.com/aljen/swtor_fix/blob/master/swtor_fix.exe?raw=true"
