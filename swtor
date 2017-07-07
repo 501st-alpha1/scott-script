@@ -60,8 +60,8 @@ then
   file="https://github.com/aljen/swtor_fix/blob/master/swtor_fix.exe?raw=true"
   wget -O "$progdir/swtor_fix.exe" "$file"
   echo "Fix launcher settings."
-  sed -i 's@, "PatchingMode": "{ \"swtor\": \"BR\" }"@, "PatchingMode": "{ \"swtor\": \"SSN\" }"@' $progdir/launcher.settings
-  sed -i 's@, "bitraider_disable": false@, "bitraider_disable": true@'
+  sed -i 's@, "PatchingMode": "{ \"swtor\": \"BR\" }"@, "PatchingMode": "{ \"swtor\": \"SSN\" }"@' "$progdir/launcher.settings"
+  sed -i 's@, "bitraider_disable": false@, "bitraider_disable": true@' "$progdir/launcher.settings"
   echo "Should have been successful. If not, check logs and try again."
 elif [ "$1" == "help" ]
 then
