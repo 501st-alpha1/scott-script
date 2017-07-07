@@ -59,9 +59,10 @@ then
   myrun ./SWTOR_setup.exe
   file="https://github.com/aljen/swtor_fix/blob/master/swtor_fix.exe?raw=true"
   wget -O "$progdir/swtor_fix.exe" "$file"
+  echo "Fix launcher settings."
+  sed -i 's@, "PatchingMode": "{ \"swtor\": \"BR\" }"@, "PatchingMode": "{ \"swtor\": \"SSN\" }"@' $progdir/launcher.settings
+  sed -i 's@, "bitraider_disable": false@, "bitraider_disable": true@'
   echo "Should have been successful. If not, check logs and try again."
-  echo "If you get an error about admin permissions, try setting "
-  echo "bitraider_disable to false in 'launcher.settings'."
 elif [ "$1" == "help" ]
 then
   usage
