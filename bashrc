@@ -121,6 +121,14 @@ alias sspeedtest="torify wget -O /dev/null http://speedtest.wdc01.softlayer.com/
 alias git-repo-authors="git ls-tree -r HEAD --name-only | xargs -I{} git blame --line-porcelain {} | sed -n 's/^author //p' | sort | uniq -c | sort -rn"
 alias private-bash="HISTFILE='' torify bash -i"
 
+function mktmpfs() {
+  [ -z "$1" ] && echo "Error: please provide a size for ramdisk." && return 1
+
+  [ -z "$2" ] && mount="/mnt/ramdisk" || mount="$2"
+
+  sudo mount -t tmpfs -o size=$1 tmpfs $mount
+}
+
 # Remove unused Docker images, see https://stackoverflow.com/a/32723127/2747593
 alias drmi="docker rmi \$(docker images --filter \"dangling=true\" -q --no-trunc)"
 
