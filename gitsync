@@ -149,7 +149,7 @@ do
     for i in ${paths[@]}
     do
       echo "-----> Syncing repo at $i..."
-      $cmd "$i" "$remote" || break;
+      $cmd "$i" "$remote" || continue;
     done
   fi
 
