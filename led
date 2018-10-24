@@ -3,9 +3,17 @@
 
 basedir="$(pwd)"
 
+validArgs=('disable_payee_check')
+source loadconf "$basedir" "led.conf" validArgs[@]
+
 # TODO: Make this configurable.
 ledger="$basedir/main.ledger"
 
 args="--file $ledger --strict --explicit"
+
+if [ "$disable_payee_check" != 1 ]
+then
+  args="$args --check-payees"
+fi
 
 PAGER='' ledger $args "$@"
