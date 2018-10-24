@@ -1,0 +1,11 @@
+#!/bin/bash
+# Wrapper script for Ledger-CLI.
+
+basedir="$(pwd)"
+
+# TODO: Make this configurable.
+ledger="$basedir/main.ledger"
+
+args="--file $ledger --strict --explicit"
+
+PAGER='' ledger $args "$@"
