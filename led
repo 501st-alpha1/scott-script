@@ -3,7 +3,7 @@
 
 basedir="$(pwd)"
 
-validArgs=('disable_payee_check')
+validArgs=('disable_payee_check' 'net_excludes')
 source loadconf "$basedir" "led.conf" validArgs[@]
 
 # TODO: Make this configurable.
@@ -24,6 +24,10 @@ then
   args="$args balance (^Assets ^Liabilities) and not budget"
 
   # TODO: Allow excluding other accounts.
+  for exclude in "${net_excludes[@]}"
+  do
+    args="$args and not $exclude"
+  done
 fi
 
 PAGER='' ledger $args "$@"
