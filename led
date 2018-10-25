@@ -20,7 +20,6 @@ function make_net() {
   # TODO: Make included accounts configurable?
   args="$args balance (^Assets ^Liabilities) and not budget"
 
-  # TODO: Allow excluding other accounts.
   for exclude in "${net_excludes[@]}"
   do
     args="$args and not $exclude"
