@@ -16,10 +16,7 @@ then
   args="$args --check-payees"
 fi
 
-if [ "$1" == "net" ]
-then
-  shift
-
+function make_net() {
   # TODO: Make included accounts configurable?
   args="$args balance (^Assets ^Liabilities) and not budget"
 
@@ -28,6 +25,13 @@ then
   do
     args="$args and not $exclude"
   done
+}
+
+if [ "$1" == "net" ]
+then
+  shift
+
+  make_net
 fi
 
 PAGER='' ledger $args "$@"
