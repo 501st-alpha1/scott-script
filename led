@@ -16,4 +16,14 @@ then
   args="$args --check-payees"
 fi
 
+if [ "$1" == "net" ]
+then
+  shift
+
+  # TODO: Make included accounts configurable?
+  args="$args balance (^Assets ^Liabilities) and not budget"
+
+  # TODO: Allow excluding other accounts.
+fi
+
 PAGER='' ledger $args "$@"
