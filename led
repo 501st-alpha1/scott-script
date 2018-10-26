@@ -9,20 +9,20 @@ source loadconf "$basedir" "led.conf" validArgs[@]
 # TODO: Make this configurable.
 ledger="$basedir/main.ledger"
 
-args="--file $ledger --strict --explicit"
+args=('--file' "$ledger" '--strict' '--explicit')
 
 if [ "$disable_payee_check" != 1 ]
 then
-  args="$args --check-payees"
+  args+=('--check-payees')
 fi
 
 function make_net() {
   # TODO: Make included accounts configurable?
-  args="$args balance (^Assets ^Liabilities) and not budget"
+  args+=('balance' '(^Assets' '^Liabilities)' 'and' 'not' 'budget')
 
   for exclude in "${net_excludes[@]}"
   do
-    args="$args and not $exclude"
+    args+=('and' 'not' "$exclude")
   done
 }
 
@@ -33,4 +33,4 @@ then
   make_net
 fi
 
-PAGER='' ledger $args "$@"
+PAGER='' ledger "${args[@]}" "$@"
