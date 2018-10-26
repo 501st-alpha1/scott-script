@@ -3,7 +3,7 @@
 
 basedir="$(pwd)"
 
-validArgs=('disable_payee_check' 'net_excludes')
+validArgs=('disable_payee_check' 'net_excludes' 'fakenet_extra_excludes')
 source loadconf "$basedir" "led.conf" validArgs[@]
 
 # TODO: Make this configurable.
@@ -31,6 +31,16 @@ then
   shift
 
   make_net
+elif [ "$1" == 'fakenet' ]
+then
+  shift
+
+  make_net
+
+  for exclude in "${fakenet_extra_excludes[@]}"
+  do
+    args+=('and' 'not' "$exclude")
+  done
 fi
 
 PAGER='' ledger "${args[@]}" "$@"
