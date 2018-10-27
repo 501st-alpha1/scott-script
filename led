@@ -8,6 +8,7 @@ source loadconf "$basedir" "led.conf" validArgs[@]
 
 # TODO: Make this configurable.
 ledger="$basedir/main.ledger"
+ofxconfig="$basedir/ofxclient.ini"
 
 args=('--file' "$ledger" '--strict' '--explicit')
 
@@ -41,6 +42,16 @@ then
   do
     args+=('and' 'not' "$exclude")
   done
+elif [ "$1" == 'sync' ]
+then
+  shift
+
+  args=('--ofxconfig' "$ofxconfig" '--ledger' "$ledger"
+        '--unknown-account' 'Expenses:Unknown')
+
+  ledger-autosync "${args[@]}" "$@"
+
+  exit $?
 fi
 
 PAGER='' ledger "${args[@]}" "$@"
