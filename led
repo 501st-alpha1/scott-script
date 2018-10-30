@@ -3,8 +3,11 @@
 
 basedir="$(pwd)"
 
-validArgs=('disable_payee_check' 'net_excludes' 'fakenet_extra_excludes')
-source loadconf "$basedir" "led.conf" validArgs[@]
+if [ -f "$basedir/led.conf" ]
+then
+  validArgs=('disable_payee_check' 'net_excludes' 'fakenet_extra_excludes')
+  source loadconf "$basedir" "led.conf" validArgs[@]
+fi
 
 # TODO: Make this configurable.
 ledger="$basedir/main.ledger"
