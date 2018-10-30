@@ -106,6 +106,25 @@ function say {
 
 unset cfgdir
 
+function stop {
+  sig="STOP"
+  if [ "$1" == "soft" ]
+  then
+    sig="TSTP"
+    shift
+  fi
+
+  [ -z "$1" ] && echo "Error: missing PID to suspend." && return 1
+
+  kill -$sig $1
+}
+
+function resume {
+  [ -z "$1" ] && echo "Error: missing PID to resume." && return 1
+
+  kill -CONT $1
+}
+
 # Custom aliases
 alias dif="diff --suppress-common-lines --ignore-all-space --side-by-side"
 alias ll='ls --all -l --file-type'
