@@ -72,5 +72,5 @@ then
 else
   #export WINEDEBUG=+fps
   cd "$progdir"
-  "$bin" ./launcher.exe >> "$log/swtor" 2>&1
+  "$bin" ./launcher.exe > /dev/null 2>&1
 fi
