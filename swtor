@@ -32,10 +32,7 @@ function myrun() {
 function usage() {
   echo "usage: swtor [install]"
   echo "  If install command is provided, game will be installed for first "
-  echo "  time. Assumes that wine is installed, arguments are configured, and "
-  echo "  SWTOR_setup.exe has been downloaded to the current folder."
-  echo
-  echo "  TODO: automate install of swtor_fix"
+  echo "  time. Assumes that wine is installed, and arguments are configured."
 }
 
 validArgs=("bin" "data" "log")
