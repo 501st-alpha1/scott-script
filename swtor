@@ -1,6 +1,6 @@
 #!/bin/bash
 # Launcher script for Star Wars: The Old Republic, running through Wine
-# Copyright (C) 2013-2017 Scott Weldon
+# Copyright (C) 2013-2018 Scott Weldon
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -75,6 +75,5 @@ then
 else
   #export WINEDEBUG=+fps
   cd "$progdir"
-  "$bin" ./swtor_fix.exe >> "$log/swtor" 2>&1 &
   "$bin" ./launcher.exe >> "$log/swtor" 2>&1
 fi
