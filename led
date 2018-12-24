@@ -5,7 +5,8 @@ basedir="$(pwd)"
 
 if [ -f "$basedir/led.conf" ]
 then
-  validArgs=('disable_payee_check' 'net_excludes' 'fakenet_extra_excludes')
+  validArgs=('disable_payee_check' 'net_excludes' 'fakenet_extra_excludes'
+             'sync_base_folder' 'sync_names' 'sync_folders' 'sync_accounts')
   source loadconf "$basedir" "led.conf" validArgs[@]
 fi
 
@@ -51,6 +52,28 @@ then
 
   args=('--ofxconfig' "$ofxconfig" '--ledger' "$ledger"
         '--unknown-account' 'Expenses:Unknown')
+
+  # Check if next arg is sync name.
+  found=0
+  for (( i=0; i < "${#sync_names[@]}"; i++ ))
+  do
+    if [ "${sync_names[$i]}" == "$1" ]
+    then
+      folder="${sync_folders[$i]}"
+      account="${sync_accounts[$i]}"
+      found=1
+    fi
+  done
+  if [ $found -eq 1 ]
+  then
+    shift
+
+    path="$sync_base_folder/$folder"
+    filename="$path/$1"
+    shift
+
+    args+=('--account' "$account" "$filename")
+  fi
 
   ledger-autosync "${args[@]}" "$@"
 
