@@ -69,6 +69,14 @@ then
     shift
 
     path="$sync_base_folder/$folder"
+
+    # Check if next arg is a year.
+    if [ "$(date --date $1/1/1 +%Y)" == "$1" ]
+    then
+      path="$path/$1"
+      shift
+    fi
+
     filename="$path/$1"
     shift
 
