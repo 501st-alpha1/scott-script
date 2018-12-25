@@ -46,6 +46,14 @@ then
   do
     args+=('and' 'not' "$exclude")
   done
+elif [ "$1" == 'watchfakenet' ]
+then
+  # TODO: Allow customizing this.
+  fileext='ledger'
+  inotifywait --monitor --quiet --event close_write *.$fileext | while
+      led fakenet
+      read event
+    do :; done # No-op
 elif [ "$1" == 'sync' ]
 then
   shift
