@@ -50,8 +50,14 @@ elif [ "$1" == 'watchfakenet' ]
 then
   # TODO: Allow customizing this.
   fileext='ledger'
+  finished=0
   inotifywait --monitor --quiet --event close_write *.$fileext | while
-      led fakenet
+      # If last run finished less than 1 second ago, then skip.
+      if [ $(expr $(date +%s) - $finished) -gt 1 ]
+      then
+        led fakenet
+      fi
+      finished=$(date +%s)
       read event
     do :; done # No-op
 elif [ "$1" == 'sync' ]
