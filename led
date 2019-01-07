@@ -60,6 +60,27 @@ then
       finished=$(date +%s)
       read event
     do :; done # No-op
+elif [ "$1" == 'dedup' ]
+then
+  shift
+  if [ $# -eq 0 ]
+  then
+    tag=ofxid
+    echo 'No argument given, assuming `ofxid` tag.'
+  else
+    tag="$1"
+    shift
+  fi
+
+  output=$(PAGER='' ledger "${args[@]}" tags --values "$@" | grep "$tag" | sort | uniq -d)
+  if [ "$output" == '' ]
+  then
+    echo "Success!  No duplicate '$tag' tags."
+    exit 0
+  else
+    echo "Error: duplicate '$tag' tags found:"
+    echo $output
+  fi
 elif [ "$1" == 'sync' ]
 then
   shift
