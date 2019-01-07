@@ -148,8 +148,13 @@ do
   else
     for i in ${paths[@]}
     do
-      echo "-----> Syncing repo at $i..."
-      $cmd "$i" "$remote" || continue;
+      if [ -f "$i/.disable-git-sync" ]
+      then
+        echo "-----> Git sync disabled for repo at $i"
+      else
+        echo "-----> Syncing repo at $i..."
+        $cmd "$i" "$remote" || continue;
+      fi
     done
   fi
 
