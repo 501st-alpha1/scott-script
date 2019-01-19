@@ -46,8 +46,9 @@ then
   do
     args+=('and' 'not' "$exclude")
   done
-elif [ "$1" == 'watchfakenet' ]
+elif [ "$1" == 'watch' ]
 then
+  shift
   # TODO: Allow customizing this.
   fileext='ledger'
   finished=0
@@ -55,7 +56,7 @@ then
       # If last run finished less than 1 second ago, then skip.
       if [ $(expr $(date +%s) - $finished) -gt 1 ]
       then
-        led fakenet
+        led "$@"
       fi
       finished=$(date +%s)
       read event
