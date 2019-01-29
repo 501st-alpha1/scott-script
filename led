@@ -82,6 +82,33 @@ then
     echo "Error: duplicate '$tag' tags found:"
     echo $output
   fi
+elif [ "$1" == 'reconcile' ]
+then
+  shift
+
+  if [ "$1" != "" ]
+  then
+    account="$1"
+  else
+    echo 'Error: Account not given.'
+    exit 1
+  fi
+
+  args+=('balance' '--format' '%(display_amount)\n' "$account")
+
+  result=$(ledger "${args[@]}")
+
+  read -p "For account $account, is the current balance $result? [y/N] " answer
+
+  if [ "$answer" == 'y' ]
+  then
+    echo 'Successfully reconciled!'
+  else
+    echo 'Please fix issues and try again.'
+    exit 2
+  fi
+
+  exit 0
 elif [ "$1" == 'sync' ]
 then
   shift
