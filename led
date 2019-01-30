@@ -110,11 +110,13 @@ then
     exit 1
   fi
 
-  args+=('balance' '--format' '%(display_amount)\n' "$account")
+  args+=('balance' '--format' '%(display_amount) %(quantity(display_amount))' "$account")
 
   result=$(ledger "${args[@]}")
 
-  read -p "For account $account, is the current balance $result? [y/N] " answer
+  read -r amount quantity <<< "$result"
+
+  read -p "For account $account, is the current balance $amount? [y/N] " answer
 
   if [ "$answer" == 'y' ]
   then
@@ -122,9 +124,12 @@ then
     # TODO: Auto-align to 80 chars.
     cat <<EOF
 $(date +%Y/%m/%d) * Assertions
-    $account           0 = $result
+    $account           0 = $amount
 EOF
   else
+    read -p "What is the current balance for $account? " actualAmount
+    difference=$(awk "BEGIN{print $quantity - $actualAmount}")
+    echo "Ledger is off by $difference."
     echo 'Please fix issues and try again.'
     exit 2
   fi
