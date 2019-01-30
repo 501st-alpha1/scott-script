@@ -93,7 +93,7 @@ case "$2" in
     scp -r -P $port -i $id "$3" $user@$ip:$4
     ;;
   "down")
-    scp -r -P $port -i $id $user@$ip:$3 "$4"
+    scp -r -P $port -i $id "$user@$ip:$3" "$4"
     ;;
   "cmd")
     shift; shift;
