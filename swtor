@@ -71,7 +71,8 @@ then
   myrun wineboot -u
 elif [ "$1" == 'kill' ]
 then
-  killall --interactive --wait 'swtor.exe'
+  match='C:\\Program Files\\Electronic Arts\\BioWare\\Star Wars - The Old Republic\\swtor\\RetailClient\\swtor.exe'
+  pkill --list-full --full "$match"
 else
   #export WINEDEBUG=+fps
   cd "$progdir"
