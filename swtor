@@ -41,8 +41,19 @@ source loadconf "$HOME/.scott_script/wine" "swtor.cfg" validArgs[@]
 
 export env WINEARCH=win32 WINEPREFIX="$data"
 
-#progdir="$data/drive_c/Program Files/Electronic Arts/BioWare/Star Wars - The Old Republic"
-progdir="$data/drive_c/Program Files/Electronic Arts/BioWare/Star Wars-The Old Republic"
+progdir="$data/drive_c/Program Files/Electronic Arts/BioWare"
+function init_progdir() {
+  if [ -d "$progdir/Star Wars-The Old Republic" ]
+  then
+    progdir="$progdir/Star Wars-The Old Republic"
+  elif [ -d "$progdir/Star Wars - The Old Republic" ]
+  then
+    progdir="$progdir/Star Wars - The Old Republic"
+  else
+    echo "Error: couldn't find program directory."
+    exit 1
+  fi
+}
 
 if [ "$1" == "install" ]
 then
@@ -54,6 +65,7 @@ then
   wget -O ./SWTOR_setup.exe "http://www.swtor.com/download"
   echo "Now install."
   myrun ./SWTOR_setup.exe
+  init_progdir
   file="https://github.com/aljen/swtor_fix/blob/master/swtor_fix.exe?raw=true"
   wget -O "$progdir/swtor_fix.exe" "$file"
   echo "Fix launcher settings."
@@ -71,9 +83,11 @@ then
   myrun wineboot -u
 elif [ "$1" == 'kill' ]
 then
+  init_progdir
   match='C:\\Program Files\\Electronic Arts\\BioWare\\Star Wars - The Old Republic\\swtor\\RetailClient\\swtor.exe'
   pkill --list-full --full "$match"
 else
+  init_progdir
   #export WINEDEBUG=+fps
   cd "$progdir"
   "$bin" ./launcher.exe > /dev/null 2>&1
