@@ -102,7 +102,12 @@ then
 
   if [ "$answer" == 'y' ]
   then
-    echo 'Successfully reconciled!'
+    echo 'Successfully reconciled!  You may append the following to your Ledgerfile:'
+    # TODO: Auto-align to 80 chars.
+    cat <<EOF
+$(date +%Y/%m/%d) * Assertions
+    $account           0 = $result
+EOF
   else
     echo 'Please fix issues and try again.'
     exit 2
