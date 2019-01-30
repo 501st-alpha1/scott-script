@@ -6,7 +6,8 @@ basedir="$(pwd)"
 if [ -f "$basedir/led.conf" ]
 then
   validArgs=('disable_payee_check' 'net_excludes' 'fakenet_extra_excludes'
-             'sync_base_folder' 'sync_names' 'sync_folders' 'sync_accounts')
+             'sync_base_folder' 'sync_names' 'sync_folders' 'sync_accounts'
+             'date')
   source loadconf "$basedir" "led.conf" validArgs[@]
 fi
 
@@ -56,6 +57,7 @@ then
       # If last run finished less than 1 second ago, then skip.
       if [ $(expr $(date +%s) - $finished) -gt 1 ]
       then
+        [ "$date" == "1" ] && date
         led "$@"
       fi
       finished=$(date +%s)
@@ -151,9 +153,11 @@ then
     args+=('--account' "$account" "$filename")
   fi
 
+  [ "$date" == "1" ] && date
   ledger-autosync "${args[@]}" "$@"
 
   exit $?
 fi
 
+[ "$date" == "1" ] && date
 PAGER='' ledger "${args[@]}" "$@"
