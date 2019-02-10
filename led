@@ -110,6 +110,16 @@ then
     exit 1
   fi
 
+  subaccounts=$(ledger "${args[@]}" accounts "$account" | wc -l)
+
+  if [ $subaccounts -gt 1 ]
+  then
+    echo 'Account has multiple sub accounts:'
+    PAGER='' ledger "${args[@]}" accounts "$account"
+    echo 'Not implemented.'
+    exit 3
+  fi
+
   args+=('balance' '--format' '%(display_amount) %(quantity(display_amount))' "$account")
 
   result=$(ledger "${args[@]}")
