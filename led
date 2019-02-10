@@ -130,8 +130,29 @@ EOF
     read -p "What is the current balance for $account? " actualAmount
     difference=$(awk "BEGIN{print $quantity - $actualAmount}")
     echo "Ledger is off by $difference."
-    echo 'Please fix issues and try again.'
-    exit 2
+    read -p 'Create an adjustment transaction? [y/N] ' answer
+    if [ "$answer" == 'y' ]
+    then
+      symbol='$' # TODO: allow customizing this.
+      echo 'You may append the following to your Ledgerfile:'
+      if [ $(echo "$difference > 0" | bc) -eq 1 ]
+      then
+        cat <<EOF
+$(date +%Y/%m/%d) * Adjustment
+    Income:Previous                                                       $symbol-$difference
+    $account                  $symbol$difference = $amount
+EOF
+      else
+        cat <<EOF
+$(date +%Y/%m/%d) * Adjustment
+    $account                  $symbol$difference = $amount
+    Expenses:Previous                                                      $symbol${difference#-}
+EOF
+      fi
+    else
+      echo 'Please fix issues and try again.'
+      exit 2
+    fi
   fi
 
   exit 0
