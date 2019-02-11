@@ -191,7 +191,7 @@ then
     path="$sync_base_folder/$folder"
 
     # Check if next arg is a year.
-    if [ "$(date --date $1/1/1 +%Y)" == "$1" ]
+    if [ "$(date --date $1/1/1 +%Y 2>/dev/null)" == "$1" ]
     then
       path="$path/$1"
       shift
