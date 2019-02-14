@@ -21,7 +21,7 @@ if [ -f "$basedir/led.conf" ]
 then
   validArgs=('disable_payee_check' 'net_excludes' 'fakenet_extra_excludes'
              'sync_base_folder' 'sync_names' 'sync_folders' 'sync_accounts'
-             'date')
+             'sync_fids' 'date')
   source loadconf "$basedir" "led.conf" validArgs[@]
 fi
 
@@ -181,6 +181,7 @@ then
     then
       folder="${sync_folders[$i]}"
       account="${sync_accounts[$i]}"
+      fid="${sync_fids[$i]}"
       found=1
     fi
   done
@@ -200,7 +201,14 @@ then
     filename="$path/$1"
     shift
 
-    args+=('--account' "$account" "$filename")
+    args+=('--account' "$account")
+
+    if [ "$fid" != '' ]
+    then
+      args+=('--fid' "$fid")
+    fi
+
+    args+=("$filename")
   fi
 
   [ "$date" == "1" ] && date
