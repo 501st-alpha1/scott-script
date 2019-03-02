@@ -215,6 +215,42 @@ then
   ledger-autosync "${args[@]}" "$@"
 
   exit $?
+elif [ "$1" == 'budget' ]
+then
+  shift
+
+  if [ -z "$1" ]
+  then
+    month=$(date +%m)
+  else
+    month="$1"
+    shift
+  fi
+
+  if [ -z "$1" ]
+  then
+    year=$(date +%Y)
+  else
+    year="$1"
+    shift
+  fi
+
+  month=$(expr $month + 1)
+  if [ $month -gt 13 ]
+  then
+    echo 'Error: month must be between 1 and 12 inclusively.'
+    exit 1
+  elif [ $month -eq 13 ]
+  then
+    month=01
+    year=$(expr $year + 1)
+  fi
+
+  args+=(
+    'balance' '--aux-date'
+    '--end' "$year/$month/01"
+    '^Assets:Budget'
+  )
 fi
 
 [ "$date" == "1" ] && date
