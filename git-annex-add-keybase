@@ -1,0 +1,46 @@
+#!/bin/bash
+# Configure a Keybase remote for the given repo.
+# Copyright (C) 2019 Scott Weldon
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# Requirements:
+#  - git
+#  - git-annex
+#  - jq
+#  - keybase
+
+if [ "$1" == "" ]
+then
+  echo "Error: missing repository name (for Keybase)."
+  exit 1
+fi
+
+# Get Keybase username.
+user=$(keybase status --json | jq --raw-output .Username || exit 2)
+
+if [ "$(keybase git list | grep \"$1.git\")" == "" ]
+then
+  # Repo probably wasn't created yet, so try to do so.
+  keybase git create "$1"
+fi
+
+# Add encrypted Git remote for main Git data.
+# Keybase doesn't support git-annex natively, so ignore it.
+git remote add -f keybase "keybase://private/$user/$1.git"
+git config --bool remote.keybase.annex-ignore true
+
+# Add rsync remote to store files encrypted on KBFS.
+git annex initremote keybase-rsync type=rsync \
+    directory="/keybase/private/$user/git-annex-files/$1/" encryption=none
