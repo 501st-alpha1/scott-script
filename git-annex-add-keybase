@@ -43,4 +43,5 @@ git config --bool remote.keybase.annex-ignore true
 
 # Add rsync remote to store files encrypted on KBFS.
 git annex initremote keybase-rsync type=rsync \
-    rsyncurl="/keybase/private/$user/git-annex-files/$1/" encryption=none
+    rsyncurl="/keybase/private/$user/git-annex-files/$1/" encryption=none \
+    || git annex enableremote keybase-rsync
