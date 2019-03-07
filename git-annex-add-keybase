@@ -30,7 +30,7 @@ fi
 # Get Keybase username.
 user=$(keybase status --json | jq --raw-output .Username || exit 2)
 
-if [ "$(keybase git list | grep \"$1.git\")" == "" ]
+if [ "$(keybase git list | grep "$1.git")" == "" ]
 then
   # Repo probably wasn't created yet, so try to do so.
   keybase git create "$1"
