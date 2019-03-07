@@ -294,3 +294,5 @@ then
 else
   backlightFix
 fi
+
+# TODO add VolumePercentageStep=1 to ~/.kde/share/config/kmixrc
