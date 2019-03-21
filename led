@@ -202,7 +202,11 @@ then
     filename="$path/$1"
     shift
 
-    args+=('--account' "$account")
+    IFS='|' read -ra accounts <<< "$account"
+    for i in "${accounts[@]}"
+    do
+      args+=('--account' "$i")
+    done
 
     if [ "$fid" != '' ]
     then
