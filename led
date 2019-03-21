@@ -105,6 +105,7 @@ then
   if [ "$1" != "" ]
   then
     account="$1"
+    shift
   else
     echo 'Error: Account not given.'
     exit 1
