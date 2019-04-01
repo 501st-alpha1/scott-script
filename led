@@ -127,9 +127,13 @@ then
 
   read -r amount quantity <<< "$result"
 
-  read -p "For account $account, is the current balance $amount? [y/N] " answer
+  read -p "For account $account, is the current balance $amount? [y/N/a] " answer
 
-  if [ "$answer" == 'y' ]
+  if [ "$answer" == 'a' ]
+  then
+    echo 'Aborting reconcile.'
+    exit 0
+  elif [ "$answer" == 'y' ]
   then
     echo 'Successfully reconciled!  You may append the following to your Ledgerfile:'
     # TODO: Auto-align to 80 chars.
