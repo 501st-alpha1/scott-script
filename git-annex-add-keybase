@@ -45,3 +45,7 @@ git config --bool remote.keybase.annex-ignore true
 git annex initremote keybase-rsync type=rsync \
     rsyncurl="/keybase/private/$user/git-annex-files/$1/" encryption=none \
     || git annex enableremote keybase-rsync
+
+# Set cost slightly higher than default remote cost, since we must encrypt *and*
+# send to remote.
+git config remote.keybase-rsync.cost=250
