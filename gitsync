@@ -148,9 +148,14 @@ do
   else
     for i in ${paths[@]}
     do
+      freespace=$(df -k --output=avail "$i" | tail -n +2)
       if [ -f "$i/.disable-git-sync" ]
       then
         echo "-----> Git sync disabled for repo at $i"
+      elif [ "$freespace" -lt 1000000 ]
+      then
+        # TODO: allow customizing size
+        echo "-----> Drive for repo $i contains less than 1G free space, skipping"
       else
         echo "-----> Syncing repo at $i..."
         $cmd "$i" "$remote" || continue;
