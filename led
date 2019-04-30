@@ -38,7 +38,7 @@ fi
 
 function make_net() {
   # TODO: Make included accounts configurable?
-  args+=('balance' '(^Assets' '^Liabilities)' 'and' 'not' 'budget')
+  args+=('balance' '--real' '(^Assets' '^Liabilities)' 'and' 'not' 'budget')
 
   for exclude in "${net_excludes[@]}"
   do
