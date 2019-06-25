@@ -278,6 +278,10 @@ then
     '--end' "$year/$month/01"
     '^Assets:Budget'
   )
+elif [ "$1" == 'validate' ]
+then
+  $ledger --file "$ledger_file" --pedantic bal > /dev/null
+  exit $?
 fi
 
 [ "$date" == "1" ] && date
