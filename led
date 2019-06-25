@@ -26,10 +26,10 @@ then
 fi
 
 # TODO: Make this configurable.
-ledger="$basedir/main.ledger"
+ledger_file="$basedir/main.ledger"
 ofxconfig="$basedir/ofxclient.ini"
 
-args=('--file' "$ledger" '--strict' '--explicit')
+args=('--file' "$ledger_file" '--strict' '--explicit')
 
 if [ "$disable_payee_check" != 1 ]
 then
@@ -175,7 +175,7 @@ elif [ "$1" == 'sync' ]
 then
   shift
 
-  args=('--ofxconfig' "$ofxconfig" '--ledger' "$ledger"
+  args=('--ofxconfig' "$ofxconfig" '--ledger' "$ledger_file"
         '--unknown-account' 'Expenses:Unknown' '--payee-format' '{payee}')
 
   # Check if next arg is sync name.
