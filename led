@@ -26,7 +26,8 @@ then
 fi
 
 # TODO: Make this configurable.
-ledger_file="$basedir/main.ledger"
+ledger_file='main.ledger'
+ledger_file="$basedir/$ledger_file"
 ofxconfig="$basedir/ofxclient.ini"
 
 args=('--file' "$ledger_file" '--strict' '--explicit')
