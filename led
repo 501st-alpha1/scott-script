@@ -21,13 +21,26 @@ if [ -f "$basedir/led.conf" ]
 then
   validArgs=('disable_payee_check' 'net_excludes' 'fakenet_extra_excludes'
              'sync_base_folder' 'sync_names' 'sync_folders' 'sync_accounts'
-             'sync_fids' 'date')
+             'sync_fids' 'date' 'use_docker')
   source loadconf "$basedir" "led.conf" validArgs[@]
 fi
 
 # TODO: Make this configurable.
 ledger_file='main.ledger'
-ledger_file="$basedir/$ledger_file"
+
+if [ "$use_docker" == 1 ]
+then
+  docker_args=('docker' 'run' '--rm' '--read-only' '--volume' "$basedir:/data"
+               '--workdir' '/data' # Container doesn't properly set workdir.
+               '--entrypoint' '/usr/bin/ledger' # Container has relative path for entrypoint.
+               'dcycle/ledger:1'
+              )
+  ledger="${docker_args[@]}"
+else
+  ledger='ledger'
+  ledger_file="$basedir/$ledger_file"
+fi
+
 ofxconfig="$basedir/ofxclient.ini"
 
 args=('--file' "$ledger_file" '--strict' '--explicit')
@@ -90,7 +103,7 @@ then
     shift
   fi
 
-  output=$(PAGER='' ledger "${args[@]}" tags --values "$@" | grep "$tag" | sort | uniq -d)
+  output=$(PAGER='' $ledger "${args[@]}" tags --values "$@" | grep "$tag" | sort | uniq -d)
   if [ "$output" == '' ]
   then
     echo "Success!  No duplicate '$tag' tags."
@@ -112,19 +125,19 @@ then
     exit 1
   fi
 
-  subaccounts=$(ledger "${args[@]}" accounts "$account" | wc -l)
+  subaccounts=$($ledger "${args[@]}" accounts "$account" | wc -l)
 
   if [ $subaccounts -gt 1 ]
   then
     echo 'Account has multiple sub accounts:'
-    PAGER='' ledger "${args[@]}" accounts "$account"
+    PAGER='' $ledger "${args[@]}" accounts "$account"
     echo 'Not implemented.'
     exit 3
   fi
 
   args+=('balance' '--format' '%(display_amount) %(quantity(display_amount))' "$account")
 
-  result=$(ledger "${args[@]}")
+  result=$($ledger "${args[@]}")
 
   read -r amount quantity <<< "$result"
 
@@ -264,4 +277,4 @@ then
 fi
 
 [ "$date" == "1" ] && date
-PAGER='' ledger "${args[@]}" "$@"
+PAGER='' $ledger "${args[@]}" "$@"
