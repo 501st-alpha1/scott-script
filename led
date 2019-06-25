@@ -38,6 +38,8 @@ then
                'dcycle/ledger:1'
               )
   ledger="${docker_args[@]}"
+
+  args+=('--force-color') # Color not on by default in Docker, for some reason.
 else
   ledger='ledger'
   ledger_file="$basedir/$ledger_file"
