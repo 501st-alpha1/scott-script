@@ -28,6 +28,8 @@ fi
 # TODO: Make this configurable.
 ledger_file='main.ledger'
 
+args=('--strict' '--explicit')
+
 if [ "$use_docker" == 1 ]
 then
   docker_args=('docker' 'run' '--rm' '--read-only' '--volume' "$basedir:/data"
@@ -43,7 +45,7 @@ fi
 
 ofxconfig="$basedir/ofxclient.ini"
 
-args=('--file' "$ledger_file" '--strict' '--explicit')
+args+=('--file' "$ledger_file")
 
 if [ "$disable_payee_check" != 1 ]
 then
