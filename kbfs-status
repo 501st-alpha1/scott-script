@@ -45,6 +45,7 @@ function wait_if_unflushed() {
   fi
 }
 
+# Call this to continuously sleep until UnflushedPaths queue is empty.
 function wait_for_queue() {
   while wait_if_unflushed
   do :; done
