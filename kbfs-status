@@ -50,3 +50,15 @@ function wait_for_queue() {
   while wait_if_unflushed
   do :; done
 }
+
+case "$1" in
+  'get')
+    get_unflushed
+    ;;
+  'wait')
+    wait_for_queue
+    ;;
+  *)
+    echo 'Usage: kbfs-status <get|wait>'
+    ;;
+esac
