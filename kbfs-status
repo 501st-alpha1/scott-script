@@ -25,3 +25,22 @@ function get_unflushed() {
   jq '.Journal.UnflushedPaths | length' /keybase/private/$username/.kbfs_status
   return $?
 }
+
+function wait_if_unflushed() {
+  unflushed=$(get_unflushed)
+  if [ $? -ne 0 ]
+  then
+    echo 'Error getting status, sleeping just in case.'
+    sleep 10
+    return 0
+  fi
+
+  if [ "$unflushed" -gt "0" ]
+  then
+    echo "$unflushed items are in queue, sleeping.";
+    sleep 10
+    return 0
+  else
+    return 1
+  fi
+}
