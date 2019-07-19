@@ -26,29 +26,29 @@ function get_unflushed() {
   return $?
 }
 
-function wait_if_unflushed() {
+function queue_is_empty() {
   unflushed=$(get_unflushed)
   if [ $? -ne 0 ]
   then
     echo 'Error getting status, sleeping just in case.'
-    sleep 10
-    return 0
+    return 2
   fi
 
-  if [ "$unflushed" -gt "0" ]
+  if [ $unflushed -eq 0 ]
   then
-    echo "$unflushed items are in queue, sleeping.";
-    sleep 10
     return 0
   else
+    echo "$unflushed items are in queue, sleeping.";
     return 1
   fi
 }
 
 # Call this to continuously sleep until UnflushedPaths queue is empty.
 function wait_for_queue() {
-  while wait_if_unflushed
-  do :; done
+  while ! queue_is_empty
+  do
+    sleep 10
+  done
 }
 
 case "$1" in
