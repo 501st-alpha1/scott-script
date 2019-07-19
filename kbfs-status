@@ -44,3 +44,8 @@ function wait_if_unflushed() {
     return 1
   fi
 }
+
+function wait_for_queue() {
+  while wait_if_unflushed
+  do :; done
+}
