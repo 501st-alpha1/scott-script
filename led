@@ -40,7 +40,12 @@ then
 
   args+=('--force-color') # Color not on by default in Docker, for some reason.
 else
-  ledger='ledger'
+  if [ -f '/usr/bin/ledger' ]
+  then
+    ledger='/usr/bin/ledger'
+  else
+    ledger='ledger'
+  fi
   ledger_file="$basedir/$ledger_file"
 fi
 
