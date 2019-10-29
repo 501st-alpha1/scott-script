@@ -34,7 +34,6 @@ if [ "$use_docker" == 1 ]
 then
   docker_args=('docker' 'run' '--rm' '--read-only' '--volume' "$basedir:/data"
                '--workdir' '/data' # Container doesn't properly set workdir.
-               '--entrypoint' '/usr/bin/ledger' # Container has relative path for entrypoint.
                'dcycle/ledger:1'
               )
   ledger="${docker_args[@]}"
