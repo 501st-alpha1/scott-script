@@ -21,8 +21,13 @@
 
 username=$(keybase status --json | jq --raw-output '.Username')
 
+function get_json() {
+  jq "$1" "/keybase/private/$username/.kbfs_status"
+  return $?
+}
+
 function get_unflushed() {
-  jq '.Journal.UnflushedPaths | length' /keybase/private/$username/.kbfs_status
+  get_json '.Journal.UnflushedPaths | length'
   return $?
 }
 
