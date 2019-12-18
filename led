@@ -21,7 +21,8 @@ if [ -f "$basedir/led.conf" ]
 then
   validArgs=('disable_payee_check' 'net_excludes' 'fakenet_extra_excludes'
              'sync_base_folder' 'sync_names' 'sync_folders' 'sync_accounts'
-             'sync_fids' 'date' 'use_docker')
+             'sync_fids' 'date' 'use_docker' 'hours_names' 'hours_sources'
+             'hours_dests' 'hours_group_by_tags')
   source loadconf "$basedir" "led.conf" validArgs[@]
 fi
 
@@ -286,6 +287,36 @@ elif [ "$1" == 'validate' ]
 then
   $ledger --file "$ledger_file" --pedantic bal > /dev/null
   exit $?
+elif [ "$1" == 'hours' ]
+then
+  shift
+
+  # Check if next arg is hours name.
+  found=0
+  for (( i=0; i < "${#hours_names[@]}"; i++ ))
+  do
+    if [ "${hours_names[$i]}" == "$1" ]
+    then
+      source="${hours_sources[$i]}"
+      dest="${hours_dests[$i]}"
+      group_by_tag="${hours_group_by_tags[$i]}"
+      found=1
+    fi
+  done
+
+  if [ $found -eq 1 ]
+  then
+    shift
+
+    args+=(
+      'balance' '--aux-date' "$source" '--limit' "!any(account=~/$dest/)"
+    )
+
+    if [ "$group_by_tag" != "" ]
+    then
+      args+=('--group-by' "tag(\"$group_by_tag\")")
+    fi
+  fi
 fi
 
 [ "$date" == "1" ] && date
