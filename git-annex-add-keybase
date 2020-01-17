@@ -48,4 +48,4 @@ git annex initremote keybase-rsync type=rsync \
 
 # Set cost slightly higher than default remote cost, since we must encrypt *and*
 # send to remote.
-git config --int remote.keybase-rsync.cost 250
+git config --int remote.keybase-rsync.annex-cost 250
