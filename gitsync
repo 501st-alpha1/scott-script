@@ -148,6 +148,11 @@ do
   else
     for i in ${paths[@]}
     do
+      if [ ! -d "$i" ]
+      then
+        echo "-----> Directory $i doesn't exist, skipping"
+        continue
+      fi
       freespace=$(df -k --output=avail "$i" | tail -n +2)
       if [ -f "$i/.disable-git-sync" ]
       then
