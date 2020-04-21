@@ -90,5 +90,10 @@ else
   init_progdir
   #export WINEDEBUG=+fps
   cd "$progdir"
-  "$bin" ./launcher.exe > /dev/null 2>&1
+  args=()
+  if [ "$1" == 'small' ]
+  then
+    args+=('explorer' '/desktop=SWTOR,1920x1080')
+  fi
+  "$bin" "${args[@]}" ./launcher.exe > /dev/null 2>&1
 fi
