@@ -174,9 +174,12 @@ then
    rm -rf flycheck/test
 fi
 
-pushd org-mode
-make autoloads
-popd
+if [ -d org-mode ]
+then
+  pushd org-mode
+  make autoloads
+  popd
+fi
 
 if [ ! -d "no-repos" ]
 then
