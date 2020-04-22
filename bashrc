@@ -140,6 +140,37 @@ alias sspeedtest="torify wget -O /dev/null http://speedtest.wdc01.softlayer.com/
 alias git-repo-authors="git ls-tree -r HEAD --name-only | xargs -I{} git blame --line-porcelain {} | sed -n 's/^author //p' | sort | uniq -c | sort -rn"
 alias private-bash="HISTFILE='' torify bash -i"
 
+# Push stashes!
+function git-push-stash() {
+  [ -z "$1" ] && echo 'Error: please specify a stash number to push.' && return 1
+  remote=origin
+  [ -z "$2" ] || remote="$2"
+
+  echo "Pushing stash $1 to $remote."
+
+  git push $remote stash@{$1}:refs/stashes/$(git rev-parse --short stash@{$1})
+}
+
+function git-fetch-stashes() {
+  remote=origin
+  [ -z "$1" ] || remote="$1"
+
+  git fetch "$remote" refs/stashes/*:refs/stashes/*
+}
+
+function git-import-stash() {
+  SHA=''
+  if [ -z "$1" ]
+  then
+    echo 'Error: please specify a SHA to import as a stash.'
+    return 1
+  else
+    SHA="$1"
+  fi
+
+  git stash store --message "$(git show --no-patch --format=format:%s $SHA)" $SHA
+}
+
 function mktmpfs() {
   [ -z "$1" ] && echo "Error: please provide a size for ramdisk." && return 1
 
