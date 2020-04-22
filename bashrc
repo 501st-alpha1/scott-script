@@ -171,6 +171,28 @@ function git-import-stash() {
   git stash store --message "$(git show --no-patch --format=format:%s $SHA)" $SHA
 }
 
+function git-push-all-stashes() {
+  remote=origin
+  [ -z "$1" ] || remote="$1"
+
+  for i in $(seq 0 $(expr $(git rev-list --walk-reflogs --count stash) - 1))
+  do
+    git-push-stash $i "$remote"
+  done
+}
+
+function git-import-all-stashes() {
+  if [ ! -d .git/refs/stashes ]
+  then
+    echo 'Error: no stashes fetched or not in a Git repo.'
+  fi
+
+  for stash in $(ls .git/refs/stashes)
+  do
+    git-import-stash "$stash"
+  done
+}
+
 function mktmpfs() {
   [ -z "$1" ] && echo "Error: please provide a size for ramdisk." && return 1
 
