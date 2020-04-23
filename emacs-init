@@ -19,6 +19,7 @@ validArgs=("basedir")
 source loadconf "$HOME/.scott_script/emacs" "packages.cfg" validArgs[@]
 
 github=(
+  "501st-alpha1/emacs-init"
   "winterTTr/ace-jump-mode"
   "abo-abo/ace-window"
   "vermiculus/apiwrap.el"
@@ -89,6 +90,7 @@ github=(
   "magit/with-editor"
   "yoshiki/yaml-mode"
   "magit/magit-popup"
+  "Wilfred/ht.el"
   "jrblevin/markdown-mode"
   "jrblevin/deft"
 )
