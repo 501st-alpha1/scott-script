@@ -93,8 +93,8 @@ github=(
   "jrblevin/deft"
 )
 third_party=(
-  "orgmode.org/org-mode.git"
-  "orgmode.org/org-sync.git"
+  "https://code.orgmode.org/bzg/org-mode.git"
+  "https://code.orgmode.org/bzg/org-sync.git"
 )
 
 function loadRepo() {
@@ -165,7 +165,7 @@ done
 
 for url in ${third_party[*]}
 do
-  loadRepo git://$url
+  loadRepo $url
 done
 
 # FIXME: flycheck tests cause load errors.
