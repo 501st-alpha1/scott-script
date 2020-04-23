@@ -89,10 +89,10 @@ github=(
   "magit/with-editor"
   "yoshiki/yaml-mode"
   "magit/magit-popup"
+  "jrblevin/markdown-mode"
+  "jrblevin/deft"
 )
 third_party=(
-  "jblevins.org/git/deft.git"
-  "jblevins.org/git/markdown-mode.git"
   "orgmode.org/org-mode.git"
   "orgmode.org/org-sync.git"
 )
