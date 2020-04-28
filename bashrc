@@ -193,6 +193,10 @@ function git-import-all-stashes() {
   done
 }
 
+# Because I'm forgetful.
+alias git-stash-push='git-push-stash'
+alias git-stash-import='git-import-stash'
+
 function mktmpfs() {
   [ -z "$1" ] && echo "Error: please provide a size for ramdisk." && return 1
 
