@@ -158,6 +158,20 @@ function git-fetch-stashes() {
   git fetch "$remote" refs/stashes/*:refs/stashes/*
 }
 
+function git-remove-remote-stash() {
+  remote=origin
+  stashNum="$1"
+  shift
+  [ -z "$1" ] || remote="$1"
+  stashCommit=$(git rev-parse --short stash@{$stashNum})
+
+  read -p "Really delete stash $stashNum (commit $stashCommit) from $remote? " answer
+  if [ "$answer" == 'y' ]
+  then
+    git push $remote :refs/stashes/$stashCommit
+  fi
+}
+
 function git-import-stash() {
   SHA=''
   if [ -z "$1" ]
