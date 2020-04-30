@@ -19,11 +19,23 @@ basedir="$(pwd)"
 
 if [ -f "$basedir/led.conf" ]
 then
-  validArgs=('disable_payee_check' 'net_excludes' 'fakenet_extra_excludes'
-             'sync_base_folder' 'sync_names' 'sync_folders' 'sync_accounts'
-             'sync_hardcode_accounts'
-             'sync_fids' 'date' 'use_docker' 'hours_names' 'hours_sources'
-             'hours_dests' 'hours_group_by_tags')
+  validArgs=(
+    'date'
+    'disable_payee_check'
+    'fakenet_extra_excludes'
+    'hours_dests'
+    'hours_group_by_tags'
+    'hours_names'
+    'hours_sources'
+    'net_excludes'
+    'sync_accounts'
+    'sync_base_folder'
+    'sync_fids'
+    'sync_folders'
+    'sync_hardcode_accounts'
+    'sync_names'
+    'use_docker'
+  )
   source loadconf "$basedir" "led.conf" validArgs[@]
 fi
 
