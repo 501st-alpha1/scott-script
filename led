@@ -21,6 +21,7 @@ if [ -f "$basedir/led.conf" ]
 then
   validArgs=('disable_payee_check' 'net_excludes' 'fakenet_extra_excludes'
              'sync_base_folder' 'sync_names' 'sync_folders' 'sync_accounts'
+             'sync_hardcode_accounts'
              'sync_fids' 'date' 'use_docker' 'hours_names' 'hours_sources'
              'hours_dests' 'hours_group_by_tags')
   source loadconf "$basedir" "led.conf" validArgs[@]
@@ -210,12 +211,18 @@ then
       folder="${sync_folders[$i]}"
       account="${sync_accounts[$i]}"
       fid="${sync_fids[$i]}"
+      hardcode_account="${sync_hardcode_accounts[$i]}"
       found=1
     fi
   done
   if [ $found -eq 1 ]
   then
     shift
+
+    if [ "$hardcode_account" != '' ]
+    then
+      args+=('--hardcode-account' "$hardcode_account")
+    fi
 
     path="$sync_base_folder/$folder"
 
