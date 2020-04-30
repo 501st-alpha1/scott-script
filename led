@@ -34,6 +34,7 @@ then
     'sync_folders'
     'sync_hardcode_accounts'
     'sync_names'
+    'sync_payee_formats'
     'use_docker'
   )
   source loadconf "$basedir" "led.conf" validArgs[@]
@@ -212,7 +213,7 @@ then
   shift
 
   args=('--ofxconfig' "$ofxconfig" '--ledger' "$ledger_file"
-        '--unknown-account' 'Expenses:Unknown' '--payee-format' '{payee}')
+        '--unknown-account' 'Expenses:Unknown')
 
   # Check if next arg is sync name.
   found=0
@@ -224,6 +225,7 @@ then
       account="${sync_accounts[$i]}"
       fid="${sync_fids[$i]}"
       hardcode_account="${sync_hardcode_accounts[$i]}"
+      payee_format="${sync_payee_formats[$i]}"
       found=1
     fi
   done
@@ -234,6 +236,14 @@ then
     if [ "$hardcode_account" != '' ]
     then
       args+=('--hardcode-account' "$hardcode_account")
+    fi
+
+    args+=('--payee-format')
+    if [ "$payee_format" != '' ]
+    then
+      args+=("$payee_format")
+    else
+      args+=('{payee}')
     fi
 
     path="$sync_base_folder/$folder"
