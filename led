@@ -256,12 +256,23 @@ then
     # Check if next arg is a year.
     if [ "$(date --date $1/1/1 +%Y 2>/dev/null)" == "$1" ]
     then
+      year="$1"
       path="$path/$1"
       shift
     fi
 
+    if [ "$1" == 'last-30' ] || [ "$1" == 'last30' ]
+    then
+      filename="$path/Transactions-Last-30-Days-$year-$(date +%m)-$(date +%d).qfx"
+      shift
+    elif [ "$1" == 'today' ]
+    then
+      filename="$path/$year-$(date +%m)-$(date +%d)_transaction_download.ofx"
+      shift
+    else
     filename="$path/$1"
     shift
+    fi
 
     IFS='|' read -ra accounts <<< "$account"
     for i in "${accounts[@]}"
