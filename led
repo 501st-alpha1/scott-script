@@ -150,6 +150,11 @@ then
 
   subaccounts=$($ledger "${args[@]}" accounts "$account" | wc -l)
 
+  if [ "$1" == '--ignore-subaccounts' ]
+  then
+    subaccounts=1
+  fi
+
   if [ $subaccounts -gt 1 ]
   then
     echo 'Account has multiple sub accounts:'
