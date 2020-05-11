@@ -161,6 +161,10 @@ do
       then
         # TODO: allow customizing size
         echo "-----> Drive for repo $i contains less than 1G free space, skipping"
+      elif [ -f "$HOME/.scott_script/gitsync/.no-remote-all" ]
+      then
+        echo "-----> Syncing repo (no-remote-all) at $i..."
+        $cmd "$i" 'no-sync' || continue;
       else
         echo "-----> Syncing repo at $i..."
         $cmd "$i" "$remote" || continue;
