@@ -142,6 +142,10 @@ function newsync() {
 
 while true
 do
+  if [ -f "$HOME/.scott_script/gitsync/.skip-all" ]
+  then
+    echo '-----> Skipping all this time per ~/.scott_script/gitsync/.skip-all file.'
+  else
   if [ "$1" != "all" ]
   then
     $cmd "$path" "$remote"
@@ -170,6 +174,7 @@ do
         $cmd "$i" "$remote" || continue;
       fi
     done
+  fi
   fi
 
   echo "-----> Sleeping for $time seconds."
