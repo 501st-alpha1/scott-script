@@ -15,8 +15,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Hard-coded Vars #
-data="/mnt/data"
+# Initialize variables. #
+if [ -z "$MY_DATA_DIR" ]
+then
+  data='/mnt/data'
+  echo "MY_DATA_DIR not set, defaulting to $data."
+else
+  data="$MY_DATA_DIR"
+fi
 script="$data/code/scripts"
 
 # Env Vars #
