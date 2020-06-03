@@ -17,7 +17,7 @@
 
 # Hard-coded Vars #
 data="/mnt/data"
-script="$data/scripts"
+script="$data/code/scripts"
 
 # Env Vars #
 PATH="`find "$script" -name '.*' -prune -o -type d -printf '%p:'`$PATH"
