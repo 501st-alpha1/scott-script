@@ -145,6 +145,7 @@ alias speedtest="wget -O /dev/null http://speedtest.wdc01.softlayer.com/download
 alias sspeedtest="torify wget -O /dev/null http://speedtest.wdc01.softlayer.com/downloads/test10.zip --report-speed=bits"
 alias git-repo-authors="git ls-tree -r HEAD --name-only | xargs -I{} git blame --line-porcelain {} | sed -n 's/^author //p' | sort | uniq -c | sort -rn"
 alias private-bash="HISTFILE='' torify bash -i"
+alias whatismyip='curl -s https://api.ipify.org'
 
 function mktmpfs() {
   [ -z "$1" ] && echo "Error: please provide a size for ramdisk." && return 1
