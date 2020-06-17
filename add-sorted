@@ -17,16 +17,25 @@
 
 filename="$1"
 entry="$2"
+details="$3"
 newfile="$filename.new"
 
 grep --quiet "$entry" "$filename"
 if [ $? -eq 0 ]
 then
   echo "File '$filename' already contains entry '$entry'."
+  [ "$details" != "" ] && grep "$entry" "$filename"
   exit 0
 fi
 
-sort --merge "$filename" <(echo "$entry") > "$newfile"
+if [ "$details" != "" ]
+then
+  line="$entry $details"
+else
+  line="$entry"
+fi
+
+sort --merge "$filename" <(echo "$line") > "$newfile"
 diff=$(diff "$newfile" "$filename" | wc --lines)
 
 if [ "$diff" -ne "2" ]
