@@ -221,3 +221,10 @@ then
 else
   echo "Folder exists, skipping erc-chess."
 fi
+
+if [ ! -f "no-repos/let-alist.el" ]
+then
+    # FIXME this doesnt work
+    #wget -O no-repos/let-alist.el http://elpa.gnu.org/packages/let-alist-1.0.4.el
+    echo wget
+fi
