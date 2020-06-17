@@ -120,10 +120,18 @@ function loadRepo() {
     then
       echo "Folder exists, skipping $url..."
     else
+      if [ "$dir" == "org-mode" ]
+      then
+	  echo "FIXME: Skipping org-mode update to avoid bug."
+      elif [ "$dir" == "org-super-agenda" ]
+      then
+          echo "FIXME: Skipping org-super-agenda until Emacs updated."
+      else
       pushd "$dir" > /dev/null
       git pull
       popd > /dev/null
       echo "Updated $dir"; echo;
+      fi
     fi
   else
     git clone $url
