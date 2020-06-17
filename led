@@ -43,6 +43,13 @@ fi
 # TODO: Make this configurable.
 ledger_file='main.ledger'
 
+if [ "$1" == '-f' ]
+then
+  shift
+  ledger_file="$1"
+  shift
+fi
+
 args=('--strict' '--explicit')
 
 if [ "$use_docker" == 1 ]
