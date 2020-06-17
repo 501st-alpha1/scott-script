@@ -29,7 +29,19 @@ failures=0;
 
 while true
 do
-  ping "$site" -c 10
+  if [ "$2" == "ssh" ]
+  then
+    if [ "$3" == '' ]
+    then
+      port=22
+    else
+      port="$3"
+    fi
+    ssh -o ConnectTimeout=10 -p $port $site echo "Connected!"
+  else
+    shift
+    ping "$site" -c 10
+  fi
   if [ $? == 0 ]
   then
     successful=`expr $successful + 1`;
