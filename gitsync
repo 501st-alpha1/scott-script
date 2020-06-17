@@ -1,6 +1,6 @@
 #!/bin/bash
 # Helper script to sync files via git
-# Copyright (C) 2014-2015 Scott Weldon
+# Copyright (C) 2014-2020 Scott Weldon
 
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-validArgs=("names" "paths" "commits")
+validArgs=('min_free_space' 'min_free_space_desc' "names" "paths" "commits")
 source loadconf "$HOME/.scott_script/gitsync" "config" validArgs[@]
 
 if [ -z "$1" ]
@@ -140,6 +140,12 @@ function newsync() {
   git-sync sync $2
 }
 
+if [ -z "$min_free_space" ]
+then
+  min_free_space=1000000
+  min_free_space_desc='1G'
+fi
+
 while true
 do
   if [ "$1" != "all" ]
@@ -157,10 +163,9 @@ do
       if [ -f "$i/.disable-git-sync" ]
       then
         echo "-----> Git sync disabled for repo at $i"
-      elif [ "$freespace" -lt 1000000 ]
+      elif [ "$freespace" -lt $min_free_space ]
       then
-        # TODO: allow customizing size
-        echo "-----> Drive for repo $i contains less than 1G free space, skipping"
+        echo "-----> Drive for repo $i contains less than $min_free_space_desc free space, skipping"
       elif [ -f "$HOME/.scott_script/gitsync/.no-remote-all" ]
       then
         echo "-----> Syncing repo (no-remote-all) at $i..."
