@@ -29,6 +29,11 @@ script="$data/code/scripts"
 PATH="`find "$script" -name '.*' -prune -o -type d -printf '%p:'`$PATH"
 PATH="$data/bin:$PATH"
 
+if [ -d "$HOME/.go/bin" ]
+then
+  PATH="$PATH:$HOME/.go/bin"
+fi
+
 # Helper Functions #
 function customAlias() {
   cmd="$1"
