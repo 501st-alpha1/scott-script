@@ -122,13 +122,13 @@ function stop {
 
   [ -z "$1" ] && echo "Error: missing PID to suspend." && return 1
 
-  kill -$sig $1
+  kill -$sig "$@"
 }
 
 function resume {
   [ -z "$1" ] && echo "Error: missing PID to resume." && return 1
 
-  kill -CONT $1
+  kill -CONT "$@"
 }
 
 # Custom aliases
