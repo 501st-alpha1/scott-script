@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# if no branch, create from e.g. master
+# if branch has commits, rebase to master
+# only if rebase can auto-succeed?
+# or only if remote doesn't have tracking branch?
