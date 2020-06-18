@@ -192,3 +192,17 @@ then
 fi
 
 export GOPATH="$current_gopath$HOME/.go"
+
+STATEFILE=state.txt
+function continue-file() {
+  tail --lines=+$(cat $STATEFILE) "$1"
+}
+
+function increment-state() {
+  new_state=$(expr $(cat $STATEFILE) + 1)
+  echo $new_state > $STATEFILE
+}
+
+function init-state() {
+  echo 1 > $STATEFILE
+}
