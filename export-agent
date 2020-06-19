@@ -1,0 +1,25 @@
+#!/bin/bash
+# Export SSH agent info to file.
+# Copyright (C) 2020 Scott Weldon
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+agent_pid=$(ps -ef | grep ssh-agent | grep -v grep | sed -n 's/[a-z ]*\([0-9]\+\).*/\1/p')
+agent_folder="/tmp/$(ls /tmp/ | grep ssh)"
+agent_file=$(ls $agent_folder)
+
+cat <<EOF > ~/.ssh/agent
+SSH_AUTH_SOCK=$agent_folder/$agent_file; export SSH_AUTH_SOCK;
+SSH_AGENT_PID=$agent_pid; export SSH_AGENT_PID;
+EOF
