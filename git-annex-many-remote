@@ -1,0 +1,4 @@
+# keybase: see git-annex-add-keybase
+
+# google:
+git annex initremote gdrive type=external externaltype=googledrive prefix=git-annex-files/<REPO> chunk=1MiB encryption=shared mac=HMACSHA512
