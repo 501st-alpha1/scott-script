@@ -19,7 +19,12 @@
 # - jq
 # - keybase
 
-username=$(keybase status --json | jq --raw-output '.Username')
+error_on_username=0
+username=$(keybase status --json 2>&1 | jq --raw-output '.Username')
+if [ $? -ne 0 ]
+then
+  error_on_username=1
+fi
 
 function get_json() {
   jq "$1" "/keybase/private/$username/.kbfs_status"
@@ -37,6 +42,13 @@ function queue_is_empty() {
   then
     echo 'Error getting status, sleeping just in case.'
     return 2
+  fi
+
+  if [ $error_on_username -ne 0 ]
+  then
+    echo 'Error getting username, maybe disk is full?'
+    echo '(FIXME: Should abort/pause, but sleeping indefinitely instead.)'
+    return 3
   fi
 
   if [ $unflushed -eq 0 ]
