@@ -6,8 +6,8 @@ echo "Layers for $image:"
 docker image inspect "$image" | jq --raw-output '.[0].Id'
 layer="$image"
 while
-  layer=$(docker image inspect "$layer" | jq --raw-output '.[0].Parent')
-  [ "$layer" != '' ]
+  layer=$(docker image inspect "$layer" 2>&1 | jq --raw-output '.[0].Parent')
+  [ $? -eq 0 ] && [ "$layer" != '' ]
 do
   echo "$layer"
 done
