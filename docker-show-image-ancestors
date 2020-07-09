@@ -1,0 +1,13 @@
+#!/bin/bash
+
+image="$1"
+
+echo "Layers for $image:"
+docker image inspect "$image" | jq --raw-output '.[0].Id'
+layer="$image"
+while
+  layer=$(docker image inspect "$layer" | jq --raw-output '.[0].Parent')
+  [ "$layer" != '' ]
+do
+  echo "$layer"
+done
