@@ -86,6 +86,27 @@ then
   init_progdir
   match='C:\\Program Files\\Electronic Arts\\BioWare\\Star Wars - The Old Republic\\swtor\\RetailClient\\swtor.exe'
   pkill --list-full --full "$match"
+elif [ "$1" == 'launcher-repair' ]
+then
+  repairpath='http://cdn-patch.swtor.com/patch'
+  repairfile='LauncherRepairUtilityD2020.0.6.exe'
+  repairurl="$repairpath/$repairfile"
+  echo "$repairurl"
+  read -p 'Is this still the correct URL / version? ' answer
+  if [ "$answer" == 'y' ]
+  then
+    init_progdir
+    cd "$progdir"
+    if [ ! -f "$repairfile" ]
+    then
+      wget "$repairurl"
+    fi
+
+    "$bin" "./$repairfile"
+  else
+    echo 'Please update URL and try again.'
+    exit 2
+  fi
 else
   init_progdir
   #export WINEDEBUG=+fps
