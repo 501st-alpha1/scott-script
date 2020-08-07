@@ -76,7 +76,8 @@ case "$1" in
     wait_for_queue
     ;;
   'json')
-    get_json
+    shift
+    get_json "$@"
     exit $?
     ;;
   *)
