@@ -33,6 +33,14 @@ if [ -d "$HOME/.go/bin" ]
 then
   PATH="$PATH:$HOME/.go/bin"
 fi
+if [ -d "$HOME/.rvm/bin" ]
+then
+  PATH="$PATH:$HOME/.rvm/bin"
+fi
+if [ -d "$HOME/.composer/vendor/bin" ]
+then
+  PATH="$PATH:$HOME/.composer/vendor/bin"
+fi
 
 # Helper Functions #
 function customAlias() {
