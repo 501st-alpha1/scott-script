@@ -42,6 +42,11 @@ then
   PATH="$PATH:$HOME/.composer/vendor/bin"
 fi
 
+export HISTTIMEFORMAT="%F %T  "
+# Save entire history.
+export HISTSIZE=-1
+export HISTFILESIZE=-1
+
 # Helper Functions #
 function customAlias() {
   cmd="$1"
