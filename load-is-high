@@ -20,7 +20,8 @@
 
 IFS=' ' read -r -a loads <<< $(cat /proc/loadavg)
 
-MAX_LOAD=10
+NUM_CORES=$(grep -c ^processor /proc/cpuinfo)
+MAX_LOAD=$(expr $NUM_CORES \* 2)
 
 if (( $(echo "${loads[0]} > $MAX_LOAD" | bc -l) )) ||
      (( $(echo "${loads[1]} > $MAX_LOAD" | bc -l) )) ||
