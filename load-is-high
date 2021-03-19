@@ -18,6 +18,13 @@
 # Requires:
 # - bc
 
+# Returns 0 when load is high, after checking all three load numbers
+# (1-minute, 5-minute, and 15-minute averages).  If *any* of those numbers are
+# high then it counts as high load.
+#
+# High load counted as double the core count, so the computer is 100%
+# overloaded, or has double the amount of work to do than what it can handle.
+
 IFS=' ' read -r -a loads <<< $(cat /proc/loadavg)
 
 NUM_CORES=$(grep -c ^processor /proc/cpuinfo)
