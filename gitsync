@@ -177,6 +177,6 @@ do
     done
   fi
 
-  echo "-----> Sleeping for $time seconds."
+  echo "-----> Sleeping at $(date) for $time seconds."
   sleep "$time"
 done
