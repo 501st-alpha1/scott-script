@@ -149,6 +149,34 @@ function resume {
   kill -CONT "$@"
 }
 
+function stopWithChildren() {
+  [ -z "$1" ] && echo "Error: missing PID to stop." && return 1
+
+  pids=()
+  while read line
+  do
+    pids+=("$line")
+  done < <(ps -o pid --pid "$1" --ppid "$1" --no-headers)
+
+  echo "Stopping these pids: ${pids[@]}"
+
+  stop "${pids[@]}"
+}
+
+function resumeWithChildren() {
+  [ -z "$1" ] && echo "Error: missing PID to resume." && return 1
+
+  pids=()
+  while read line
+  do
+    pids+=("$line")
+  done < <(ps -o pid --pid "$1" --ppid "$1" --no-headers)
+
+  echo "Resuming these pids: ${pids[@]}"
+
+  resume "${pids[@]}"
+}
+
 # Custom aliases
 alias dif="diff --suppress-common-lines --ignore-all-space --side-by-side"
 alias ll='ls --all -l --file-type'
