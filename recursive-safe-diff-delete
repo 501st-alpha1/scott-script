@@ -1,0 +1,67 @@
+#!/bin/bash
+
+source="$1"
+dest="$2"
+
+echo 'Preparing to compare files before deleting.'
+echo "Source is '${source}', destination is '${dest}'."
+echo -n 'If a file exists in both places, and the files match, then '
+echo "the file in ${source} will be DELETED!"
+echo 'To confirm and execute, type "yes" below.'
+
+read -p 'Confirm? ' answer
+
+if [ "$answer" != 'yes' ]
+then
+  echo 'Answer wrong, aborting!'
+  exit 1
+fi
+
+function safe-diff-delete-file() {
+  filename="$1"
+
+  diff "${source}/${filename}" "${dest}/${filename}"
+  if [ $? -eq 0 ]
+  then
+    rm --verbose "${source}/${filename}"
+  else
+    echo 'Found a file that did not match, aborting!'
+    exit 2
+  fi
+}
+
+function diff-delete-on-dir() {
+  local relative_path="$1"
+  local source_root=''
+  if [ "$relative_path" == '' ]
+  then
+    source_root="${source}"
+  else
+    source_root="${source}/${relative_path}"
+    relative_path="${relative_path}/"
+  fi
+
+  ls -A "$source_root" | while read item
+  do
+    if [ -f "${source_root}/${item}" ]
+    then
+      safe-diff-delete-file "${relative_path}${item}" || exit $?
+    elif [ -d "${source_root}/${item}" ]
+    then
+      diff-delete-on-dir "${relative_path}${item}" || exit $?
+    else
+      echo -n 'Got an unknown type for item: '
+      echo "${source_root}/${item}"
+      exit 3
+    fi
+  done
+
+  if [ -z "$(ls -A "$source_root")" ]
+  then
+    rmdir --verbose "${source_root}"
+  fi
+}
+
+diff-delete-on-dir
+
+exit 0
