@@ -33,11 +33,14 @@ function safe-diff-delete-file() {
 function diff-delete-on-dir() {
   local relative_path="$1"
   local source_root=''
+  local dest_root=''
   if [ "$relative_path" == '' ]
   then
     source_root="${source}"
+    dest_root="${dest}"
   else
     source_root="${source}/${relative_path}"
+    dest_root="${dest}/${relative_path}"
     relative_path="${relative_path}/"
   fi
 
@@ -56,7 +59,7 @@ function diff-delete-on-dir() {
     fi
   done
 
-  if [ -z "$(ls -A "$source_root")" ]
+  if [ -z "$(ls -A "$source_root")" ] && [ -d "${dest_root}" ]
   then
     rmdir --verbose "${source_root}"
   fi
