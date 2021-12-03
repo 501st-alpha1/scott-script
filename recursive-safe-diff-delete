@@ -1,4 +1,11 @@
 #!/bin/bash
+# Compare directories, delete identical files.
+#
+# Given two directories, source and dest, will recursively compare files
+# (with `diff`), deleting identical files in source.
+# Useful if trying to move files from source to dest and e.g. read error
+# caused move to fail, meaning even files that with no error were not
+# deleted.
 
 source="$1"
 dest="$2"
