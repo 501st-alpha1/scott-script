@@ -51,7 +51,7 @@ function diff-delete-on-dir() {
     relative_path="${relative_path}/"
   fi
 
-  ls -A "$source_root" | while read item
+  ls -A "$source_root" | while IFS='' read item
   do
     if [ -f "${source_root}/${item}" ]
     then
