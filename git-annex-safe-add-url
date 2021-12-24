@@ -38,14 +38,19 @@ then
   git annex import --clean-duplicates "$tmpdir/$local_file"
 else
   # File deduplicated, so it exists in annex.
-  # TODO find existing file
-  echo 'Found file somewhere in annex, but do not know where.'
-  echo 'Not supported, exiting.'
   sha_name=$(echo "$output" | jq --raw-output '.note' | sed 's/duplicate of //')
   cd "$repo"
   repo_root="$(git root)"
   git_obj_path=$(find "$repo_root" -name "$sha_name" | grep "$sha_name/$sha_name" | sed 's@.*\.git/@\.git/@')
-  exit 1
+  existing=$(find "$repo_root" -type l | xargs ls -l | grep "$git_obj_path" | cut -f9 -d' ') # FIXME: fragile
+  echo "Found existing file at '$existing'."
+  read -p 'Attach URL there? ' answer
+  if [ "$answer" == 'y' ]
+  then
+    git annex addurl "$url" --file "$existing"
+  else
+    exit 1
+  fi
 fi
 
 echo 'Done.'
