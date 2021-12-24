@@ -42,6 +42,9 @@ else
   echo 'Found file somewhere in annex, but do not know where.'
   echo 'Not supported, exiting.'
   sha_name=$(echo "$output" | jq --raw-output '.note' | sed 's/duplicate of //')
+  cd "$repo"
+  repo_root="$(git root)"
+  git_obj_path=$(find "$repo_root" -name "$sha_name" | grep "$sha_name/$sha_name" | sed 's@.*\.git/@\.git/@')
   exit 1
 fi
 
