@@ -26,9 +26,9 @@ wget "$url"
 
 local_file="$(ls)"
 
-pushd "$repo"
+pushd "$repo" >/dev/null
 git annex import --clean-duplicates "$tmpdir/$local_file"
-popd
+popd >/dev/null
 
 if [ -f "$local_file" ]
 then
