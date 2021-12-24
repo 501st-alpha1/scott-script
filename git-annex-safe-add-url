@@ -1,0 +1,48 @@
+#!/bin/bash
+# Attach URL to existing git-annex file, or download new.
+# Copyright (C) 2019 Scott Weldon
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+# TODO: verify tmpdir, should be outside repo
+
+tmpdir=$(pwd)
+
+repo="$1"
+url="$2"
+
+wget "$url"
+
+local_file="$(ls)"
+
+pushd "$repo"
+git annex import --clean-duplicates "$tmpdir/$local_file"
+popd
+
+if [ -f "$local_file" ]
+then
+  # No duplicate found, so this is a new file.
+  pushd "$repo"
+  git annex addurl "$url" || exit $?
+  popd
+  rm --verbose "$local_file"
+else
+  # File deduplicated, so it exists in annex.
+  # TODO find existing file
+  echo 'Found file somewhere in annex, but do not know where.'
+  echo 'Not supported, exiting.'
+  exit 1
+fi
+
+echo 'Done.'
