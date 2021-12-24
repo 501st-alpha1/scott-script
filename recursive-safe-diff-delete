@@ -32,8 +32,7 @@ function safe-diff-delete-file() {
   then
     rm --verbose "${source}/${filename}"
   else
-    echo 'Found a file that did not match, aborting!'
-    exit 2
+    echo 'Found a file that did not match, skipping!'
   fi
 }
 
