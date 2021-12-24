@@ -33,10 +33,9 @@ popd
 if [ -f "$local_file" ]
 then
   # No duplicate found, so this is a new file.
-  pushd "$repo"
+  cd "$repo"
   git annex addurl "$url" || exit $?
-  popd
-  rm --verbose "$local_file"
+  git annex import --clean-duplicates "$tmpdir/$local_file"
 else
   # File deduplicated, so it exists in annex.
   # TODO find existing file
