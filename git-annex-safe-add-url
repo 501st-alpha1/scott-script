@@ -41,6 +41,7 @@ else
   # TODO find existing file
   echo 'Found file somewhere in annex, but do not know where.'
   echo 'Not supported, exiting.'
+  sha_name=$(echo "$output" | jq --raw-output '.note' | sed 's/duplicate of //')
   exit 1
 fi
 
