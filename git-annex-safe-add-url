@@ -24,6 +24,12 @@ url="$2"
 
 wget "$url"
 
+if [ $? -ne 0 ]
+then
+  echo 'Error: initial download failed.'
+  exit 1
+fi
+
 local_file="$(ls)"
 
 pushd "$repo" >/dev/null
