@@ -28,6 +28,8 @@ then
     'hours_names'
     'hours_sources'
     'net_excludes'
+    'subset_names'
+    'subset_accounts'
     'sync_accounts'
     'sync_base_folder'
     'sync_fids'
@@ -350,6 +352,31 @@ then
     then
       args+=('--group-by' "tag(\"$group_by_tag\")")
     fi
+  fi
+elif [ "$1" == 'subset' ]
+then
+  shift
+  # Check if next arg is subset name.
+  found=0
+  for (( i=0; i < "${#subset_names[@]}"; i++ ))
+  do
+    if [ "${subset_names[$i]}" == "$1" ]
+    then
+      accounts="${subset_accounts[$i]}"
+      found=1
+      shift
+    fi
+  done
+
+  if [ $found -eq 1 ]
+  then
+    args+=('bal' '--flat')
+
+    IFS='|' read -ra accounts_array <<< "$accounts"
+    for i in "${accounts_array[@]}"
+    do
+      args+=("$i")
+    done
   fi
 fi
 
