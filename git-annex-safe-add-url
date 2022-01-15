@@ -50,7 +50,8 @@ else
   git_obj_path=$(find "$repo_root" -name "$sha_name" | grep "$sha_name/$sha_name" | sed 's@.*\.git/@\.git/@')
   # Stat output looks like (with quotes):
   # '/path/to/link/name' -> '/path/to/link/target'
-  existing=$(find "$repo_root" -type l | xargs stat -c '%N' | grep "$git_obj_path" | sed "s@'\(.*\)' -> '.*@\1@")
+  # FIXME: `find -printf` is hacky quoting fix, could probably get link target directly with find.
+  existing=$(find "$repo_root" -type l -printf '"%p"\n' | xargs stat -c '%N' | grep "$git_obj_path" | sed "s@'\(.*\)' -> '.*@\1@")
   git annex addurl "$url" --file "$existing"
 fi
 
