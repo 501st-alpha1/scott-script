@@ -9,4 +9,10 @@ then
   speed="$2"
 fi
 
+if [ -f "$newfile" ]
+then
+  echo 'This file has already been sped up!'
+  exit 1
+fi
+
 ffmpeg -i "$filename" -filter:a "atempo=$speed" "$newfile"
