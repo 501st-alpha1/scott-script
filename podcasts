@@ -17,10 +17,6 @@
 
 validArgs=('rss_url')
 
-# TODO: error checking
-podcast="$1"
-source loadconf "$HOME/.scott-script/podcasts" "$podcast.cfg" validArgs[@]
-
 function usage() {
   echo 'Usage: podcasts <podcast> <command>'
   echo
@@ -28,6 +24,15 @@ function usage() {
   echo
   exit 1
 }
+
+if [ "$1" == '' ]
+then
+  usage
+fi
+
+# TODO: error checking
+podcast="$1"
+source loadconf "$HOME/.scott-script/podcasts" "$podcast.cfg" validArgs[@]
 
 echo 'TODO download rss'
 echo 'TODO other commands'
