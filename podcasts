@@ -34,7 +34,9 @@ fi
 podcast="$1"
 source loadconf "$HOME/.scott-script/podcasts" "$podcast.cfg" validArgs[@]
 
-echo 'TODO download rss'
-echo 'TODO other commands'
-
-usage
+case "$2" in
+  # TODO: download RSS
+  # TODO: other commands
+  *)
+    usage
+esac
