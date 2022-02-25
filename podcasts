@@ -34,8 +34,11 @@ fi
 podcast="$1"
 source loadconf "$HOME/.scott-script/podcasts" "$podcast.cfg" validArgs[@]
 
+xmlfile="$HOME/.scott-script/podcasts/$podcast.xml"
 case "$2" in
-  # TODO: download RSS
+  get-xml)
+    wget -O "$xmlfile" "$rss_url"
+    ;;
   # TODO: other commands
   *)
     usage
