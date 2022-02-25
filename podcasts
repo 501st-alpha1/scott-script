@@ -21,6 +21,15 @@ validArgs=('rss_url')
 podcast="$1"
 source loadconf "$HOME/.scott-script/podcasts" "$podcast.cfg" validArgs[@]
 
-echo 'TODO usage'
+function usage() {
+  echo 'Usage: podcasts <podcast> <command>'
+  echo
+  echo 'Where <podcast> is short code matching config file name for podcast.'
+  echo
+  exit 1
+}
+
 echo 'TODO download rss'
 echo 'TODO other commands'
+
+usage
