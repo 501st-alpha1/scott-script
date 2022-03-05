@@ -16,3 +16,5 @@ then
 fi
 
 ffmpeg -i "$filename" -filter:a "atempo=$speed" -map 0:a -map_metadata -1 "$newfile"
+
+mv "$filename" "$filename.orig"
