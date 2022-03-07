@@ -15,6 +15,6 @@ then
   exit 1
 fi
 
-ffmpeg -i "$filename" -filter:a "atempo=$speed" -map 0:a -map_metadata -1 "$newfile"
+ffmpeg -i "$filename" -filter:a "atempo=$speed" -map 0:a -map_metadata -1 "$newfile" || exit $?
 
 mv "$filename" "$filename.orig"
