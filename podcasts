@@ -38,6 +38,12 @@ fi
 podcast="$1"
 source loadconf "$HOME/.scott-script/podcasts" "$podcast.cfg" validArgs[@]
 
+if [ "$rss_url" == '' ]
+then
+  echo "Invalid podcast '$podcast', or 'rss_url' was empty."
+  exit 2
+fi
+
 xmlfile="$HOME/.scott-script/podcasts/$podcast.xml"
 case "$2" in
   get-xml)
