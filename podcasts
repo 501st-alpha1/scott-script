@@ -47,6 +47,7 @@ fi
 xmlfile="$HOME/.scott-script/podcasts/$podcast.xml"
 case "$2" in
   get-xml)
+    [ "$rss_url" == 'FIXME' ] && exit 3
     wget -O "$xmlfile" "$rss_url"
     ;;
   speedup)
