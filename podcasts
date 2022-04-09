@@ -21,6 +21,8 @@ function usage() {
   echo 'Usage: podcasts <podcast> <command>'
   echo
   echo 'Where <podcast> is short code matching config file name for podcast.'
+  echo 'If <podcast> is `all`, loop through all available podcasts  and '
+  echo 'run <command> on each.'
   echo
   echo 'Subcommands:'
   echo
@@ -36,6 +38,18 @@ fi
 
 # TODO: error checking
 podcast="$1"
+
+if [ "$podcast" == 'all' ]
+then
+  shift
+  for pod in $(ls "$HOME/.scott-script/podcasts" | grep cfg | sed 's/\.cfg//g')
+  do
+    podcasts "$pod" "$@"
+  done
+
+  exit 0
+fi
+
 source loadconf "$HOME/.scott-script/podcasts" "$podcast.cfg" validArgs[@]
 
 if [ "$rss_url" == '' ]
