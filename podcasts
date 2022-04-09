@@ -51,7 +51,7 @@ case "$2" in
     wget -O "$xmlfile" "$rss_url"
     ;;
   speedup)
-    files="$(ls $podcast-* | grep -v '.fast.mp3' | grep -v '.mp3.orig')"
+    files="$(ls $podcast-* | grep -v '.fast.mp3' | grep -v '.mp3.orig' | grep -v '.fast.m4a' | grep -v '.m4a.orig')"
     for filename in $files
     do
       audio-speedup.sh "$filename" "$speed_factor" || break
