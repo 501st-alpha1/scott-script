@@ -47,7 +47,7 @@ function download-podcasts() {
     [ "$answer" == 'a' ] && break
     [ "$answer" == 'n' ] && continue
 
-    url=$(xmllint --xpath "/rss/channel/item[$index]/guid/text()" "$filename")
+    url=$(xmllint --xpath "string(/rss/channel/item[$index]/enclosure/@url)" "$filename")
 
     wget "$url"
   done
