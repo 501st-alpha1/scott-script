@@ -31,6 +31,28 @@ function usage() {
   exit 1
 }
 
+function download-podcasts() {
+  shortname="$1"
+  filename="$HOME/.scott-script/podcasts/$shortname.xml"
+
+  i=1
+  while true
+  do
+    index=$i
+    i=$(expr $i + 1)
+
+    xmllint --xpath "/rss/channel/item[$index]" "$filename"
+    echo
+    read -p 'Download this episode? [Y/n/a] ' answer
+    [ "$answer" == 'a' ] && break
+    [ "$answer" == 'n' ] && continue
+
+    url=$(xmllint --xpath "/rss/channel/item[$index]/guid/text()" "$filename")
+
+    wget "$url"
+  done
+}
+
 if [ "$1" == '' ]
 then
   usage
@@ -70,6 +92,10 @@ case "$2" in
     do
       audio-speedup.sh "$filename" "$speed_factor" || break
     done
+    ;;
+  download)
+    [ "$rss_url" == 'FIXME' ] && exit 3
+    download-podcasts "$podcast"
     ;;
   # TODO: other commands
   *)
