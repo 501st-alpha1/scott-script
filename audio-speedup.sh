@@ -1,8 +1,9 @@
 #!/bin/bash
 
 filename="$1"
+extension="${filename##*.}"
 speed="1.5"
-newfile="$filename.fast.mp3"
+newfile="$filename.fast.$extension"
 
 if [ "$2" != '' ]
 then
