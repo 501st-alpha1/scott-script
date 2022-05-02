@@ -35,6 +35,14 @@ function download-podcasts() {
   shortname="$1"
   filename="$HOME/.scott-script/podcasts/$shortname.xml"
 
+  statusFile="$HOME/.scott-script/podcasts/.$shortname-downloaded"
+  if [ -f "$statusFile" ]
+  then
+    lastUpdated=$(stat --format '%Y' "$statusFile")
+  else
+    lastUpdated=0
+  fi
+
   i=1
   while true
   do
@@ -51,6 +59,9 @@ function download-podcasts() {
 
     wget "$url"
   done
+
+  # FIXME: touch based on latest timestamp just in case
+  touch "$statusFile"
 }
 
 if [ "$1" == '' ]
