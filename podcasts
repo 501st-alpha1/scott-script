@@ -51,6 +51,15 @@ function download-podcasts() {
 
     xmllint --xpath "/rss/channel/item[$index]" "$filename"
     echo
+
+    pubDate=$(xmllint --xpath "/rss/channel/item[$index]/pubDate/text()" "$filename")
+    pubDateRaw=$(date --date="$pubDate" +%s)
+    if [ $lastUpdated -gt $pubDateRaw ]
+    then
+      echo "Podcast $shortname is up to date."
+      break
+    fi
+
     read -p 'Download this episode? [Y/n/a/<enter filename>] ' answer
     [ "$answer" == 'a' ] && break
     [ "$answer" == 'n' ] && continue
