@@ -51,13 +51,23 @@ function download-podcasts() {
 
     xmllint --xpath "/rss/channel/item[$index]" "$filename"
     echo
-    read -p 'Download this episode? [Y/n/a] ' answer
+    read -p 'Download this episode? [Y/n/a/<enter filename>] ' answer
     [ "$answer" == 'a' ] && break
     [ "$answer" == 'n' ] && continue
+    if [ "$answer" != 'y' ] && [ "$answer" != 'Y' ] && [ "$answer" != '' ]
+    then
+      outputFile="$answer"
+    fi
+
 
     url=$(xmllint --xpath "string(/rss/channel/item[$index]/enclosure/@url)" "$filename")
 
-    wget "$url"
+    if [ "$outputFile" != '' ]
+    then
+      wget --output-document "$outputFile" "$url"
+    else
+      wget "$url"
+    fi
   done
 
   # FIXME: touch based on latest timestamp just in case
