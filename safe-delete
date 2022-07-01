@@ -15,6 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+function usage() {
+  echo "Usage: $(basename $0) --keep <KEEP> --rm <DEL>"
+  echo
+  echo 'Use this script to safely delete a duplicate file.'
+  echo
+  echo '<KEEP> is the file that should be kept, and <DEL> is the file that'
+  echo 'should be deleted.  File will only be deleted if both files match.'
+  echo 'Operates on targets of symlinks, not links themselves.'
+}
+
 while true
 do
   case "$1" in
@@ -28,11 +38,16 @@ do
       delete="$1"
       shift
       ;;
+    --help|-h)
+      usage
+      exit 0
+      ;;
     *)
       [ "$1" == '' ] && break
 
       echo "Error, unrecognized argument '$1'"
       echo 'Remember to prefix files with --keep and --rm'
+      echo 'Do --help for usage.'
       exit 1
       ;;
   esac
