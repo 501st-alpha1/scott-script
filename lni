@@ -1,0 +1,47 @@
+#!/bin/bash
+# lni: ln, but idempotent.
+# Copyright (C) 2022 Scott Weldon
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+# Creates symlink with given link name and target.
+# If link name already points to target, returns quietly.
+# If link name is not symlink or points to different target, returns error.
+
+target="$1"
+linkname="$2"
+
+# TODO: error checking
+
+if [ -L "$linkname" ]
+then
+  # Not sure if there's a better way to do this, but this works.
+  existing_target=$(stat -c '%N' "$linkname" | sed "s@'.*' -> '\(.*\)'@\1@")
+  if [ "$existing_target" == "$target" ]
+  then
+    # Nothing to do.
+    exit 0
+  else
+    echo "Symlink $linkname already exists, but doesn't point to $target!"
+    ls -l "$linkname"
+    exit 2
+  fi
+elif [ -e "$linkname" ]
+then
+  echo "A file named $linkname already exists, and it's not a symlink!"
+  exit 1
+else
+  ln --symbolic --verbose "$target" "$linkname"
+fi
