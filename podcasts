@@ -88,6 +88,23 @@ then
   usage
 fi
 
+if [ "$1" == 'sync' ]
+then
+  shift
+
+  validArgs=('sync_path' 'device_name')
+  source loadconf "$HOME/.scott-script/podcasts" "sync.cfg" validArgs[@]
+
+  if [ -d "$sync_path" ]
+  then
+    mv *.fast.* "$sync_path"
+    exit 0
+  else
+    echo "Could not find $device_name, is it mounted?"
+    exit 1
+  fi
+fi
+
 # TODO: error checking
 podcast="$1"
 
