@@ -12,3 +12,10 @@ else
 fi
 
 ssh-keygen -l -f ~/.ssh/known_hosts -F "$hoststring"
+
+retval=$?
+if [ $retval -ne 0 ]
+then
+  echo 'No host found, did you forget a port?'
+  exit $retval
+fi
