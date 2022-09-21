@@ -1,0 +1,14 @@
+#!/bin/bash
+
+host="$1"
+port="$2"
+hoststring=
+
+if [ "$2" == '' ]
+then
+  hoststring="$host"
+else
+  hoststring="[$host]:$port"
+fi
+
+ssh-keygen -l -f ~/.ssh/known_hosts -F "$hoststring"
