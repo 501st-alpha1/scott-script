@@ -72,11 +72,11 @@ args="-p $port -i $id"
 
 case "$2" in
   "mosh")
-    if [ "$moshport" == "" ]
+    if [ "$moshports" == "" ]
     then
       mosh --ssh="ssh $args" $user@$ip --predict=always
     else
-      mosh -p $moshport --ssh="ssh $args" $user@$ip --predict=always
+      mosh -p $moshports --ssh="ssh $args" $user@$ip --predict=always
     fi
     ;;
   "ssh")
