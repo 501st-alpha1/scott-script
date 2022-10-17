@@ -205,6 +205,17 @@ function mktmpfs() {
 # Remove unused Docker images, see https://stackoverflow.com/a/32723127/2747593
 alias drmi="docker rmi \$(docker images --filter \"dangling=true\" -q --no-trunc)"
 
+CUSTOM_MESSAGE=''
+function get-custom-string() {
+  [ "$CUSTOM_MESSAGE" == '' ] && return 0
+
+  echo "[$CUSTOM_MESSAGE]"
+}
+
+function set-custom-string() {
+  CUSTOM_MESSAGE="$1"
+}
+
 # Prompt customisation
 # Default Ubuntu: \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\u@\h:\w\$
 green="\[\033[0;32m\]"
@@ -216,7 +227,9 @@ currdir="[\w]"
 time="[\t]"
 user="[\u@\h]"
 stats="[\!:$returncode]"
-PS1="\n$green$currdir$stats\n$time$user\$$end "
+prompt="\n$green$currdir$stats\n$time$user"
+prompt="${prompt}\$(get-custom-string)"
+PS1="$prompt\$$end "
 [ "$TERM" == "dumb" ] && PS1='$ '
 
 # GitHub script
