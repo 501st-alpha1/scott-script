@@ -1,0 +1,48 @@
+#!/bin/bash
+# Check if given file is duplicate of existing file in annex.
+
+# If it is a duplicate, the file it duplicates will be `echo`d.
+# If it isn't a duplicate, script will have no output.
+
+# Pre-reqs:
+# - git
+# - git-root
+
+if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == 'help' ]
+then
+  echo "Usage: $(basename $0) <filename>"
+  echo
+  echo 'Check the given <filename> against an existing git-annex repo'
+  echo '(assumed to be at or above the current working directory).'
+  echo
+  echo 'If the file is a duplicate, output the name of the file it duplicates.'
+  echo 'Otherwise, no output.'
+  echo
+  echo '(Uses `git annex import`, so if <filename> is a duplicate it will be deleted.)'
+  exit 0
+fi
+
+filename="$1"
+
+output=$(git annex import --clean-duplicates --json "$filename")
+note=$(echo "$output" | jq --raw-output '.note')
+
+if [ "$note" == 'not duplicate; skipping' ]
+then
+  # File is not duplicate; exit with no output.
+  exit 0
+fi
+
+# If got here, file is duplicate.
+sha_name=$(echo "$note" | sed 's/duplicate of //')
+repo_root="$(git root)"
+git_obj_path=$(find "$repo_root" -name "$sha_name" | grep "$sha_name/$sha_name" | sed 's@.*\.git/@\.git/@')
+
+# Stat output looks like (with quotes):
+# '/path/to/link/name' -> '/path/to/link/target'
+# FIXME: `find -printf` is hacky quoting fix, could probably get link target directly with find.
+existing=$(find "$repo_root" -type l -printf '"%p"\n' | xargs stat -c '%N' | grep "$git_obj_path" | sed "s@'\(.*\)' -> '.*@\1@")
+
+echo "$existing"
+
+exit 0
