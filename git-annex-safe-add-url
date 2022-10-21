@@ -33,10 +33,12 @@ fi
 local_file="$(ls)"
 
 pushd "$repo" >/dev/null
-output=$(git annex import --clean-duplicates --json "$tmpdir/$local_file")
+duplicate=$(git-annex-is-duplicate "$tmpdir/$local_file")
 popd >/dev/null
 
-if [ -f "$local_file" ]
+existing="$duplicate"
+
+if [ "$duplicate" == '' ]
 then
   # No duplicate found, so this is a new file.
   cd "$repo"
@@ -44,14 +46,7 @@ then
   git annex import --clean-duplicates "$tmpdir/$local_file"
 else
   # File deduplicated, so it exists in annex.
-  sha_name=$(echo "$output" | jq --raw-output '.note' | sed 's/duplicate of //')
   cd "$repo"
-  repo_root="$(git root)"
-  git_obj_path=$(find "$repo_root" -name "$sha_name" | grep "$sha_name/$sha_name" | sed 's@.*\.git/@\.git/@')
-  # Stat output looks like (with quotes):
-  # '/path/to/link/name' -> '/path/to/link/target'
-  # FIXME: `find -printf` is hacky quoting fix, could probably get link target directly with find.
-  existing=$(find "$repo_root" -type l -printf '"%p"\n' | xargs stat -c '%N' | grep "$git_obj_path" | sed "s@'\(.*\)' -> '.*@\1@")
   git annex addurl "$url" --file "$existing"
 fi
 
