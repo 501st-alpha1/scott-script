@@ -1,0 +1,33 @@
+#!/bin/bash
+# Download a URL with wget, or prompt to download manually.
+
+if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == 'help' ]
+then
+  echo "Usage: $(basename $0) <url>"
+  echo
+  echo 'Attempts to download <url> to current working directory.'
+  echo 'If download fails, prompts to download manually (and provide path),'
+  echo 'e.g. in case web site blocks direct downloads outside of browser.'
+  echo
+  echo 'Exits with return code 1 if manual download was required.'
+  exit 0
+fi
+
+# TODO: error checking.
+url="$1"
+
+wget --no-clobber "$url"
+
+if [ $? -ne 0 ]
+then
+  # TODO: config or default for path
+  echo 'Downloading with wget failed, try downloading with a browser instead.'
+  echo 'Paste full or relative path of downloaded file to have moved to cwd.'
+  read -p 'Path: ' path
+  # TODO: check exists.
+  mv --no-clobber --verbose "$path" ./
+
+  exit 1
+fi
+
+exit 0
