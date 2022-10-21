@@ -1,0 +1,36 @@
+#!/bin/bash
+# Add file to git-annex from given URL, when file has been manually downloaded.
+# (For when e.g. site prevents direct download of file outside of browser.)
+
+if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == 'help' ]
+then
+  echo "Usage: $(basename $0) <url> <downloaded> [target]"
+  echo
+  echo 'Add a file to Git Annex, indicating it came from the given <url>,'
+  echo 'but had to be downloaded manually (see `download-url`).  First'
+  echo 'moves the file to given [target] (or current working directory),'
+  echo 'then adds to annex.  Since git-annex will try to download any URL'
+  echo 'added with `addurl`, instead just adds URL to file called'
+  echo '"[target].unauth-urls.txt", and does plain `git add` on that file.'
+  exit 0
+fi
+
+url="$1"
+downloaded="$2"
+target="$3"
+
+if [ "$target" == "" ]
+then
+  target=$(basename "$downloaded")
+  [ -f "$target" ] && exit 1
+  [ -L "$target" ] && exit 1
+  echo "Target file not given, so adding to new file at '$target'."
+fi
+
+mv --no-clobber --verbose "$downloaded" "$target" || exit $?
+git annex add "$target"
+
+touch "${target}.unauth-urls.txt"
+add-sorted "${target}.unauth-urls.txt" "$url"
+git add "${target}.unauth-urls.txt"
+echo 'Done.'
