@@ -26,6 +26,7 @@ function usage() {
   echo
   echo 'Subcommands:'
   echo
+  echo '  download'
   echo '  get-xml'
   echo '  speedup'
   exit 1
