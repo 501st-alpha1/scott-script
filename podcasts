@@ -32,6 +32,8 @@ function usage() {
   exit 1
 }
 
+# xmllint complains about some elements if just the `<item>` tree is passed,
+# so instead must include minimal `<rss xmlns...>` and `<channel>` too.
 function save-episode-data() {
   podcast="$1"
   filename="$2"
@@ -43,7 +45,7 @@ function save-episode-data() {
 
   title=FIXME
   number=FIXME
-  url=FIXME
+  url=$(xmllint --xpath "string(/rss/channel/item/enclosure/@url)" --nonet <(echo "$xmlitem"))
 
   cat <<-EOF > $output_file
 $url
