@@ -43,7 +43,7 @@ function save-episode-data() {
   [ -d "$data_dir" ] || mkdir --verbose "$data_dir"
   output_file="$data_dir/${filename}.txt"
 
-  title=FIXME
+  title=$(xmllint --xpath "string(/rss/channel/item/title)" --nonet <(echo "$xmlitem"))
   number=FIXME
   url=$(xmllint --xpath "string(/rss/channel/item/enclosure/@url)" --nonet <(echo "$xmlitem"))
 
