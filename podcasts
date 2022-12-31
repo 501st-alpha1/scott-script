@@ -32,6 +32,28 @@ function usage() {
   exit 1
 }
 
+function save-episode-data() {
+  podcast="$1"
+  filename="$2"
+  xmlitem="$3"
+
+  data_dir="$HOME/.scott-script/podcasts/$podcast"
+  [ -d "$data_dir" ] || mkdir --verbose "$data_dir"
+  output_file="$data_dir/${filename}.txt"
+
+  title=FIXME
+  number=FIXME
+  url=FIXME
+
+  cat <<-EOF > $output_file
+$url
+Title: $title
+Number: $number
+Raw XML:
+$xmlitem
+EOF
+}
+
 function download-podcasts() {
   shortname="$1"
   filename="$HOME/.scott-script/podcasts/$shortname.xml"
