@@ -44,7 +44,8 @@ function save-episode-data() {
   output_file="$data_dir/${filename}.txt"
 
   title=$(xmllint --xpath "string(/rss/channel/item/title)" --nonet <(echo "$xmlitem"))
-  number=FIXME
+  # TODO: Implement dynamic parsing for shows that don't put episode number here.
+  number=$(xmllint --xpath "string(/rss/channel/item/itunes:episode)" --nonet <(echo "$xmlitem") 2>/dev/null)
   url=$(xmllint --xpath "string(/rss/channel/item/enclosure/@url)" --nonet <(echo "$xmlitem"))
 
   cat <<-EOF > $output_file
