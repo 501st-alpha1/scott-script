@@ -57,6 +57,19 @@ $xmlitem
 EOF
 }
 
+# Given a URL, get the file extension, if possible.
+function get-extension() {
+  url="$1"
+
+  ext=$(echo "$url" | sed 's/.*\.//' | sed 's/\?.*//')
+  [ "$ext" == '' ] && return 1
+  [ "$ext" == "$url" ] && return 1
+
+  echo "$ext"
+
+  return 0
+}
+
 function download-podcasts() {
   shortname="$1"
   filename="$HOME/.scott-script/podcasts/$shortname.xml"
