@@ -70,6 +70,18 @@ function get-extension() {
   return 0
 }
 
+# Get sanitized title for use in filename.
+# e.g. Yo: This is an Example Title!! -> Yo-This-is-an-Example-Title
+function get-sanitized-title() {
+  title="$1"
+
+  sanitized=$(echo "$title" | sed 's/\ /-/g' | sed 's/\:/./g')
+
+  echo "$sanitized"
+
+  return 0
+}
+
 function download-podcasts() {
   shortname="$1"
   filename="$HOME/.scott-script/podcasts/$shortname.xml"
