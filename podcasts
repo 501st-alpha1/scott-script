@@ -57,6 +57,11 @@ $xmlitem
 EOF
 }
 
+# Execute `sed` command of $2 on string $1 and print results.
+function do-sed() {
+  echo "$1" | sed "$2"
+}
+
 # Given a URL, get the file extension, if possible.
 function get-extension() {
   url="$1"
@@ -75,7 +80,8 @@ function get-extension() {
 function get-sanitized-title() {
   title="$1"
 
-  sanitized=$(echo "$title" | sed 's/\ /-/g' | sed 's/\:/./g')
+  sanitized=$(do-sed "$title" 's/\ /-/g')
+  sanitized=$(do-sed "$sanitized" 's/\:/./g')
 
   echo "$sanitized"
 
