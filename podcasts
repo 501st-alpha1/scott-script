@@ -104,6 +104,8 @@ function download-podcasts() {
     lastUpdated=0
   fi
 
+  firstPubDate=
+
   i=1
   while true
   do
@@ -115,6 +117,11 @@ function download-podcasts() {
 
     pubDate=$(xmllint --xpath "/rss/channel/item[$index]/pubDate/text()" "$filename")
     pubDateRaw=$(date --date="$pubDate" +%s)
+    if [ "$firstPubDate" == '' ]
+    then
+      firstPubDate="$pubDate"
+    fi
+
     if [ $lastUpdated -gt $pubDateRaw ]
     then
       echo "Podcast $shortname is up to date."
@@ -140,8 +147,7 @@ function download-podcasts() {
     fi
   done
 
-  # FIXME: touch based on latest timestamp just in case
-  touch "$statusFile"
+  touch --date="$firstPubDate" "$statusFile"
 }
 
 if [ "$1" == '' ]
