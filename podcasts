@@ -30,6 +30,13 @@ function usage() {
   echo '  get-xml   Download RSS XML file.'
   echo '  reset     Reset status of last-downloaded podcasts.'
   echo '  speedup   Run audio-speedup on podcasts.'
+  echo
+  echo 'Alternatively:'
+  echo
+  echo 'Usage: podcasts sync'
+  echo
+  echo 'This subcommand (no podcast code required) will move any sped-up '
+  echo 'podcasts (*.fast.*) to the configured MP3 player.'
   exit 1
 }
 
