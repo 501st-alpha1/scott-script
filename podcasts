@@ -122,7 +122,10 @@ function download-podcasts() {
       firstPubDate="$pubDate"
     fi
 
-    if [ $lastUpdated -gt $pubDateRaw ]
+    # This assumes a given podcast will not upload two shows with the exact same
+    # publication date.
+    # TODO: Maybe instead could check within ~1 day, and compare to title.
+    if [ $lastUpdated -ge $pubDateRaw ]
     then
       echo "Podcast $shortname is up to date."
       break
