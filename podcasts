@@ -28,6 +28,7 @@ function usage() {
   echo
   echo '  download'
   echo '  get-xml'
+  echo '  reset'
   echo '  speedup'
   exit 1
 }
@@ -213,6 +214,9 @@ case "$2" in
   download)
     [ "$rss_url" == 'FIXME' ] && exit 3
     download-podcasts "$podcast"
+    ;;
+  reset)
+    rm --verbose "$HOME/.scott-script/podcasts/.$podcast-downloaded"
     ;;
   # TODO: other commands
   *)
