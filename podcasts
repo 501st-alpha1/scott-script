@@ -139,6 +139,13 @@ function download-podcasts() {
       break
     fi
 
+    title=$(xmllint --xpath "/rss/channel/item[$index]/title/text()" "$filename")
+    adjustedTitle=$(get-sanitized-title "$title")
+
+    # This is a hacky solution for namespace `itunes`.
+    season=$(xmllint --xpath "/rss/channel/item[$index]/*[name()='itunes:season']/text()" "$filename" 2>/dev/null)
+    episode=$(xmllint --xpath "/rss/channel/item[$index]/*[name()='itunes:episode']/text()" "$filename" 2>/dev/null)
+
     read -p 'Download this episode? [Y/n/a/<enter filename>] ' answer
     [ "$answer" == 'a' ] && break
     [ "$answer" == 'n' ] && continue
