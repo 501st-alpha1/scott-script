@@ -59,7 +59,7 @@ EOF
 
 # Execute `sed` command of $2 on string $1 and print results.
 function do-sed() {
-  echo "$1" | sed "$2"
+  echo "$1" | sed --regexp-extended "$2"
 }
 
 # Given a URL, get the file extension, if possible.
