@@ -26,10 +26,10 @@ function usage() {
   echo
   echo 'Subcommands:'
   echo
-  echo '  download'
-  echo '  get-xml'
-  echo '  reset'
-  echo '  speedup'
+  echo '  download  Download recent podcasts'
+  echo '  get-xml   Download RSS XML file.'
+  echo '  reset     Reset status of last-downloaded podcasts.'
+  echo '  speedup   Run audio-speedup on podcasts.'
   exit 1
 }
 
