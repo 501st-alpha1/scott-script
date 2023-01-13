@@ -80,6 +80,10 @@ function get-extension() {
 function get-sanitized-title() {
   title="$1"
 
+  # Some shows wrap title in CDATA tag.
+  sanitized=$(do-sed "$sanitized" 's/^<\!\[CDATA\[//')
+  sanitized=$(do-sed "$sanitized" 's/\]\]>$//')
+
   sanitized=$(do-sed "$title" 's/\ /-/g')
   sanitized=$(do-sed "$sanitized" 's/\:/./g')
 
