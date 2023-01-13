@@ -21,7 +21,7 @@ function usage() {
   echo 'Usage: podcasts <podcast> <command>'
   echo
   echo 'Where <podcast> is short code matching config file name for podcast.'
-  echo 'If <podcast> is `all`, loop through all available podcasts  and '
+  echo 'If <podcast> is `all`, loop through all available podcasts and '
   echo 'run <command> on each.'
   echo
   echo 'Subcommands:'
