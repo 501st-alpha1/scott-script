@@ -1,0 +1,11 @@
+#!/bin/bash
+# Save the given nostr event to file.
+
+read line
+
+# Drop ephermal query filter.
+line=$(echo "$line" | jq --compact-output '[.[0], .[2]]')
+
+id=$(echo "$line" | jq --raw-output '.[1].id')
+
+echo "$line" | jq . > "${id}.json"
