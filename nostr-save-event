@@ -1,6 +1,18 @@
 #!/bin/bash
 # Save the given nostr event to file.
 
+if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == 'help' ]
+then
+  echo "Usage: echo <some-event> | $(basename $0)"
+  echo
+  echo "<some-event> is a Nostr event (in JSON)."
+  echo "The event will be written to a JSON file in the current directory,"
+  echo "with prefix subfolders.  E.g., for ID of abcdef123, the event will"
+  echo "be written to: ./ab/cd/abcdef123.json"
+
+  exit 0
+fi
+
 read line
 
 # Drop ephermal query filter.
