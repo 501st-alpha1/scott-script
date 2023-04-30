@@ -7,5 +7,9 @@ read line
 line=$(echo "$line" | jq --compact-output '[.[0], .[2]]')
 
 id=$(echo "$line" | jq --raw-output '.[1].id')
+firstTwo="${id:0:2}"
+nextTwo="${id:2:2}"
 
-echo "$line" | jq . > "${id}.json"
+mkdir --parents "$firstTwo/$nextTwo"
+
+echo "$line" | jq . > "$firstTwo/$nextTwo/${id}.json"
