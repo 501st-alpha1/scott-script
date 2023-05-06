@@ -21,7 +21,9 @@ then
 fi
 
 # TODO: customizable (and multiple) relays.
-nostril-query  -a "$pubkey" | \
+queryArgs=('--authors' "$pubkey")
+
+nostril-query "${queryArgs[@]}" | \
   nostcat wss://relay.damus.io | \
   while read -r line
   do
