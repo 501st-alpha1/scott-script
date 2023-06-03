@@ -21,6 +21,11 @@ then
 fi
 
 # TODO: customizable (and multiple) relays.
+
+# Query notes:
+# We only give the author's pubkey. so this will include all types of notes.
+# (Specifically, it will include kind 3 [relay recs], kind 6 [native reposts]
+# and kind 7 [reactions].)
 queryArgs=('--authors' "$pubkey")
 
 nostril-query "${queryArgs[@]}" | \
