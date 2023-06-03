@@ -20,7 +20,9 @@ then
   exit 1
 fi
 
+# TODO: optional start date
 # TODO: customizable (and multiple) relays.
+# TODO: config option for where to save events
 
 # Query notes:
 # We only give the author's pubkey. so this will include all types of notes.
