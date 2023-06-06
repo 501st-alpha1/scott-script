@@ -20,6 +20,8 @@ then
   exit 1
 fi
 
+shift
+
 # TODO: optional start date
 # TODO: customizable (and multiple) relays.
 # TODO: config option for where to save events
