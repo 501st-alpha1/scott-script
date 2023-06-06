@@ -3,11 +3,16 @@
 
 if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == 'help' ]
 then
-  echo "Usage: $(basename $0) <pubkey>"
+  echo "Usage: $(basename $0) <pubkey> [--since <date>]"
   echo
   echo "Save all nostr events for user <pubkey> to files."
   echo
-  echo "Calls `nostr-save-event` on each event, see that script for details."
+  echo 'If --since <date> given, only request events after given date from '
+  echo 'relay(s).  <date> must be parsable by `date`.'
+  echo -n 'FIXME: this requires use of currently unmerged PR '
+  echo 'https://github.com/jb55/nostril/pull/29 for nostril-query.'
+  echo
+  echo 'Calls `nostr-save-event` on each event, see that script for details.'
 
   exit 0
 fi
@@ -22,7 +27,6 @@ fi
 
 shift
 
-# TODO: optional start date
 # TODO: customizable (and multiple) relays.
 # TODO: config option for where to save events
 
@@ -31,6 +35,13 @@ shift
 # (Specifically, it will include kind 3 [relay recs], kind 6 [native reposts]
 # and kind 7 [reactions].)
 queryArgs=('--authors' "$pubkey")
+
+if [ "$1" == '--since' ]
+then
+  shift
+  queryArgs+=('--since' "$(date --date=$1 +%s)")
+  shift
+fi
 
 nostril-query "${queryArgs[@]}" | \
   nostcat wss://relay.damus.io | \
