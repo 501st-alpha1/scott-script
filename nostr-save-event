@@ -3,14 +3,28 @@
 
 if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == 'help' ]
 then
-  echo "Usage: echo <some-event> | $(basename $0)"
+  echo "Usage: echo <some-event> | $(basename $0) [basedir]"
   echo
   echo "<some-event> is a Nostr event (in JSON)."
-  echo "The event will be written to a JSON file in the current directory,"
-  echo "with prefix subfolders.  E.g., for ID of abcdef123, the event will"
-  echo "be written to: ./ab/cd/abcdef123.json"
+  echo
+  echo '[basedir] is (optionally) a directory the event should be stored under.'
+  echo 'If not given, the current directory will be used as the basedir.'
+  echo 'The event will be written to a JSON file under the basedir, with prefix'
+  echo 'subfolders.  E.g., for ID of abcdef123, the event will be written to:'
+  echo './ab/cd/abcdef123.json'
 
   exit 0
+fi
+
+if [ "$1" != '' ]
+then
+  if [ -d "$1" ]
+  then
+    cd "$1"
+  else
+    echo "Given basedir '$1' is not a valid directory, aborting."
+    exit 1
+  fi
 fi
 
 read -r line
