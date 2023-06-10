@@ -3,7 +3,7 @@
 
 if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == 'help' ]
 then
-  echo "Usage: $(basename $0) <pubkey> [--since <date>]"
+  echo "Usage: $(basename $0) <pubkey> [--since <date>] [--relays <relayfile>]"
   echo
   echo "Save all nostr events for user <pubkey> to files."
   echo
@@ -11,6 +11,16 @@ then
   echo 'relay(s).  <date> must be parsable by `date`.'
   echo -n 'FIXME: this requires use of currently unmerged PR '
   echo 'https://github.com/jb55/nostril/pull/29 for nostril-query.'
+  echo
+  echo 'If --relays <relayfile> given, use `<relayfile>` as a JSON file with '
+  echo 'relay data.  Should contain a list of items, where each item has the '
+  echo 'following properties: `url` (the websocket URL of the relay), `read` '
+  echo '(whether user reads from that relay, i.e. if yes then search for '
+  echo 'interacted-with data there), and `write` (whether the user writes '
+  echo 'there, i.e. if yes then search for user data there).  To generate such '
+  echo 'a relay file, e.g. pipe a contacts-list event to: '
+  echo "jq --raw-output '.[1].content' | jq '. as \$full | keys | map(. as \$key | {url: ., read: \$full[\$key].read, write: \$full[\$key].write})' > relays.json"
+  echo 'If argument not given, will default to `wss://relay.damus.io`.'
   echo
   echo 'Calls `nostr-save-event` on each event, see that script for details.'
 
@@ -43,8 +53,20 @@ then
   shift
 fi
 
+relays=(
+)
+
+if [ "$1" == '--relays' ]
+then
+  shift
+  relays+=($(jq --raw-output '.[] | select(.write == true) | .url' "$1"))
+  shift
+else
+  relays+=('wss://relay.damus.io')
+fi
+
 nostril-query "${queryArgs[@]}" | \
-  nostcat wss://relay.damus.io | \
+  nostcat "${relays[@]}" | \
   while read -r line
   do
     echo "$line" | nostr-save-event
