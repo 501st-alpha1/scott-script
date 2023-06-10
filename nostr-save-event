@@ -38,4 +38,4 @@ nextTwo="${id:2:2}"
 
 mkdir --parents "$firstTwo/$nextTwo"
 
-echo "$line" | jq . > "$firstTwo/$nextTwo/${id}.json"
+echo "$line" | jq --sort-keys . > "$firstTwo/$nextTwo/${id}.json"
