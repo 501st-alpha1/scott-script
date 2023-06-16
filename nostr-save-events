@@ -3,7 +3,7 @@
 
 if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == 'help' ]
 then
-  echo "Usage: $(basename $0) <pubkey> [--since <date>] [--relays <relayfile>]"
+  echo "Usage: $(basename $0) <pubkey> [--since <date>] [--relays <relayfile>] [--basedir <dir>]"
   echo
   echo "Save all nostr events for user <pubkey> to files."
   echo
@@ -23,6 +23,9 @@ then
   echo 'If argument not given, will default to `wss://relay.damus.io`.'
   echo
   echo 'Calls `nostr-save-event` on each event, see that script for details.'
+  echo
+  echo 'If --basedir <dir> given, then use <dir> as base directory to save '
+  echo 'events under, rather than the current directory.'
 
   exit 0
 fi
@@ -65,9 +68,18 @@ else
   relays+=('wss://relay.damus.io')
 fi
 
+if [ "$1" == '--basedir' ]
+then
+  shift
+  basedir="$1"
+  shift
+else
+  basedir='.'
+fi
+
 nostril-query "${queryArgs[@]}" | \
   nostcat "${relays[@]}" | \
   while read -r line
   do
-    echo "$line" | nostr-save-event
+    echo "$line" | nostr-save-event "$basedir"
   done
