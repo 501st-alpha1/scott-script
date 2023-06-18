@@ -79,7 +79,4 @@ fi
 
 nostril-query "${queryArgs[@]}" | \
   nostcat "${relays[@]}" | \
-  while read -r line
-  do
-    echo "$line" | nostr-save-event "$basedir"
-  done
+  nostr-save-event "$basedir"
