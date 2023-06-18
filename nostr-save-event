@@ -12,6 +12,9 @@ then
   echo 'The event will be written to a JSON file under the basedir, with prefix'
   echo 'subfolders.  E.g., for ID of abcdef123, the event will be written to:'
   echo './ab/cd/abcdef123.json'
+  echo
+  echo 'Multiple events may be saved, just pass one event per line.'
+  echo 'Tip: you can pipe the output from `nostcat` directly to this script!'
 
   exit 0
 fi
@@ -27,15 +30,16 @@ then
   fi
 fi
 
-read -r line
+while read -r line
+do
+  # Drop ephermal query filter.
+  line=$(echo "$line" | jq --compact-output '[.[0], .[2]]')
 
-# Drop ephermal query filter.
-line=$(echo "$line" | jq --compact-output '[.[0], .[2]]')
+  id=$(echo "$line" | jq --raw-output '.[1].id')
+  firstTwo="${id:0:2}"
+  nextTwo="${id:2:2}"
 
-id=$(echo "$line" | jq --raw-output '.[1].id')
-firstTwo="${id:0:2}"
-nextTwo="${id:2:2}"
+  mkdir --parents "$firstTwo/$nextTwo"
 
-mkdir --parents "$firstTwo/$nextTwo"
-
-echo "$line" | jq --sort-keys . > "$firstTwo/$nextTwo/${id}.json"
+  echo "$line" | jq --sort-keys . > "$firstTwo/$nextTwo/${id}.json"
+done
