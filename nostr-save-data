@@ -84,6 +84,9 @@ nostril-query "${queryArgs[@]}" | \
   nostcat "${relays[@]}" | \
   nostr-save-event "$basedir"
 
+## Repost/Reactions/Replies ##
+# TODO: Limit to posts that have just been downloaded (above) if possible.
+
 repostids=(
   # For each JSON file, get `e` tag using `jq`.
   $(find "$basedir" -name '*.json' | xargs --max-args 1 jq --raw-output '.[1].tags | .[] | select(.[0] == "e") | .[1]')
