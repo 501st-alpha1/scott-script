@@ -3,7 +3,7 @@
 
 if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == 'help' ]
 then
-  echo "Usage: $(basename $0) <pubkey> [--since <date>] [--relays <relayfile>] [--basedir <dir>]"
+  echo "Usage: $(basename $0) <pubkey> [--since <date>] [--relays <relayfile>] [--basedir <dir>] [--pubbasedir <dir>]"
   echo
   echo "Save all nostr events for user <pubkey> to files."
   echo
@@ -26,6 +26,9 @@ then
   echo
   echo 'If --basedir <dir> given, then use <dir> as base directory to save '
   echo 'events under, rather than the current directory.'
+  echo
+  echo 'If --pubbasedir <dir> given, then use <dir> as base directory to save '
+  echo 'events from other users, rather than the same basedir (see above).'
 
   exit 0
 fi
@@ -78,5 +81,23 @@ else
 fi
 
 nostril-query "${queryArgs[@]}" | \
+  nostcat "${relays[@]}" | \
+  nostr-save-event "$basedir"
+
+repostids=(
+  # For each JSON file, get `e` tag using `jq`.
+  $(find "$basedir" -name '*.json' | xargs --max-args 1 jq --raw-output '.[1].tags | .[] | select(.[0] == "e") | .[1]')
+)
+
+allids=$(IFS=$','; echo "${repostids[*]}")
+
+if [ "$1" == '--pubbasedir' ]
+then
+  shift
+  basedir="$1"
+  shift
+fi
+
+nostril-query -i "$allids" | \
   nostcat "${relays[@]}" | \
   nostr-save-event "$basedir"
