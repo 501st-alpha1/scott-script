@@ -80,11 +80,13 @@ else
   basedir='.'
 fi
 
+## Step 1: Given User's Own Posts. ##
+
 nostril-query "${queryArgs[@]}" | \
   nostcat "${relays[@]}" | \
   nostr-save-event "$basedir"
 
-## Repost/Reactions/Replies ##
+## Step 2: Posts User Reposted/Reacted to/Replied to ##
 # TODO: Limit to posts that have just been downloaded (above) if possible.
 
 repostids=(
