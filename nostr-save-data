@@ -96,13 +96,14 @@ repostids=(
 
 allids=$(IFS=$','; echo "${repostids[*]}")
 
+pubbasedir="$basedir"
 if [ "$1" == '--pubbasedir' ]
 then
   shift
-  basedir="$1"
+  pubbasedir="$1"
   shift
 fi
 
 nostril-query -i "$allids" | \
   nostcat "${relays[@]}" | \
-  nostr-save-event "$basedir"
+  nostr-save-event "$pubbasedir"
