@@ -107,3 +107,15 @@ fi
 nostril-query -i "$allids" | \
   nostcat "${relays[@]}" | \
   nostr-save-event "$pubbasedir"
+
+## Step 3: Other Users' Reposts/Reactions/Replies to Given User's Posts ##
+
+postids=(
+  # For each JSON file, get `e` tag using `jq`.
+  $(find "$basedir" -name '*.json' | xargs --max-args 1 jq --raw-output '.[1].id')
+)
+allids=$(IFS=$','; echo "${postids[*]}")
+
+nostril-query --references "$allids" | \
+  nostcat "${relays[@]}" | \
+  nostr-save-event "$pubbasedir"
