@@ -146,12 +146,16 @@ then
   min_free_space_desc='1G'
 fi
 
+RED="\033[0;31m"
+END="\033[0m"
+
 while true
 do
   if [ "$1" != "all" ]
   then
     $cmd "$path" "$remote"
   else
+    retcodes=()
     for i in ${paths[@]}
     do
       if [ ! -d "$i" ]
@@ -169,14 +173,27 @@ do
       elif [ -f "$HOME/.scott_script/gitsync/.no-remote-all" ]
       then
         echo "-----> Syncing repo (no-remote-all) at $i..."
-        $cmd "$i" 'no-sync' || continue;
+        $cmd "$i" 'no-sync'
+        retcodes+=($?)
       else
         echo "-----> Syncing repo at $i..."
-        $cmd "$i" "$remote" || continue;
+        $cmd "$i" "$remote"
+        retcodes+=($?)
       fi
     done
   fi
 
+  echo -n '-----> Sync results: '
+  for i in "${retcodes[@]}"
+  do
+    if [ $i -eq 0 ]
+    then
+      echo -n .
+    else
+      echo -ne "${RED}E${END}"
+    fi
+  done
+  echo
   echo "-----> Sleeping at $(date) for $time seconds."
   sleep "$time"
 done
