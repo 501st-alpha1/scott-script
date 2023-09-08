@@ -59,8 +59,8 @@ function diff-delete-on-dir() {
     then
       diff-delete-on-dir "${relative_path}${item}" || exit $?
     else
-      echo -n 'Got an unknown type for item: '
-      echo "${source_root}/${item}"
+      echo 'Got an unknown type for item: '
+      ls -l "${source_root}/${item}"
       exit 3
     fi
   done
