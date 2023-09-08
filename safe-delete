@@ -22,7 +22,6 @@ function usage() {
   echo
   echo '<KEEP> is the file that should be kept, and <DEL> is the file that'
   echo 'should be deleted.  File will only be deleted if both files match.'
-  echo 'Operates on targets of symlinks, not links themselves.'
 }
 
 while true
