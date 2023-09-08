@@ -7,6 +7,18 @@
 # caused move to fail, meaning even files that with no error were not
 # deleted.
 
+function usage() {
+  echo "Usage: $(basename $0) --keep <KEEP> --rm <DEL>"
+  echo
+  echo 'Use this script to safely (recursively) delete a folder of duplicate'
+  echo 'files.'
+  echo
+  echo '<KEEP> is the folder that should be kept, and <DEL> is the folder that'
+  echo 'should be deleted.  For each file, `safe-delete` is called to safely'
+  echo 'deduplicate it; once a folder in <DEL> is empty, it is removed with'
+  echo '`rmdir`.  Exits early on error.'
+}
+
 while true
 do
   case "$1" in
@@ -20,11 +32,16 @@ do
       source="$1"
       shift
       ;;
+    --help|-h|help)
+      usage
+      exit 0
+      ;;
     *)
       [ "$1" == '' ] && break
 
       echo "Error, unrecognized argument '$1'"
       echo 'Remember to prefix files with --keep and --rm'
+      echo 'Do --help for usage.'
       exit 1
       ;;
   esac
