@@ -41,7 +41,7 @@ function diff-delete-on-dir() {
   ls -A "$source_root" | while IFS='' read item
   do
     filename="${relative_path}${item}"
-    if [ -f "${source_root}/${item}" ]
+    if [ -f "${source_root}/${item}" ] || [ -L "${source_root}/${item}" ]
     then
       safe-delete --keep "${dest}/${filename}" --rm "${source}/${filename}" || exit $?
     elif [ -d "${source_root}/${item}" ]
