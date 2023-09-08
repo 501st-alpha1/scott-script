@@ -47,20 +47,6 @@ do
   esac
 done
 
-echo 'Preparing to compare files before deleting.'
-echo "Source is '${source}', destination is '${dest}'."
-echo -n 'If a file exists in both places, and the files match, then '
-echo "the file in ${source} will be DELETED!"
-echo 'To confirm and execute, type "yes" below.'
-
-read -p 'Confirm? ' answer
-
-if [ "$answer" != 'yes' ]
-then
-  echo 'Answer wrong, aborting!'
-  exit 1
-fi
-
 function diff-delete-on-dir() {
   local relative_path="$1"
   local source_root=''
