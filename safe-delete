@@ -72,3 +72,4 @@ then
 fi
 
 rm --verbose "$delete"
+exit $?
