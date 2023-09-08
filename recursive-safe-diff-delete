@@ -24,18 +24,6 @@ then
   exit 1
 fi
 
-function safe-diff-delete-file() {
-  filename="$1"
-
-  diff "${source}/${filename}" "${dest}/${filename}"
-  if [ $? -eq 0 ]
-  then
-    rm --verbose "${source}/${filename}"
-  else
-    echo 'Found a file that did not match, skipping!'
-  fi
-}
-
 function diff-delete-on-dir() {
   local relative_path="$1"
   local source_root=''
@@ -55,7 +43,7 @@ function diff-delete-on-dir() {
     filename="${relative_path}${item}"
     if [ -f "${source_root}/${item}" ]
     then
-      safe-diff-delete-file "${filename}" || exit $?
+      safe-delete --keep "${dest}/${filename}" --rm "${source}/${filename}" || exit $?
     elif [ -d "${source_root}/${item}" ]
     then
       diff-delete-on-dir "${filename}" || exit $?
