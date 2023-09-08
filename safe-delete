@@ -64,7 +64,7 @@ then
   exit 3
 fi
 
-diff "$keep" "$delete"
+diff --no-dereference "$keep" "$delete"
 if [ $? -ne 0 ]
 then
   echo 'Files differ, see above.'
