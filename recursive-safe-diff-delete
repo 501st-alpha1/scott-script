@@ -52,12 +52,13 @@ function diff-delete-on-dir() {
 
   ls -A "$source_root" | while IFS='' read item
   do
+    filename="${relative_path}${item}"
     if [ -f "${source_root}/${item}" ]
     then
-      safe-diff-delete-file "${relative_path}${item}" || exit $?
+      safe-diff-delete-file "${filename}" || exit $?
     elif [ -d "${source_root}/${item}" ]
     then
-      diff-delete-on-dir "${relative_path}${item}" || exit $?
+      diff-delete-on-dir "${filename}" || exit $?
     else
       echo 'Got an unknown type for item: '
       ls -l "${source_root}/${item}"
