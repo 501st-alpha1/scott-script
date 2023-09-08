@@ -7,8 +7,28 @@
 # caused move to fail, meaning even files that with no error were not
 # deleted.
 
-source="$1"
-dest="$2"
+while true
+do
+  case "$1" in
+    --keep)
+      shift
+      dest="$1"
+      shift
+      ;;
+    --rm)
+      shift
+      source="$1"
+      shift
+      ;;
+    *)
+      [ "$1" == '' ] && break
+
+      echo "Error, unrecognized argument '$1'"
+      echo 'Remember to prefix files with --keep and --rm'
+      exit 1
+      ;;
+  esac
+done
 
 echo 'Preparing to compare files before deleting.'
 echo "Source is '${source}', destination is '${dest}'."
