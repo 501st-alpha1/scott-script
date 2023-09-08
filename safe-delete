@@ -38,7 +38,7 @@ do
       delete="$1"
       shift
       ;;
-    --help|-h)
+    --help|-h|help)
       usage
       exit 0
       ;;
