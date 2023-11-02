@@ -30,4 +30,11 @@ done
 
 filename="${filename}.dat"
 
-keepintouch "$filename" "$@"
+output=$(keepintouch "$filename" "$@")
+
+if [ "$output" == '' ]
+then
+  echo 'No one to contact, you are caught up!'
+else
+  echo "$output"
+fi
