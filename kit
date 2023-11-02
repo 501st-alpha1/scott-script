@@ -1,0 +1,33 @@
+#!/bin/bash
+# kit: wrapper for using multiple keepintouch files.
+
+validArgs=("basedir" "types")
+source loadconf "$HOME/.scott-script/kit" "config" validArgs[@]
+
+filename="$basedir/keepintouch"
+
+if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == 'help' ]
+then
+  echo "Usage: $(basename $0) [contact type] [keepintouch args]"
+  echo
+  echo 'If [contact type] matches a defined type from the config file,'
+  echo 'keepintouch is run against `keepintouch.TYPE.dat` instead of'
+  echo '`keepintouch.dat`.  In either case, all subsequent args are'
+  echo 'passed to keepintouch unchanged.'
+
+  exit 0
+fi
+
+for filetype in "${types[@]}"
+do
+  if [ "$1" == "$filetype" ]
+  then
+    filename="${filename}.${filetype}"
+    shift
+    break
+  fi
+done
+
+filename="${filename}.dat"
+
+keepintouch "$filename" "$@"
