@@ -34,7 +34,13 @@ output=$(keepintouch "$filename" "$@")
 
 if [ "$output" == '' ]
 then
-  echo 'No one to contact, you are caught up!'
+  if [ "$1" == '' ]
+  then
+    echo 'No one to contact, you are caught up!'
+  elif [ "$1" == 'contact' ]
+  then
+    echo 'Contact status updated.'
+  fi
 else
   echo "$output"
 fi
