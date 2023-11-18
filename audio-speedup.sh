@@ -2,7 +2,7 @@
 
 filename="$1"
 extension="${filename##*.}"
-speed="1.5"
+speed="1.6"
 newfile="$filename.fast.$extension"
 
 if [ "$2" != '' ]
