@@ -30,7 +30,12 @@ done
 
 filename="${filename}.dat"
 
-output=$(keepintouch "$filename" "$@")
+if [ "$1" == 'contact' ]
+then
+  keepintouch "$filename" "$@"
+else
+  output=$(keepintouch "$filename" "$@")
+fi
 
 if [ "$output" == '' ]
 then
