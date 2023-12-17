@@ -3,12 +3,13 @@
 filename="$1"
 extension="${filename##*.}"
 speed="1.6"
-newfile="$filename.fast.$speed.$extension"
 
 if [ "$2" != '' ]
 then
   speed="$2"
 fi
+
+newfile="$filename.fast.$speed.$extension"
 
 if [ -f "$newfile" ]
 then
