@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# TODO: help
+# TODO: ensure arg passed
+
+# Adapted from https://stackoverflow.com/a/30543453/2747593
+# Exit code is only thing that matters, so suppress all output.
+docker inspect --type=image --format="exists" "$1" 2>&1 >/dev/null
+
+exit $?
