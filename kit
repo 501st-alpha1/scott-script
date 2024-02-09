@@ -32,6 +32,11 @@ filename="${filename}.dat"
 
 if [ "$1" == 'contact' ]
 then
+  if [ "$(date --utc +%d)" != "$(date +%d)" ]
+  then
+    echo 'FIXME: UTC date is after midnight, due to bug recorded date will be wrong.'
+  fi
+
   keepintouch "$filename" "$@"
 else
   output=$(keepintouch "$filename" "$@")
