@@ -2,7 +2,8 @@
 
 filename="$1"
 extension="${filename##*.}"
-speed="1.6"
+# TODO: make default configurable.
+speed="1.7"
 
 if [ "$2" != '' ]
 then
@@ -19,4 +20,5 @@ fi
 
 ffmpeg -i "$filename" -filter:a "atempo=$speed" -map 0:a -map_metadata -1 "$newfile" || exit $?
 
+# TODO: make this not clobber outfile
 mv "$filename" "$filename.orig"
