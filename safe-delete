@@ -63,7 +63,18 @@ then
   exit 3
 fi
 
-# TODO: check both files exist
+if [ ! -e "$keep" ]
+then
+  echo "Error: file to keep, '$keep', does not exist!"
+  exit 5
+fi
+
+if [ ! -e "$delete" ]
+then
+  echo "Error: file to delete, '$delete', does not exist!"
+  exit 5
+fi
+
 diff --no-dereference "$keep" "$delete"
 if [ $? -ne 0 ]
 then
