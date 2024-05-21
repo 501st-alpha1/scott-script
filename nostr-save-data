@@ -82,9 +82,16 @@ fi
 
 ## Step 1: Given User's Own Posts. ##
 
-nostril-query "${queryArgs[@]}" | \
-  nostcat "${relays[@]}" | \
-  nostr-save-event "$basedir"
+args=('--basedir' "$basedir")
+
+for relay in "${relays[@]}"
+do
+  args+=('--relay' "$relay")
+done
+
+args+=("${queryArgs[@]}")
+
+nostr-save-from-relays "${args[@]}"
 
 ## Step 2: Posts User Reposted/Reacted to/Replied to ##
 # TODO: Limit to posts that have just been downloaded (above) if possible.
