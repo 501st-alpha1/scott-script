@@ -111,9 +111,16 @@ then
   shift
 fi
 
-nostril-query -i "$allids" | \
-  nostcat "${relays[@]}" | \
-  nostr-save-event "$pubbasedir"
+args=('--basedir' "$pubbasedir")
+
+for relay in "${relays[@]}"
+do
+  args+=('--relay' "$relay")
+done
+
+args+=('--ids' "$allids")
+
+nostr-save-from-relays "${args[@]}"
 
 ## Step 3: Other Users' Reposts/Reactions/Replies to Given User's Posts ##
 
