@@ -1,0 +1,27 @@
+#!/bin/bash
+# Use nostril-query/nostcat/nostr-save-event with given args.
+
+if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == 'help' ]
+then
+  echo 'TODO: usage'
+  exit 1
+fi
+
+queryArgs=()
+relays=()
+
+if [ "$1" == '--basedir' ]
+then
+  shift
+  basedir="$1"
+  shift
+else
+  basedir='.'
+fi
+
+# if --relay: shift, add to relays, shift
+# else add to queryArgs
+
+nostril-query "${queryArgs[@]}" | \
+  nostcat "${relays[@]}" | \
+  nostr-save-event "$basedir"
