@@ -19,8 +19,24 @@ else
   basedir='.'
 fi
 
-# if --relay: shift, add to relays, shift
-# else add to queryArgs
+while true
+do
+  case "$1"
+  in
+    '--relay')
+      shift
+      relays+=("$1")
+      shift
+      ;;
+    '')
+      break
+      ;;
+    *)
+      queryArgs+=("$1")
+      shift
+      ;;
+  esac
+done
 
 nostril-query "${queryArgs[@]}" | \
   nostcat "${relays[@]}" | \
