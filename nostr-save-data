@@ -130,6 +130,13 @@ postids=(
 )
 allids=$(IFS=$','; echo "${postids[*]}")
 
-nostril-query --references "$allids" | \
-  nostcat "${relays[@]}" | \
-  nostr-save-event "$pubbasedir"
+args=('--basedir' "$pubbasedir")
+
+for relay in "${relays[@]}"
+do
+  args+=('--relay' "$relay")
+done
+
+args+=('--references' "$allids")
+
+nostr-save-from-relays "${args[@]}"
