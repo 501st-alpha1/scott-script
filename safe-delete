@@ -22,14 +22,24 @@ function usage() {
   echo
   echo '<KEEP> is the file that should be kept, and <DEL> is the file that'
   echo 'should be deleted.  File will only be deleted if both files match.'
+  echo
+  echo 'Replace --keep with --keep-link-target to compare the *target* of'
+  echo 'a symlink to the file to delete.'
 }
 
+keepLinkTarget=0
 while true
 do
   case "$1" in
     --keep)
       shift
       keep="$1"
+      shift
+      ;;
+    --keep-link-target)
+      shift
+      keep="$1"
+      keepLinkTarget=1
       shift
       ;;
     --rm)
@@ -75,7 +85,19 @@ then
   exit 5
 fi
 
-diff --no-dereference "$keep" "$delete"
+diffargs=()
+if [ $keepLinkTarget -eq 0 ]
+then
+  diffargs+=(--no-dereference)
+else
+  if [ -L "$delete" ]
+  then
+    echo 'Error: --keep-link-target given, but delete-file is (also) a symlink.'
+    exit 6
+  fi
+fi
+
+diff "${diffargs[@]}" "$keep" "$delete"
 if [ $? -ne 0 ]
 then
   echo 'Files differ, see above.'
