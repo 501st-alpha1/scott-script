@@ -29,4 +29,33 @@ tocheck=("$1_files")
 plain=("$1.html")
 binary=()
 
+while true
+do
+  current="${tocheck[0]}"
+  [ "$current" == '' ] && break
+  for filename in "$current"/*
+  do
+    if [ -d "$filename" ]
+    then
+      tocheck+=("$filename")
+    elif [[ "$filename" == *".txt" ]] || [[ "$filename" == *".html" ]] ||
+           [[ "$filename" == *".js" ]] || [[ "$filename" == *".css" ]] ||
+           [ "$(basename $filename)" == 'js' ] || [ "$(basename $filename)" == 'v3' ]
+    then
+      plain+=("$filename")
+    elif [[ "$filename" == *".jpg" ]] || [[ "$filename" == *".png" ]] ||
+           [[ "$filename" == *".mp4" ]] || [[ "$filename" == *".jpeg" ]]
+    then
+      binary+=("$filename")
+    else
+      echo 'Detected unknown file extension!'
+      echo "$filename"
+      exit 2
+    fi
+  done
+
+  # Remove first item after processing.
+  tocheck=("${tocheck[@]:1}")
+done
+
 usage
