@@ -18,4 +18,15 @@ then
   exit 0
 fi
 
+if [ ! -f "$1.html" ]
+then
+  echo "Error: could not find file '$1.html'"
+  usage
+  exit 1
+fi
+
+tocheck=("$1_files")
+plain=("$1.html")
+binary=()
+
 usage
