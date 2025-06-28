@@ -9,7 +9,7 @@ function usage() {
   echo '<saved>_files directory, add plaintext files to Git index, and add '
   echo 'binary files to git-annex.'
   echo
-  echo 'FIXME: not implemented'
+  echo 'FIXME: doesn''t handle updating existing exports'
 }
 
 if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == 'help' ]
