@@ -1,0 +1,21 @@
+#!/bin/bash
+# Add a Firefox saved webpage to the Git index.
+
+function usage() {
+  echo "Usage: $(basename $0) <saved>"
+  echo
+  echo 'Given a saved webpage from Firefox, <saved>, where Firefox saves the'
+  echo 'main contents to <saved>.html and the supporting files to the'
+  echo '<saved>_files directory, add plaintext files to Git index, and add '
+  echo 'binary files to git-annex.'
+  echo
+  echo 'FIXME: not implemented'
+}
+
+if [ "$1" == '-h' ] || [ "$1" == '--help' ] || [ "$1" == 'help' ]
+then
+  usage
+  exit 0
+fi
+
+usage
