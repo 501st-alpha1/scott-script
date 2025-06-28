@@ -58,4 +58,5 @@ do
   tocheck=("${tocheck[@]:1}")
 done
 
-usage
+git add --verbose "${plain[@]}"
+git annex add "${binary[@]}"
