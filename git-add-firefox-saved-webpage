@@ -45,7 +45,7 @@ do
       plain+=("$filename")
     elif [[ "$filename" == *".jpg" ]] || [[ "$filename" == *".png" ]] ||
            [[ "$filename" == *".mp4" ]] || [[ "$filename" == *".jpeg" ]] ||
-           [[ "$filename" == *".gif" ]]
+           [[ "$filename" == *".gif" ]] || [[ "$filename" == *".webp" ]]
     then
       binary+=("$filename")
     else
